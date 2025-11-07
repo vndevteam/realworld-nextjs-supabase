@@ -6,7 +6,9 @@ export default defineConfig({
   title: "RealWorld Nextjs Supabase",
   description: "A RealWorld Nextjs Supabase project",
   lastUpdated: true,
-  // ignoreDeadLinks: true,
+  ignoreDeadLinks: [
+    /^https?:\/\/localhost/,
+  ],
   vite: {
     // Build optimization to handle chunk size warnings
     build: {
