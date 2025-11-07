@@ -5,6 +5,7 @@ import { ViteImageOptimizer} from 'vite-plugin-image-optimizer'
 export default defineConfig({
   title: "RealWorld Nextjs Supabase",
   description: "A RealWorld Nextjs Supabase project",
+  base: "/realworld-nextjs-supabase/",
   lastUpdated: true,
   ignoreDeadLinks: [
     /^https?:\/\/localhost/,
