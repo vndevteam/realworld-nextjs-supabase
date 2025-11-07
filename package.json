@@ -1,0 +1,35 @@
+{
+	"name": "realworld-nextjs-supabase",
+	"type": "module",
+	"version": "0.1.0",
+	"license": "MIT",
+	"author": "VNDevTeam",
+	"description": "RealWorld Nextjs Supabase project",
+	"keywords": [
+		"realworld",
+		"nextjs",
+		"supabase",
+		"project"
+	],
+	"scripts": {
+		"docs:dev": "vitepress dev docs",
+		"docs:build": "vitepress build docs",
+		"docs:preview": "vitepress preview docs",
+		"prepare": "husky || true"
+	},
+	"dependencies": {
+		"@miletorix/vitepress-back-to-top-button": "^1.0.1",
+		"@miletorix/vitepress-image-viewer": "^1.1.4",
+		"vitepress-mermaid-renderer": "^1.1.5"
+	},
+	"devDependencies": {
+		"@commitlint/config-conventional": "^20.0.0",
+		"husky": "^9.1.7",
+		"sharp": "^0.34.5",
+		"supabase": "^2.54.11",
+		"svgo": "^4.0.0",
+		"vite-plugin-image-optimizer": "^2.0.3",
+		"vitepress": "2.0.0-alpha.12"
+	},
+	"packageManager": "pnpm@10.18.1+sha512.77a884a165cbba2d8d1c19e3b4880eee6d2fcabd0d879121e282196b80042351d5eb3ca0935fa599da1dc51265cc68816ad2bddd2a2de5ea9fdf92adbec7cd34"
+}
