@@ -4,7 +4,7 @@
 
 ## 0.1 🎯 Documentation Goals
 
-### ✅ Purpose
+### Purpose
 
 - Provide **step-by-step** knowledge and guidance so new developers can:
 
@@ -13,14 +13,14 @@
   - Master **internal best practices** when writing code, testing, and managing environments.
   - Know how to compare Supabase effectiveness with traditional backends (NestJS, Express, Spring Boot, etc.).
 
-### 👥 Target Audience
+### Target Audience
 
 - **Frontend Devs** wanting to expand to fullstack.
 - **Fullstack Devs** wanting to save backend effort (quick MVP).
 - **Intern / Junior Devs** needing to master the internal standard stack.
 - **Tech leads / Trainers** needing to use this documentation to train newcomers.
 
-### 🧩 Learning Outcomes
+### Learning Outcomes
 
 After completing the documentation:
 
@@ -31,7 +31,7 @@ After completing the documentation:
 
 ## 0.2 🧠 Introduction to Supabase
 
-### 💡 Brief Definition
+### Brief Definition
 
 > Supabase is an open-source **Backend-as-a-Service (BaaS)** built on **PostgreSQL**, providing:
 >
@@ -43,7 +43,7 @@ After completing the documentation:
 > - Cron / Queue
 >   → Helps you **build a backend in hours instead of weeks.**
 
-### ⚙️ Main Components
+### Main Components
 
 | Component          | Description                                       | Equivalent Role in Traditional Backend |
 | ------------------ | ------------------------------------------------- | -------------------------------------- |
@@ -55,7 +55,7 @@ After completing the documentation:
 | **Realtime**       | Pub/Sub data changes (WebSocket)                  | Socket.IO / Pusher                     |
 | **Queue (pgmq)**   | Message Queue in DB                               | SQS / RabbitMQ                         |
 
-### 📊 Overview Comparison
+### Overview Comparison
 
 | Criteria               | Supabase                               | Traditional Backend                |
 | ---------------------- | -------------------------------------- | ---------------------------------- |
@@ -68,7 +68,7 @@ After completing the documentation:
 
 ## 0.3 🏗️ Supabase + Next.js Architecture Overview
 
-### 🔍 Architecture Overview
+### Architecture Overview
 
 ```mermaid
 graph TD
@@ -82,7 +82,7 @@ C -->|Triggers/Webhooks| F
 G[Cron Scheduler] --> F
 ```
 
-### 💬 Flow Explanation
+### Flow Explanation
 
 1. **Frontend (Next.js)**: render SSR/CSR, call Supabase SDK for CRUD, login, etc.
 2. **Supabase API layer**: automatically exposes REST/GraphQL endpoints from schema.
@@ -94,20 +94,20 @@ G[Cron Scheduler] --> F
 
 ## 0.4 ⚡ Why Choose Supabase + Next.js
 
-### 🧩 Technical Reasons
+### Technical Reasons
 
 - Internal projects or MVPs needing quick delivery → reduce backend setup time.
 - Next.js App Router + Supabase SDK support SSR/SSG/ISR well → smooth user experience.
 - Postgres + RLS ensures security at DB layer, reduces risk from code errors.
 - CLI, migrations, Edge Functions, Cron → powerful enough for production-scale deployment.
 
-### 💵 Operational Reasons
+### Operational Reasons
 
 - Supabase has **Free Tier** and **Pay-as-you-go**, no DevOps team needed.
 - Has dashboard monitoring, logs, rollback, auto backup.
 - Easy to train new teams: only need to know SQL and JavaScript/TypeScript.
 
-### 👨‍💻 Training Reasons
+### Training Reasons
 
 - A new developer can master the entire stack in **1 week**.
 - Helps frontend devs understand backend logic without learning a separate backend framework.
@@ -129,7 +129,7 @@ G[Cron Scheduler] --> F
 
 To make learning easier and examples consistent, the documentation will use **one app throughout**.
 
-### 🔧 Feature Requirements
+### Feature Requirements
 
 - User registration / login (email + OAuth).
 - Each user can create multiple "subscriptions" (Netflix, Spotify, etc.).
@@ -137,7 +137,7 @@ To make learning easier and examples consistent, the documentation will use **on
 - Allow invoice image uploads.
 - Dashboard displays realtime when adding/editing subscriptions.
 
-### 🗂️ Suggested Directory Structure
+### Suggested Directory Structure
 
 ```bash
 /app
@@ -155,7 +155,7 @@ To make learning easier and examples consistent, the documentation will use **on
   sendReminder.ts
 ```
 
-### 💬 Output
+### Output
 
 - Complete app deployed on Vercel + Supabase.
 - All examples in the documentation will use this app for illustration.
@@ -181,8 +181,4 @@ To make learning easier and examples consistent, the documentation will use **on
 
 - [Supabase Docs](https://supabase.com/docs)
 - [Next.js App Router Guide](https://nextjs.org/docs/app)
-- [Supabase GitHub Examples](https://github.com/supabase/examples)
-- Internal:
-  - `/docs/supabase_overview.md`
-  - `/docs/training_schedule.md`
-  - `/repos/supabase-next-starter`
+- [Supabase GitHub Examples](https://github.com/supabase/supabase/tree/master/examples)

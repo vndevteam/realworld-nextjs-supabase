@@ -7,7 +7,7 @@ hero:
   actions:
     - theme: brand
       text: Bắt đầu với Hướng dẫn Onboarding
-      link: /onboarding-guide/index
+      link: /vi/onboarding-guide/index
 
 features:
   - title: Xác thực
