@@ -4,7 +4,7 @@
 
 ## 0.1 🎯 Mục tiêu của tài liệu
 
-### ✅ Mục đích
+### Mục đích
 
 - Cung cấp kiến thức và hướng dẫn **từng bước** để dev mới có thể:
 
@@ -13,14 +13,14 @@
   - Nắm **best practices nội bộ** khi viết code, test, và quản lý môi trường.
   - Biết so sánh hiệu quả Supabase với backend truyền thống (NestJS, Express, Spring Boot,…).
 
-### 👥 Đối tượng học
+### Đối tượng học
 
 - **Frontend Dev** muốn mở rộng sang fullstack.
 - **Fullstack Dev** muốn tiết kiệm effort backend (MVP nhanh).
 - **Intern / Junior Dev** cần nắm stack chuẩn nội bộ.
 - **Tech lead / Trainer** cần dùng bộ tài liệu này để đào tạo người mới.
 
-### 🧩 Kết quả đạt được
+### Kết quả đạt được
 
 Sau khi hoàn thành tài liệu:
 
@@ -31,7 +31,7 @@ Sau khi hoàn thành tài liệu:
 
 ## 0.2 🧠 Giới thiệu về Supabase
 
-### 💡 Định nghĩa ngắn gọn
+### Định nghĩa ngắn gọn
 
 > Supabase là **Backend-as-a-Service (BaaS)** mã nguồn mở, xây dựng trên **PostgreSQL**, cung cấp:
 >
@@ -43,7 +43,7 @@ Sau khi hoàn thành tài liệu:
 > - Cron / Queue
 >   → Giúp bạn **dựng backend trong vài giờ thay vì vài tuần.**
 
-### ⚙️ Thành phần chính
+### Thành phần chính
 
 | Thành phần         | Mô tả                                                      | Vai trò tương đương trong backend truyền thống |
 | ------------------ | ---------------------------------------------------------- | ---------------------------------------------- |
@@ -55,7 +55,7 @@ Sau khi hoàn thành tài liệu:
 | **Realtime**       | Pub/Sub thay đổi dữ liệu (WebSocket)                       | Socket.IO / Pusher                             |
 | **Queue (pgmq)**   | Message Queue trong DB                                     | SQS / RabbitMQ                                 |
 
-### 📊 So sánh tổng quan
+### So sánh tổng quan
 
 | Tiêu chí                     | Supabase                                | Backend truyền thống              |
 | ---------------------------- | --------------------------------------- | --------------------------------- |
@@ -68,7 +68,7 @@ Sau khi hoàn thành tài liệu:
 
 ## 0.3 🏗️ Kiến trúc tổng quan Supabase + Next.js
 
-### 🔍 Tổng quan kiến trúc
+### Tổng quan kiến trúc
 
 ```mermaid
 graph TD
@@ -82,7 +82,7 @@ C -->|Triggers/Webhooks| F
 G[Cron Scheduler] --> F
 ```
 
-### 💬 Giải thích flow
+### Giải thích flow
 
 1. **Frontend (Next.js)**: render SSR/CSR, gọi Supabase SDK để CRUD, login,…
 2. **Supabase API layer**: tự động expose REST/GraphQL endpoint từ schema.
@@ -94,20 +94,20 @@ G[Cron Scheduler] --> F
 
 ## 0.4 ⚡ Vì sao chọn Supabase + Next.js
 
-### 🧩 Lý do kỹ thuật
+### Lý do kỹ thuật
 
 - Dự án nội bộ hoặc MVP cần ra nhanh → giảm thời gian setup backend.
 - Next.js App Router + Supabase SDK hỗ trợ tốt SSR/SSG/ISR → trải nghiệm người dùng mượt.
 - Postgres + RLS đảm bảo bảo mật ở tầng DB, giảm rủi ro do lỗi code.
 - CLI, migration, Edge Function, Cron → đủ mạnh để triển khai production-scale.
 
-### 💵 Lý do vận hành
+### Lý do vận hành
 
 - Supabase có **Free Tier** và **Pay-as-you-go**, không cần team DevOps.
 - Có dashboard monitoring, log, rollback, auto backup.
 - Dễ đào tạo đội mới: chỉ cần biết SQL và JavaScript/TypeScript.
 
-### 👨‍💻 Lý do đào tạo
+### Lý do đào tạo
 
 - Một dev mới có thể nắm toàn bộ stack trong **1 tuần**.
 - Giúp dev frontend hiểu thêm backend logic mà không cần học framework backend riêng.
@@ -129,7 +129,7 @@ G[Cron Scheduler] --> F
 
 Để dễ học và thống nhất ví dụ, tài liệu sẽ sử dụng **1 app xuyên suốt**.
 
-### 🔧 Yêu cầu tính năng
+### Yêu cầu tính năng
 
 - User đăng ký / đăng nhập (email + OAuth).
 - Mỗi user có thể tạo nhiều “subscription” (Netflix, Spotify,…).
@@ -137,7 +137,7 @@ G[Cron Scheduler] --> F
 - Cho phép upload ảnh hóa đơn (invoice).
 - Dashboard hiển thị realtime khi thêm/sửa subscription.
 
-### 🗂️ Cấu trúc thư mục gợi ý
+### Cấu trúc thư mục gợi ý
 
 ```bash
 /app
@@ -155,7 +155,7 @@ G[Cron Scheduler] --> F
   sendReminder.ts
 ```
 
-### 💬 Output
+### Output
 
 - App hoàn chỉnh triển khai trên Vercel + Supabase.
 - Toàn bộ ví dụ trong tài liệu sẽ dùng app này để minh hoạ.
@@ -181,8 +181,4 @@ G[Cron Scheduler] --> F
 
 - [Supabase Docs](https://supabase.com/docs)
 - [Next.js App Router Guide](https://nextjs.org/docs/app)
-- [Supabase GitHub Examples](https://github.com/supabase/examples)
-- Nội bộ:
-  - `/docs/supabase_overview.md`
-  - `/docs/training_schedule.md`
-  - `/repos/supabase-next-starter`
+- [Supabase GitHub Examples](https://github.com/supabase/supabase/tree/master/examples)

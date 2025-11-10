@@ -13,26 +13,25 @@ Sau khi hoàn thành, dev sẽ có thể:
 
 ## 1.2 🧩 Công cụ cần chuẩn bị
 
-### ✅ Phần mềm bắt buộc
+### Phần mềm bắt buộc
 
 | Công cụ                     | Mục đích                               | Cài đặt                                                   |
 | --------------------------- | -------------------------------------- | --------------------------------------------------------- |
-| **Node.js ≥ 18**            | Chạy Next.js và CLI                    | [nodejs.org](https://nodejs.org)                          |
+| **Node.js ≥ 20**            | Chạy Next.js và CLI                    | [nodejs.org](https://nodejs.org)                          |
 | **pnpm** _(khuyến nghị)_    | Quản lý package nhanh hơn npm          | `npm i -g pnpm`                                           |
 | **Supabase CLI**            | Quản lý project, chạy DB local, deploy | [Supabase CLI Docs](https://supabase.com/docs/guides/cli) |
-| **Docker Desktop / Podman** | Supabase local chạy qua container      | [docker.com](https://www.docker.com/)                     |
+| **Docker Desktop / Podman** | Supabase local chạy qua container      | [docker.com](https://www.docker.com/) / [podman.io](https://podman.io/)                     |
 | **VSCode**                  | IDE chính                              | [code.visualstudio.com](https://code.visualstudio.com/)   |
 
-### 🧰 VSCode Extensions khuyến nghị
+### VSCode Extensions khuyến nghị
 
 | Extension                  | Mục đích                              |
 | -------------------------- | ------------------------------------- |
 | **Supabase (by Supabase)** | Kết nối và quản lý database trực tiếp |
 | **SQLTools**               | Viết và chạy query SQL                |
 | **ESLint + Prettier**      | Format và lint code                   |
-| **PostgreSQL Syntax**      | Highlight SQL syntax                  |
 
-### 🔐 Tài khoản cần có
+### Tài khoản cần có
 
 - 1 tài khoản [Supabase](https://supabase.com/dashboard)
 - 1 tài khoản GitHub (dùng để liên kết Supabase project và CI/CD)
@@ -40,7 +39,7 @@ Sau khi hoàn thành, dev sẽ có thể:
 
 ## 1.3 🧱 Tạo Supabase Project đầu tiên
 
-### 🔹 Bước 1. Đăng nhập Supabase Dashboard
+### Bước 1. Đăng nhập Supabase Dashboard
 
 - Vào [https://supabase.com/dashboard](https://supabase.com/dashboard)
 - Chọn **New Project**
@@ -48,7 +47,7 @@ Sau khi hoàn thành, dev sẽ có thể:
 - Chọn Region gần nhất (ví dụ: Singapore)
 - Ghi chú mật khẩu Postgres DB → để dùng cho CLI local.
 
-### 🔹 Bước 2. Tạo Project local
+### Bước 2. Tạo Project local
 
 ```bash
 mkdir supabase-next-demo
@@ -65,7 +64,7 @@ Lệnh này sẽ tạo thư mục:
   └── seed.sql            # seed data ban đầu
 ```
 
-### 🔹 Bước 3. Chạy Supabase local
+### Bước 3. Chạy Supabase local
 
 ```bash
 supabase start
@@ -78,7 +77,7 @@ supabase start
 > - DB: `localhost:54322`
 > - Studio (dashboard local): `http://localhost:54323`
 
-### 🔹 Bước 4. Đăng nhập CLI
+### Bước 4. Đăng nhập CLI
 
 ```bash
 supabase login
@@ -88,7 +87,7 @@ Dán **Access Token** (lấy từ Supabase Dashboard → Account → Access Toke
 
 ## 1.4 ⚡ Tạo Next.js Project
 
-### 🔹 Bước 1. Tạo project Next.js mới
+### Bước 1. Tạo project Next.js mới
 
 ```bash
 pnpm create next-app@latest web --typescript --app
@@ -102,13 +101,13 @@ cd web
 > - ✅ App Router
 > - ✅ TailwindCSS (optional nhưng khuyến nghị cho UI demo)
 
-### 🔹 Bước 2. Cài Supabase SDK
+### Bước 2. Cài Supabase SDK
 
 ```bash
 pnpm add @supabase/supabase-js
 ```
 
-### 🔹 Bước 3. Tạo file `.env.local`
+### Bước 3. Tạo file `.env.local`
 
 ```bash
 NEXT_PUBLIC_SUPABASE_URL=http://localhost:54321
@@ -117,7 +116,7 @@ NEXT_PUBLIC_SUPABASE_ANON_KEY=your_anon_key_here
 
 > 🔎 `anon_key` lấy tại **Supabase → Settings → API → Project API keys**.
 
-### 🔹 Bước 4. Tạo client helper
+### Bước 4. Tạo client helper
 
 `/lib/supabaseClient.ts`
 
@@ -130,7 +129,7 @@ export const supabase = createClient(
 );
 ```
 
-### 🔹 Bước 5. Test kết nối
+### Bước 5. Test kết nối
 
 `app/page.tsx`
 
@@ -181,7 +180,7 @@ export default function Home() {
   └── dev-seed.ts           # Tạo data dev nhanh
 ```
 
-### 💡 Best Practice
+### Best Practice
 
 - Mỗi lần thay đổi DB phải qua migration, không thao tác thủ công.
 - Tên migration nên theo format:
@@ -220,23 +219,28 @@ export default function Home() {
    File `.github/workflows/check.yml`:
 
    ```yaml
-   name: Check Project Setup
+    name: Check Project Setup
 
-   on:
-     push:
-       branches: [main]
+    on:
+      push:
+        branches: [main]
 
-   jobs:
-     build:
-       runs-on: ubuntu-latest
-       steps:
-         - uses: actions/checkout@v3
-         - name: Setup Node
-           uses: actions/setup-node@v3
-           with:
-             node-version: 18
-         - run: npm ci
-         - run: npm run build
+    jobs:
+      build:
+        runs-on: ubuntu-latest
+        steps:
+          - uses: actions/checkout@v5
+          - name: Setup Node
+            uses: actions/setup-node@v6
+            with:
+              node-version: 20
+          - uses: pnpm/action-setup@v4
+            with:
+              version: 10.18.1
+          - run: pnpm install
+            working-directory: web
+          - run: pnpm build
+            working-directory: web
    ```
 
    > Giúp đảm bảo project luôn build được sau mỗi commit.

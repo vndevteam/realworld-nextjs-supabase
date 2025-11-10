@@ -13,26 +13,25 @@ After completing this section, developers will be able to:
 
 ## 1.2 🧩 Tools to Prepare
 
-### ✅ Required Software
+### Required Software
 
 | Tool                        | Purpose                               | Installation                                              |
 | --------------------------- | ------------------------------------- | --------------------------------------------------------- |
-| **Node.js ≥ 18**            | Run Next.js and CLI                   | [nodejs.org](https://nodejs.org)                          |
+| **Node.js ≥ 20**            | Run Next.js and CLI                   | [nodejs.org](https://nodejs.org)                          |
 | **pnpm** _(recommended)_    | Package manager faster than npm       | `npm i -g pnpm`                                           |
 | **Supabase CLI**            | Manage projects, run local DB, deploy | [Supabase CLI Docs](https://supabase.com/docs/guides/cli) |
-| **Docker Desktop / Podman** | Supabase local runs via containers    | [docker.com](https://www.docker.com/)                     |
+| **Docker Desktop / Podman** | Supabase local runs via containers    | [docker.com](https://www.docker.com/) / [podman.io](https://podman.io/)                     |
 | **VSCode**                  | Main IDE                              | [code.visualstudio.com](https://code.visualstudio.com/)   |
 
-### 🧰 Recommended VSCode Extensions
+### Recommended VSCode Extensions
 
 | Extension                  | Purpose                              |
 | -------------------------- | ------------------------------------ |
 | **Supabase (by Supabase)** | Connect and manage database directly |
 | **SQLTools**               | Write and run SQL queries            |
 | **ESLint + Prettier**      | Format and lint code                 |
-| **PostgreSQL Syntax**      | Highlight SQL syntax                 |
 
-### 🔐 Accounts Needed
+### Accounts Needed
 
 - 1 [Supabase](https://supabase.com/dashboard) account
 - 1 GitHub account (for linking Supabase project and CI/CD)
@@ -40,7 +39,7 @@ After completing this section, developers will be able to:
 
 ## 1.3 🧱 Create Your First Supabase Project
 
-### 🔹 Step 1. Login to Supabase Dashboard
+### Step 1. Login to Supabase Dashboard
 
 - Go to [https://supabase.com/dashboard](https://supabase.com/dashboard)
 - Select **New Project**
@@ -48,7 +47,7 @@ After completing this section, developers will be able to:
 - Choose nearest region (e.g., Singapore)
 - Note the Postgres DB password → for local CLI use.
 
-### 🔹 Step 2. Create Local Project
+### Step 2. Create Local Project
 
 ```bash
 mkdir supabase-next-demo
@@ -65,7 +64,7 @@ This will create the directory:
   └── seed.sql            # initial seed data
 ```
 
-### 🔹 Step 3. Run Supabase Locally
+### Step 3. Run Supabase Locally
 
 ```bash
 supabase start
@@ -78,7 +77,7 @@ supabase start
 > - DB: `localhost:54322`
 > - Studio (local dashboard): `http://localhost:54323`
 
-### 🔹 Step 4. Login to CLI
+### Step 4. Login to CLI
 
 ```bash
 supabase login
@@ -88,7 +87,7 @@ Paste the **Access Token** (get from Supabase Dashboard → Account → Access T
 
 ## 1.4 ⚡ Create Next.js Project
 
-### 🔹 Step 1. Create New Next.js Project
+### Step 1. Create New Next.js Project
 
 ```bash
 pnpm create next-app@latest web --typescript --app
@@ -102,13 +101,13 @@ cd web
 > - ✅ App Router
 > - ✅ TailwindCSS (optional but recommended for UI demo)
 
-### 🔹 Step 2. Install Supabase SDK
+### Step 2. Install Supabase SDK
 
 ```bash
 pnpm add @supabase/supabase-js
 ```
 
-### 🔹 Step 3. Create `.env.local` File
+### Step 3. Create `.env.local` File
 
 ```bash
 NEXT_PUBLIC_SUPABASE_URL=http://localhost:54321
@@ -117,7 +116,7 @@ NEXT_PUBLIC_SUPABASE_ANON_KEY=your_anon_key_here
 
 > 🔎 Get `anon_key` at **Supabase → Settings → API → Project API keys**.
 
-### 🔹 Step 4. Create Client Helper
+### Step 4. Create Client Helper
 
 `/lib/supabaseClient.ts`
 
@@ -130,7 +129,7 @@ export const supabase = createClient(
 );
 ```
 
-### 🔹 Step 5. Test Connection
+### Step 5. Test Connection
 
 `app/page.tsx`
 
@@ -181,7 +180,7 @@ export default function Home() {
   └── dev-seed.ts           # Quick dev data creation
 ```
 
-### 💡 Best Practice
+### Best Practice
 
 - Every DB change must go through migrations, no manual operations.
 - Migration names should follow format:
@@ -220,23 +219,28 @@ export default function Home() {
    File `.github/workflows/check.yml`:
 
    ```yaml
-   name: Check Project Setup
+    name: Check Project Setup
 
-   on:
-     push:
-       branches: [main]
+    on:
+      push:
+        branches: [main]
 
-   jobs:
-     build:
-       runs-on: ubuntu-latest
-       steps:
-         - uses: actions/checkout@v3
-         - name: Setup Node
-           uses: actions/setup-node@v3
-           with:
-             node-version: 18
-         - run: npm ci
-         - run: npm run build
+    jobs:
+      build:
+        runs-on: ubuntu-latest
+        steps:
+          - uses: actions/checkout@v5
+          - name: Setup Node
+            uses: actions/setup-node@v6
+            with:
+              node-version: 20
+          - uses: pnpm/action-setup@v4
+            with:
+              version: 10.18.1
+          - run: pnpm install
+            working-directory: web
+          - run: pnpm build
+            working-directory: web
    ```
 
    > Ensures project always builds after each commit.
