@@ -277,6 +277,8 @@ for each row execute procedure public.handle_new_user();
 
 Bạn có thể thêm **custom metadata** vào JWT để hỗ trợ RLS phức tạp (như role hoặc org_id).
 
+> ℹ️ Để tìm hiểu sâu hơn về cách sử dụng JWT metadata với RLS, hãy xem [Phần 3 – Authorization (RLS & Policy)](./authorization-rls.md#_3-6-🧩-su-dung-jwt-metadata-cho-role-org).
+
 ### Cập nhật metadata
 
 ```ts
