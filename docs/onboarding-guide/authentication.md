@@ -2,8 +2,6 @@
 
 > Goal: Master the complete registration – login – session management – route protection flow in Next.js + Supabase.
 
----
-
 ## 2.1 🎯 Learning Objectives
 
 After completing this section, developers can:
@@ -14,11 +12,9 @@ After completing this section, developers can:
 - Protect routes with middleware (server-side).
 - Attach user profile and metadata to database.
 
----
-
 ## 2.2 🔍 Supabase Auth Overview
 
-### 💡 Auth Architecture
+### Auth Architecture
 
 Supabase Auth is based on:
 
@@ -36,9 +32,7 @@ Frontend->>Database: Send query + JWT in header
 Database->>Policy: Check `auth.uid()` → Allow / Deny
 ```
 
----
-
-### 🔑 Key Concepts
+### Key Concepts
 
 | Concept                      | Explanation                                                                |
 | ---------------------------- | -------------------------------------------------------------------------- |
@@ -47,11 +41,9 @@ Database->>Policy: Check `auth.uid()` → Allow / Deny
 | **JWT Token**                | Contains user info (id, role, email, metadata). Sent in every request.     |
 | **RLS (Row-Level Security)** | Policy in DB checks `auth.uid()` to determine access permissions.          |
 
----
-
 ## 2.3 🧱 Setup Auth in Next.js
 
-### 🔹 Install Additional Packages
+### Install Additional Packages
 
 ```bash
 pnpm add @supabase/ssr
@@ -59,11 +51,11 @@ pnpm add @supabase/ssr
 
 `@supabase/ssr` helps **maintain Supabase session on server** (important for App Router).
 
----
-
-### 🔹 Standard Internal Helper Structure
+### Standard Internal Helper Structure
 
 #### `/lib/supabaseClient.ts`
+
+Update `createClient` to use `createBrowserClient` from `@supabase/ssr`.
 
 ```ts
 import { createBrowserClient } from "@supabase/ssr";
@@ -81,34 +73,50 @@ export const createClient = () =>
 import { createServerClient } from "@supabase/ssr";
 import { cookies } from "next/headers";
 
-export const createServer = () => {
-  const cookieStore = cookies();
+export async function createServer() {
+  const cookieStore = await cookies();
+
   return createServerClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-    { cookies: { get: (name) => cookieStore.get(name)?.value } }
+    {
+      cookies: {
+        getAll() {
+          return cookieStore.getAll();
+        },
+        setAll(cookiesToSet) {
+          try {
+            cookiesToSet.forEach(({ name, value, options }) =>
+              cookieStore.set(name, value, options)
+            );
+          } catch {
+            // The `setAll` method was called from a Server Component.
+            // This can be ignored if you have middleware refreshing
+            // user sessions.
+          }
+        },
+      },
+    }
   );
-};
+}
 ```
 
----
-
-### 🔹 Middleware to Protect Routes
+### Middleware to Protect Routes
 
 `/middleware.ts`
 
 ```ts
-import { NextResponse } from "next/server";
-import { createServer } from "./lib/supabaseServer";
+import { NextResponse, type NextRequest } from "next/server";
+import { createServer } from "@/lib/supabaseServer";
 
-export async function middleware(req) {
+export async function middleware(req: NextRequest) {
   const res = NextResponse.next();
-  const supabase = createServer();
+  const supabase = await createServer();
   const { data } = await supabase.auth.getSession();
 
   // If no session → redirect to login page
   if (!data.session && req.nextUrl.pathname.startsWith("/dashboard")) {
-    return NextResponse.redirect(new URL("/login", req.url));
+    return NextResponse.redirect(new URL("/signin", req.url));
   }
   return res;
 }
@@ -118,11 +126,11 @@ export const config = {
 };
 ```
 
----
-
 ## 2.4 🧭 Login / Signup / Logout Flow
 
-### 1️⃣ Sign Up
+### Sign Up
+
+`/app/signup/page.tsx`
 
 ```ts
 "use client";
@@ -155,20 +163,23 @@ export default function Signup() {
 }
 ```
 
----
+### Sign In
 
-### 2️⃣ Sign In
+`/app/signin/page.tsx`
 
 ```ts
 "use client";
+import { useState } from "react";
 import { createClient } from "@/lib/supabaseClient";
 import { useRouter } from "next/navigation";
 
 export default function Login() {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const router = useRouter();
   const supabase = createClient();
 
-  const handleLogin = async (email, password) => {
+  const handleLogin = async (email: string, password: string) => {
     const { error } = await supabase.auth.signInWithPassword({
       email,
       password,
@@ -176,12 +187,25 @@ export default function Login() {
     if (error) alert(error.message);
     else router.push("/dashboard");
   };
+
+  return (
+    <div>
+      <h2>Sign in</h2>
+      <input onChange={(e) => setEmail(e.target.value)} placeholder="Email" />
+      <input
+        type="password"
+        onChange={(e) => setPassword(e.target.value)}
+        placeholder="Password"
+      />
+      <button onClick={() => handleLogin(email, password)}>Login</button>
+    </div>
+  );
 }
 ```
 
----
+### Sign Out
 
-### 3️⃣ Sign Out
+`/app/components/LogoutButton.tsx`
 
 ```ts
 "use client";
@@ -194,23 +218,21 @@ export default function LogoutButton() {
 
   const handleLogout = async () => {
     await supabase.auth.signOut();
-    router.push("/login");
+    router.push("/signin");
   };
 
   return <button onClick={handleLogout}>Logout</button>;
 }
 ```
 
----
-
 ## 2.5 🧩 Sync User Profile
 
 After signup, Supabase only has a record in `auth.users`.
 You should also sync a `public.profiles` table to store metadata or additional information.
 
-### 🔹 SQL Migration
+### SQL Migration
 
-`/supabase/migrations/20251105T_create_profiles_table.sql`
+`/supabase/migrations/20251105120000_create_profiles_table.sql`
 
 ```sql
 create table profiles (
@@ -232,9 +254,9 @@ with check ( auth.uid() = id );
 
 ---
 
-### 🔹 Trigger to Auto-Create Profile
+### Trigger to Auto-Create Profile
 
-`/supabase/migrations/20251105T_trigger_sync_profile.sql`
+`/supabase/migrations/20251105120100_trigger_sync_profile.sql`
 
 ```sql
 create function public.handle_new_user()
@@ -251,8 +273,6 @@ for each row execute procedure public.handle_new_user();
 ```
 
 > ✅ When user signs up → trigger automatically creates corresponding profile.
-
----
 
 ## 2.6 🧩 Metadata & Claims
 
@@ -277,8 +297,6 @@ using (
 );
 ```
 
----
-
 ## 2.7 🛡️ Protect Routes (Protected Routes)
 
 - Use **middleware.ts** (server-side) to redirect if not logged in.
@@ -297,8 +315,6 @@ export default async function DashboardPage() {
   return <div>Welcome, {data.user.email}</div>;
 }
 ```
-
----
 
 ## 2.8 🧭 Password Reset & Magic Link
 
@@ -320,8 +336,6 @@ await supabase.auth.signInWithOtp({
 
 > When user clicks link in email → Supabase will automatically create session and redirect to FE.
 
----
-
 ## 2.9 ✅ Completion Checklist
 
 - [ ] Understand Supabase Auth mechanism and JWT
@@ -330,8 +344,6 @@ await supabase.auth.signInWithOtp({
 - [ ] Have `profiles` table synced with user metadata
 - [ ] Understand how to add custom claims to JWT
 - [ ] Can protect `/dashboard` page
-
----
 
 ## 2.10 💡 Internal Best Practices
 
@@ -343,16 +355,12 @@ await supabase.auth.signInWithOtp({
 6. **Clearly separate client/server Supabase client** (`createClient` vs `createServer`).
 7. **Always test logout & expired session** when implementing auth.
 
----
-
 ## 2.11 📚 References
 
 - [Supabase Auth Docs](https://supabase.com/docs/guides/auth)
 - [Next.js App Router + Supabase Auth](https://supabase.com/docs/guides/auth/server-side/nextjs)
-- [Managing Sessions with @supabase/ssr](https://supabase.com/docs/guides/auth/server-side/nextjs#using-the-supabase-ssr-package)
-- [Postgres RLS Docs](https://supabase.com/docs/guides/auth/row-level-security)
-
----
+- [Postgres RLS Docs](https://supabase.com/docs/guides/database/postgres/row-level-security)
+- [Supabase Next Demo](https://github.com/lamngockhuong/supabase-next-demo)
 
 ## 2.12 🧾 Output After This Section
 
