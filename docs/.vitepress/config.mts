@@ -1,11 +1,13 @@
 import { defineConfig } from 'vitepress'
 import { ViteImageOptimizer} from 'vite-plugin-image-optimizer'
 
+const siteBase = "/realworld-nextjs-supabase/";
+
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
   title: "RealWorld Nextjs Supabase",
   description: "A RealWorld Nextjs Supabase project",
-  base: "/realworld-nextjs-supabase/",
+  base: siteBase,
   lastUpdated: true,
   ignoreDeadLinks: [
     /^https?:\/\/localhost/,
@@ -55,13 +57,13 @@ export default defineConfig({
   },
   head: [
     // Favicon configurations
-    ["link", { rel: "shortcut icon", href: "/favicon.ico", sizes: "48x48" }],
-    ["link", { rel: "icon", href: "/favicon.svg", type: "image/svg+xml" }],
+    ["link", { rel: "shortcut icon", href: `${siteBase}favicon.ico`, sizes: "48x48" }],
+    ["link", { rel: "icon", href: `${siteBase}favicon.svg`, type: "image/svg+xml" }],
     [
       "link",
       {
         rel: "icon",
-        href: "/favicon-96x96.png",
+        href: `${siteBase}favicon-96x96.png`,
         type: "image/png",
         sizes: "96x96",
       },
@@ -70,11 +72,11 @@ export default defineConfig({
       "link",
       {
         rel: "apple-touch-icon",
-        href: "/apple-touch-icon.png",
+        href: `${siteBase}apple-touch-icon.png`,
         sizes: "180x180",
       },
     ],
-    ["link", { rel: "manifest", href: "/site.webmanifest" }],
+    ["link", { rel: "manifest", href: `${siteBase}site.webmanifest` }],
   ],
   locales: {
     root: {

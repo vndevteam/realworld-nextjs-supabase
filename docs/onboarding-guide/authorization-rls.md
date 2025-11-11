@@ -2,8 +2,6 @@
 
 > Goal: Understand how Supabase uses RLS to protect data, write secure policies for each table, and attach metadata (role, org_id) from JWT to policies.
 
----
-
 ## 3.1 🎯 Learning Objectives
 
 After completing this section, developers can:
@@ -14,20 +12,16 @@ After completing this section, developers can:
 - Design secure **multi-tenant** (multiple organizations, multiple users).
 - Manage roles (admin, member, guest) at DB layer.
 
----
-
 ## 3.2 🔍 Authorization Overview in Supabase
 
-### 💡 Auth vs Authorization
+### Auth vs Authorization
 
 | Concept            | Role                                                           | Handled Where              |
 | ------------------ | -------------------------------------------------------------- | -------------------------- |
 | **Authentication** | Verify user identity (login, token, session)                   | Supabase Auth              |
 | **Authorization**  | Determine what they **are allowed to do** (view, edit, delete) | **RLS Policy in Database** |
 
----
-
-### 🔐 Authorization Architecture
+### Authorization Architecture
 
 ```mermaid
 flowchart LR
@@ -40,17 +34,15 @@ D -->|Deny| F[Error: permission denied]
 
 > ✅ The decision of "who can access" is **right in the DB**, not in FE code or API.
 
----
-
 ## 3.3 🧱 Enable RLS and Basic Policies
 
-### 🔹 Step 1. Enable RLS for Table
+### Step 1. Enable RLS for Table
 
 ```sql
 alter table profiles enable row level security;
 ```
 
-### 🔹 Step 2. Create Policy for `SELECT`
+### Step 2. Create Policy for `SELECT`
 
 ```sql
 create policy "Users can view their own profile"
@@ -61,9 +53,7 @@ using ( auth.uid() = id );
 
 > ✅ Meaning: user can only view records where the record's `id` matches `auth.uid()` from JWT.
 
----
-
-### 🔹 Step 3. Policy for `INSERT`
+### Step 3. Policy for `INSERT`
 
 ```sql
 create policy "Users can insert their own profile"
@@ -72,7 +62,7 @@ for insert
 with check ( auth.uid() = id );
 ```
 
-### 🔹 Step 4. Policy for `UPDATE`
+### Step 4. Policy for `UPDATE`
 
 ```sql
 create policy "Users can update their own profile"
@@ -83,8 +73,6 @@ with check ( auth.uid() = id );
 ```
 
 > 🔎 **`using`** checks when _reading records_, while **`with check`** checks when _writing/inserting/updating_.
-
----
 
 ## 3.4 🧩 Helper Functions in Supabase RLS
 
@@ -104,11 +92,9 @@ for select
 using ( auth.jwt()->>'role' = 'admin' );
 ```
 
----
-
 ## 3.5 🏢 Design Authorization for Multi-tenant
 
-### 🧩 Sample Data Model
+### Sample Data Model
 
 ```sql
 create table organizations (
@@ -125,7 +111,7 @@ create table members (
 );
 ```
 
-### 🧩 Policy for `organizations` Table
+### Policy for `organizations` Table
 
 ```sql
 alter table organizations enable row level security;
@@ -140,7 +126,7 @@ using (
 );
 ```
 
-### 🧩 Policy for `members` Table
+### Policy for `members` Table
 
 ```sql
 alter table members enable row level security;
@@ -157,11 +143,9 @@ using (
 
 > 👉 This ensures users only see their organization's data, never other organizations' data — **even if a hacker changes the ID**.
 
----
-
 ## 3.6 🧩 Using JWT Metadata for Role & Org
 
-### 🔹 When User Logs In, JWT Contains Metadata
+### When User Logs In, JWT Contains Metadata
 
 ```json
 {
@@ -172,7 +156,7 @@ using (
 }
 ```
 
-### 🔹 Policy Using Metadata
+### Policy Using Metadata
 
 ```sql
 create policy "Admins can view all org data"
@@ -184,8 +168,6 @@ using (
 ```
 
 > ✅ Role/org_id data is added using `updateUser({ data: { role, organization_id } })` in Supabase Auth.
-
----
 
 ## 3.7 🧩 Comprehensive Role-based Policy (RBAC)
 
@@ -213,11 +195,9 @@ on tasks for select
 using ( visibility = 'public' );
 ```
 
----
-
 ## 3.8 🧮 Testing Policies
 
-### 🔹 Quick Test Method with SQL
+### Quick Test Method with SQL
 
 ```sql
 -- Simulate user login
@@ -229,12 +209,10 @@ set jwt.claims.sub = 'user_123';
 select * from tasks;
 ```
 
-### 🔹 Check via Supabase Dashboard → SQL Editor
+### Check via Supabase Dashboard → SQL Editor
 
 - Run queries as above with `Run as Authenticated User`.
 - Try different JWT metadata to verify results.
-
----
 
 ## 3.9 🧩 Using Policies Combined with Triggers (Audit Log)
 
@@ -263,8 +241,6 @@ after select or insert or update or delete on tasks
 for each statement execute procedure log_task_access();
 ```
 
----
-
 ## 3.10 🧭 Completion Checklist
 
 - [ ] Know how to enable/disable RLS and write basic policies.
@@ -273,8 +249,6 @@ for each statement execute procedure log_task_access();
 - [ ] Apply RBAC (admin/member/guest) at DB layer.
 - [ ] Test policies using SQL or Supabase Dashboard.
 - [ ] Understand how to attach metadata to JWT for flexible policies.
-
----
 
 ## 3.11 💡 Internal Best Practices
 
@@ -289,16 +263,12 @@ for each statement execute procedure log_task_access();
 9. **Always review "superuser" (admin) policies** to avoid leaking all data.
 10. **Use comments in SQL** to describe each policy's meaning (useful when onboarding new devs).
 
----
-
 ## 3.12 📚 References
 
 - [Supabase RLS Guide](https://supabase.com/docs/guides/auth/row-level-security)
 - [PostgreSQL Row-Level Security Docs](https://www.postgresql.org/docs/current/ddl-rowsecurity.html)
 - [Supabase Auth JWT Custom Claims](https://supabase.com/docs/guides/auth/auth-jwt)
 - [Example: Multi-tenant SaaS with RLS](https://supabase.com/docs/guides/auth/row-level-security#multi-tenant-rls)
-
----
 
 ## 3.13 🧾 Output After This Section
 

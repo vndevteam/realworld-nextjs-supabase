@@ -15,13 +15,13 @@ Sau khi hoàn thành, dev sẽ có thể:
 
 ### Phần mềm bắt buộc
 
-| Công cụ                     | Mục đích                               | Cài đặt                                                   |
-| --------------------------- | -------------------------------------- | --------------------------------------------------------- |
-| **Node.js ≥ 20**            | Chạy Next.js và CLI                    | [nodejs.org](https://nodejs.org)                          |
-| **pnpm** _(khuyến nghị)_    | Quản lý package nhanh hơn npm          | `npm i -g pnpm`                                           |
-| **Supabase CLI**            | Quản lý project, chạy DB local, deploy | [Supabase CLI Docs](https://supabase.com/docs/guides/cli) |
-| **Docker Desktop / Podman** | Supabase local chạy qua container      | [docker.com](https://www.docker.com/) / [podman.io](https://podman.io/)                     |
-| **VSCode**                  | IDE chính                              | [code.visualstudio.com](https://code.visualstudio.com/)   |
+| Công cụ                     | Mục đích                               | Cài đặt                                                                 |
+| --------------------------- | -------------------------------------- | ----------------------------------------------------------------------- |
+| **Node.js ≥ 20**            | Chạy Next.js và CLI                    | [nodejs.org](https://nodejs.org)                                        |
+| **pnpm** _(khuyến nghị)_    | Quản lý package nhanh hơn npm          | `npm i -g pnpm`                                                         |
+| **Supabase CLI**            | Quản lý project, chạy DB local, deploy | [Supabase CLI Docs](https://supabase.com/docs/guides/cli)               |
+| **Docker Desktop / Podman** | Supabase local chạy qua container      | [docker.com](https://www.docker.com/) / [podman.io](https://podman.io/) |
+| **VSCode**                  | IDE chính                              | [code.visualstudio.com](https://code.visualstudio.com/)                 |
 
 ### VSCode Extensions khuyến nghị
 
@@ -76,6 +76,7 @@ supabase start
 > - API URL: `http://localhost:54321`
 > - DB: `localhost:54322`
 > - Studio (dashboard local): `http://localhost:54323`
+> - Tài khoản database: `postgres` / `postgres` _(mặc định từ Supabase local containers)_
 
 ### Bước 4. Đăng nhập CLI
 
@@ -129,6 +130,8 @@ export const supabase = createClient(
 );
 ```
 
+> 💡 `createClient` là hàm helper để tạo một client Supabase. Nó được sử dụng để kết nối với database Supabase ở client-side. Bạn cũng có thể sử dụng `createBrowserClient` hoặc `createServerClient` từ `@supabase/ssr` để tạo một client (khuyến nghị cho Next.js App Router).
+
 ### Bước 5. Test kết nối
 
 `app/page.tsx`
@@ -136,15 +139,16 @@ export const supabase = createClient(
 ```tsx
 "use client";
 import { useEffect, useState } from "react";
-import { supabase } from "@/lib/supabaseClient";
+import { createClient } from "@/lib/supabaseClient";
 
 export default function Home() {
-  const [users, setUsers] = useState<any[]>([]);
+  const [profiles, setProfiles] = useState<any[]>([]);
+  const supabase = createClient();
 
   useEffect(() => {
     const fetchData = async () => {
-      const { data } = await supabase.from("users").select("*");
-      setUsers(data || []);
+      const { data } = await supabase.from("profiles").select("*");
+      setProfiles(data || []);
     };
     fetchData();
   }, []);
@@ -152,13 +156,13 @@ export default function Home() {
   return (
     <main>
       <h1>Hello Supabase</h1>
-      <pre>{JSON.stringify(users, null, 2)}</pre>
+      <pre>{JSON.stringify(profiles, null, 2)}</pre>
     </main>
   );
 }
 ```
 
-> 👉 Nếu hiện lỗi `relation "users" does not exist`, điều đó bình thường — ta sẽ tạo table ở phần 4 (Database).
+> 👉 Nếu hiện lỗi `relation "profiles" does not exist`, điều đó bình thường trước khi hoàn thành Phần 2 — ta sẽ tạo bảng `profiles` ở Authentication (mục 2.5) và quay lại Database ở Phần 4.
 
 ## 1.5 🗂️ Cấu trúc thư mục chuẩn nội bộ
 
@@ -186,8 +190,8 @@ export default function Home() {
 - Tên migration nên theo format:
 
   ```bash
-  20251105T_create_users_table.sql
-  20251105T_add_rls_policy_users.sql
+  20251105120000_create_users_table.sql
+  20251105120500_add_rls_policy_users.sql
   ```
 
 - Folder `/scripts` nên có:
@@ -219,28 +223,28 @@ export default function Home() {
    File `.github/workflows/check.yml`:
 
    ```yaml
-    name: Check Project Setup
+   name: Check Project Setup
 
-    on:
-      push:
-        branches: [main]
+   on:
+     push:
+       branches: [main]
 
-    jobs:
-      build:
-        runs-on: ubuntu-latest
-        steps:
-          - uses: actions/checkout@v5
-          - name: Setup Node
-            uses: actions/setup-node@v6
-            with:
-              node-version: 20
-          - uses: pnpm/action-setup@v4
-            with:
-              version: 10.18.1
-          - run: pnpm install
-            working-directory: web
-          - run: pnpm build
-            working-directory: web
+   jobs:
+     build:
+       runs-on: ubuntu-latest
+       steps:
+         - uses: actions/checkout@v5
+         - name: Setup Node
+           uses: actions/setup-node@v6
+           with:
+             node-version: 20
+         - uses: pnpm/action-setup@v4
+           with:
+             version: 10.18.1
+         - run: pnpm install
+           working-directory: web
+         - run: pnpm build
+           working-directory: web
    ```
 
    > Giúp đảm bảo project luôn build được sau mỗi commit.
@@ -274,6 +278,7 @@ export default function Home() {
 - [Supabase Local Development](https://supabase.com/docs/guides/cli/local-development)
 - [Next.js App Router Docs](https://nextjs.org/docs/app)
 - [Supabase SDK Reference](https://supabase.com/docs/reference/javascript/start)
+- [Supabase Next Demo](https://github.com/lamngockhuong/supabase-next-demo)
 
 ## 1.10 🧾 Output sau phần này
 

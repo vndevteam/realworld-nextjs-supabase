@@ -2,8 +2,6 @@
 
 > Mục tiêu: hiểu rõ cách Supabase dùng RLS để bảo vệ dữ liệu, viết được policy an toàn cho từng bảng, và gắn được metadata (role, org_id) từ JWT vào policy.
 
----
-
 ## 3.1 🎯 Mục tiêu học phần
 
 Sau khi hoàn thành phần này, dev có thể:
@@ -14,20 +12,16 @@ Sau khi hoàn thành phần này, dev có thể:
 - Thiết kế **multi-tenant** (nhiều tổ chức, nhiều user) an toàn.
 - Quản lý role (admin, member, guest) ở tầng DB.
 
----
-
 ## 3.2 🔍 Tổng quan về Authorization trong Supabase
 
-### 💡 Auth vs Authorization
+### Auth vs Authorization
 
 | Khái niệm          | Vai trò                                                | Xử lý ở đâu                   |
 | ------------------ | ------------------------------------------------------ | ----------------------------- |
 | **Authentication** | Xác thực danh tính người dùng (login, token, session)  | Supabase Auth                 |
 | **Authorization**  | Xác định người đó **được phép làm gì** (xem, sửa, xóa) | **RLS Policy trong Database** |
 
----
-
-### 🔐 Kiến trúc Authorization
+### Kiến trúc Authorization
 
 ```mermaid
 flowchart LR
@@ -40,17 +34,15 @@ D -->|Deny| F[Error: permission denied]
 
 > ✅ Quyết định “ai được truy cập” nằm **ngay trong DB**, không phải ở code FE hay API.
 
----
-
 ## 3.3 🧱 Bật RLS và Policy cơ bản
 
-### 🔹 Bước 1. Bật RLS cho bảng
+### Bước 1. Bật RLS cho bảng
 
 ```sql
 alter table profiles enable row level security;
 ```
 
-### 🔹 Bước 2. Tạo policy cho `SELECT`
+### Bước 2. Tạo policy cho `SELECT`
 
 ```sql
 create policy "Users can view their own profile"
@@ -61,9 +53,7 @@ using ( auth.uid() = id );
 
 > ✅ Nghĩa là: user chỉ được xem record mà `id` của record đó trùng với `auth.uid()` từ JWT.
 
----
-
-### 🔹 Bước 3. Policy cho `INSERT`
+### Bước 3. Policy cho `INSERT`
 
 ```sql
 create policy "Users can insert their own profile"
@@ -72,7 +62,7 @@ for insert
 with check ( auth.uid() = id );
 ```
 
-### 🔹 Bước 4. Policy cho `UPDATE`
+### Bước 4. Policy cho `UPDATE`
 
 ```sql
 create policy "Users can update their own profile"
@@ -83,8 +73,6 @@ with check ( auth.uid() = id );
 ```
 
 > 🔎 **`using`** kiểm tra khi _đọc record_, còn **`with check`** kiểm tra khi _ghi/insert/update_.
-
----
 
 ## 3.4 🧩 Các hàm helper trong Supabase RLS
 
@@ -104,11 +92,9 @@ for select
 using ( auth.jwt()->>'role' = 'admin' );
 ```
 
----
-
 ## 3.5 🏢 Thiết kế Authorization cho Multi-tenant
 
-### 🧩 Mô hình dữ liệu mẫu
+### Mô hình dữ liệu mẫu
 
 ```sql
 create table organizations (
@@ -125,7 +111,7 @@ create table members (
 );
 ```
 
-### 🧩 Policy cho bảng `organizations`
+### Policy cho bảng `organizations`
 
 ```sql
 alter table organizations enable row level security;
@@ -140,7 +126,7 @@ using (
 );
 ```
 
-### 🧩 Policy cho bảng `members`
+### Policy cho bảng `members`
 
 ```sql
 alter table members enable row level security;
@@ -157,11 +143,9 @@ using (
 
 > 👉 Điều này giúp user chỉ thấy data của tổ chức mình, không bao giờ thấy của tổ chức khác — **ngay cả khi hacker đổi ID**.
 
----
-
 ## 3.6 🧩 Sử dụng JWT Metadata cho Role & Org
 
-### 🔹 Khi user đăng nhập, JWT chứa metadata
+### Khi user đăng nhập, JWT chứa metadata
 
 ```json
 {
@@ -172,7 +156,7 @@ using (
 }
 ```
 
-### 🔹 Policy dùng metadata
+### Policy dùng metadata
 
 ```sql
 create policy "Admins can view all org data"
@@ -184,8 +168,6 @@ using (
 ```
 
 > ✅ Dữ liệu role/org_id được thêm bằng `updateUser({ data: { role, organization_id } })` trong Supabase Auth.
-
----
 
 ## 3.7 🧩 Role-based Policy tổng hợp (RBAC)
 
@@ -213,11 +195,9 @@ on tasks for select
 using ( visibility = 'public' );
 ```
 
----
-
 ## 3.8 🧮 Kiểm thử Policy
 
-### 🔹 Cách test nhanh bằng SQL
+### Cách test nhanh bằng SQL
 
 ```sql
 -- Giả lập user login
@@ -229,12 +209,10 @@ set jwt.claims.sub = 'user_123';
 select * from tasks;
 ```
 
-### 🔹 Kiểm tra qua Supabase Dashboard → SQL Editor
+### Kiểm tra qua Supabase Dashboard → SQL Editor
 
 - Chạy query như trên với `Run as Authenticated User`.
 - Thử thay JWT metadata khác nhau để xác minh kết quả.
-
----
 
 ## 3.9 🧩 Dùng Policy kết hợp Trigger (Audit Log)
 
@@ -263,8 +241,6 @@ after select or insert or update or delete on tasks
 for each statement execute procedure log_task_access();
 ```
 
----
-
 ## 3.10 🧭 Checklist hoàn thành
 
 - [ ] Biết bật/tắt RLS và viết policy cơ bản.
@@ -273,8 +249,6 @@ for each statement execute procedure log_task_access();
 - [ ] Áp dụng RBAC (admin/member/guest) ở tầng DB.
 - [ ] Test policy bằng SQL hoặc Supabase Dashboard.
 - [ ] Hiểu cách gắn metadata vào JWT để policy linh hoạt.
-
----
 
 ## 3.11 💡 Best Practices nội bộ
 
@@ -289,16 +263,12 @@ for each statement execute procedure log_task_access();
 9. **Luôn review chính sách “superuser” (admin)** để tránh leak toàn bộ data.
 10. **Dùng comment trong SQL** để mô tả ý nghĩa mỗi policy (hữu ích khi onboarding dev mới).
 
----
-
 ## 3.12 📚 Tài liệu tham khảo
 
 - [Supabase RLS Guide](https://supabase.com/docs/guides/auth/row-level-security)
 - [PostgreSQL Row-Level Security Docs](https://www.postgresql.org/docs/current/ddl-rowsecurity.html)
 - [Supabase Auth JWT Custom Claims](https://supabase.com/docs/guides/auth/auth-jwt)
 - [Example: Multi-tenant SaaS with RLS](https://supabase.com/docs/guides/auth/row-level-security#multi-tenant-rls)
-
----
 
 ## 3.13 🧾 Output sau phần này
 

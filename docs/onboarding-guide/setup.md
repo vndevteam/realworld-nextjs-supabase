@@ -15,13 +15,13 @@ After completing this section, developers will be able to:
 
 ### Required Software
 
-| Tool                        | Purpose                               | Installation                                              |
-| --------------------------- | ------------------------------------- | --------------------------------------------------------- |
-| **Node.js ≥ 20**            | Run Next.js and CLI                   | [nodejs.org](https://nodejs.org)                          |
-| **pnpm** _(recommended)_    | Package manager faster than npm       | `npm i -g pnpm`                                           |
-| **Supabase CLI**            | Manage projects, run local DB, deploy | [Supabase CLI Docs](https://supabase.com/docs/guides/cli) |
-| **Docker Desktop / Podman** | Supabase local runs via containers    | [docker.com](https://www.docker.com/) / [podman.io](https://podman.io/)                     |
-| **VSCode**                  | Main IDE                              | [code.visualstudio.com](https://code.visualstudio.com/)   |
+| Tool                        | Purpose                               | Installation                                                            |
+| --------------------------- | ------------------------------------- | ----------------------------------------------------------------------- |
+| **Node.js ≥ 20**            | Run Next.js and CLI                   | [nodejs.org](https://nodejs.org)                                        |
+| **pnpm** _(recommended)_    | Package manager faster than npm       | `npm i -g pnpm`                                                         |
+| **Supabase CLI**            | Manage projects, run local DB, deploy | [Supabase CLI Docs](https://supabase.com/docs/guides/cli)               |
+| **Docker Desktop / Podman** | Supabase local runs via containers    | [docker.com](https://www.docker.com/) / [podman.io](https://podman.io/) |
+| **VSCode**                  | Main IDE                              | [code.visualstudio.com](https://code.visualstudio.com/)                 |
 
 ### Recommended VSCode Extensions
 
@@ -76,6 +76,7 @@ supabase start
 > - API URL: `http://localhost:54321`
 > - DB: `localhost:54322`
 > - Studio (local dashboard): `http://localhost:54323`
+> - Database credentials: `postgres` / `postgres` _(default Supabase local containers)_
 
 ### Step 4. Login to CLI
 
@@ -129,6 +130,8 @@ export const supabase = createClient(
 );
 ```
 
+> 💡 `createClient` is a helper function to create a Supabase client. It is used to connect to the Supabase database in client-side. You can also use `createBrowserClient` or `createServerClient` from `@supabase/ssr` to create a client (recommended for Next.js App Router).
+
 ### Step 5. Test Connection
 
 `app/page.tsx`
@@ -136,15 +139,16 @@ export const supabase = createClient(
 ```tsx
 "use client";
 import { useEffect, useState } from "react";
-import { supabase } from "@/lib/supabaseClient";
+import { createClient } from "@/lib/supabaseClient";
 
 export default function Home() {
-  const [users, setUsers] = useState<any[]>([]);
+  const [profiles, setProfiles] = useState<any[]>([]);
+  const supabase = createClient();
 
   useEffect(() => {
     const fetchData = async () => {
-      const { data } = await supabase.from("users").select("*");
-      setUsers(data || []);
+      const { data } = await supabase.from("profiles").select("*");
+      setProfiles(data || []);
     };
     fetchData();
   }, []);
@@ -152,13 +156,13 @@ export default function Home() {
   return (
     <main>
       <h1>Hello Supabase</h1>
-      <pre>{JSON.stringify(users, null, 2)}</pre>
+      <pre>{JSON.stringify(profiles, null, 2)}</pre>
     </main>
   );
 }
 ```
 
-> 👉 If you see error `relation "users" does not exist`, that's normal — we'll create the table in Part 4 (Database).
+> 👉 If you see `relation "profiles" does not exist`, that's expected before Part 2 — we'll create the `profiles` table in Authentication (section 2.5) and revisit DB in Part 4.
 
 ## 1.5 🗂️ Standard Internal Directory Structure
 
@@ -186,8 +190,8 @@ export default function Home() {
 - Migration names should follow format:
 
   ```bash
-  20251105T_create_users_table.sql
-  20251105T_add_rls_policy_users.sql
+  20251105120000_create_users_table.sql
+  20251105120500_add_rls_policy_users.sql
   ```
 
 - Folder `/scripts` should have:
@@ -219,28 +223,28 @@ export default function Home() {
    File `.github/workflows/check.yml`:
 
    ```yaml
-    name: Check Project Setup
+   name: Check Project Setup
 
-    on:
-      push:
-        branches: [main]
+   on:
+     push:
+       branches: [main]
 
-    jobs:
-      build:
-        runs-on: ubuntu-latest
-        steps:
-          - uses: actions/checkout@v5
-          - name: Setup Node
-            uses: actions/setup-node@v6
-            with:
-              node-version: 20
-          - uses: pnpm/action-setup@v4
-            with:
-              version: 10.18.1
-          - run: pnpm install
-            working-directory: web
-          - run: pnpm build
-            working-directory: web
+   jobs:
+     build:
+       runs-on: ubuntu-latest
+       steps:
+         - uses: actions/checkout@v5
+         - name: Setup Node
+           uses: actions/setup-node@v6
+           with:
+             node-version: 20
+         - uses: pnpm/action-setup@v4
+           with:
+             version: 10.18.1
+         - run: pnpm install
+           working-directory: web
+         - run: pnpm build
+           working-directory: web
    ```
 
    > Ensures project always builds after each commit.
@@ -274,6 +278,7 @@ export default function Home() {
 - [Supabase Local Development](https://supabase.com/docs/guides/cli/local-development)
 - [Next.js App Router Docs](https://nextjs.org/docs/app)
 - [Supabase SDK Reference](https://supabase.com/docs/reference/javascript/start)
+- [Supabase Next Demo](https://github.com/lamngockhuong/supabase-next-demo)
 
 ## 1.10 🧾 Output After This Section
 

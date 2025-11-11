@@ -2,8 +2,6 @@
 
 > Mục tiêu: nắm được toàn bộ quy trình đăng ký – đăng nhập – quản lý session – bảo vệ route trong Next.js + Supabase.
 
----
-
 ## 2.1 🎯 Mục tiêu học phần
 
 Sau khi hoàn thành phần này, dev có thể:
@@ -14,11 +12,9 @@ Sau khi hoàn thành phần này, dev có thể:
 - Bảo vệ routes bằng middleware (server-side).
 - Gắn user profile và metadata vào database.
 
----
-
 ## 2.2 🔍 Tổng quan về Supabase Auth
 
-### 💡 Kiến trúc Auth
+### Kiến trúc Auth
 
 Supabase Auth dựa trên:
 
@@ -36,9 +32,7 @@ Frontend->>Database: Gửi query + JWT trong header
 Database->>Policy: Kiểm tra `auth.uid()` → Cho phép / Từ chối
 ```
 
----
-
-### 🔑 Các khái niệm quan trọng
+### Các khái niệm quan trọng
 
 | Khái niệm                    | Giải thích                                                                   |
 | ---------------------------- | ---------------------------------------------------------------------------- |
@@ -47,11 +41,9 @@ Database->>Policy: Kiểm tra `auth.uid()` → Cho phép / Từ chối
 | **JWT Token**                | Chứa thông tin user (id, role, email, metadata). Được gửi trong mọi request. |
 | **RLS (Row-Level Security)** | Policy trong DB kiểm tra `auth.uid()` để xác định quyền truy cập.            |
 
----
-
 ## 2.3 🧱 Thiết lập Auth trong Next.js
 
-### 🔹 Cài thêm packages
+### Cài thêm packages
 
 ```bash
 pnpm add @supabase/ssr
@@ -61,9 +53,11 @@ pnpm add @supabase/ssr
 
 ---
 
-### 🔹 Cấu trúc helper chuẩn nội bộ
+### Cấu trúc helper chuẩn nội bộ
 
 #### `/lib/supabaseClient.ts`
+
+Cập nhật `createClient` để sử dụng `createBrowserClient` từ `@supabase/ssr`.
 
 ```ts
 import { createBrowserClient } from "@supabase/ssr";
@@ -81,34 +75,49 @@ export const createClient = () =>
 import { createServerClient } from "@supabase/ssr";
 import { cookies } from "next/headers";
 
-export const createServer = () => {
-  const cookieStore = cookies();
+export async function createServer() {
+  const cookieStore = await cookies();
+
   return createServerClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-    { cookies: { get: (name) => cookieStore.get(name)?.value } }
+    {
+      cookies: {
+        getAll() {
+          return cookieStore.getAll();
+        },
+        setAll(cookiesToSet) {
+          try {
+            cookiesToSet.forEach(({ name, value, options }) =>
+              cookieStore.set(name, value, options)
+            );
+          } catch {
+            // Phương thức `setAll` được gọi từ một Server Component.
+            // Điều này có thể bỏ qua nếu bạn có middleware để làm mới session của user.
+          }
+        },
+      },
+    }
   );
-};
+}
 ```
 
----
-
-### 🔹 Middleware bảo vệ route
+### Middleware bảo vệ route
 
 `/middleware.ts`
 
 ```ts
-import { NextResponse } from "next/server";
-import { createServer } from "./lib/supabaseServer";
+import { NextResponse, type NextRequest } from "next/server";
+import { createServer } from "@/lib/supabaseServer";
 
-export async function middleware(req) {
+export async function middleware(req: NextRequest) {
   const res = NextResponse.next();
-  const supabase = createServer();
+  const supabase = await createServer();
   const { data } = await supabase.auth.getSession();
 
   // Nếu không có session → redirect đến trang đăng nhập
   if (!data.session && req.nextUrl.pathname.startsWith("/dashboard")) {
-    return NextResponse.redirect(new URL("/login", req.url));
+    return NextResponse.redirect(new URL("/signin", req.url));
   }
   return res;
 }
@@ -118,11 +127,11 @@ export const config = {
 };
 ```
 
----
-
 ## 2.4 🧭 Luồng đăng nhập / đăng ký / đăng xuất
 
-### 1️⃣ Đăng ký (Sign up)
+### Đăng ký (Sign up)
+
+`/app/signup/page.tsx`
 
 ```ts
 "use client";
@@ -155,20 +164,23 @@ export default function Signup() {
 }
 ```
 
----
+### Đăng nhập (Sign in)
 
-### 2️⃣ Đăng nhập (Sign in)
+`/app/signin/page.tsx`
 
 ```ts
 "use client";
+import { useState } from "react";
 import { createClient } from "@/lib/supabaseClient";
 import { useRouter } from "next/navigation";
 
 export default function Login() {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const router = useRouter();
   const supabase = createClient();
 
-  const handleLogin = async (email, password) => {
+  const handleLogin = async (email: string, password: string) => {
     const { error } = await supabase.auth.signInWithPassword({
       email,
       password,
@@ -176,12 +188,25 @@ export default function Login() {
     if (error) alert(error.message);
     else router.push("/dashboard");
   };
+
+  return (
+    <div>
+      <h2>Sign in</h2>
+      <input onChange={(e) => setEmail(e.target.value)} placeholder="Email" />
+      <input
+        type="password"
+        onChange={(e) => setPassword(e.target.value)}
+        placeholder="Password"
+      />
+      <button onClick={() => handleLogin(email, password)}>Login</button>
+    </div>
+  );
 }
 ```
 
----
+### Đăng xuất (Sign out)
 
-### 3️⃣ Đăng xuất (Sign out)
+`/app/components/LogoutButton.tsx`
 
 ```ts
 "use client";
@@ -194,23 +219,21 @@ export default function LogoutButton() {
 
   const handleLogout = async () => {
     await supabase.auth.signOut();
-    router.push("/login");
+    router.push("/signin");
   };
 
   return <button onClick={handleLogout}>Logout</button>;
 }
 ```
 
----
-
 ## 2.5 🧩 Đồng bộ Profile User
 
 Sau khi đăng ký, Supabase chỉ có record trong `auth.users`.
 Bạn nên sync thêm bảng `public.profiles` để lưu metadata hoặc thông tin bổ sung.
 
-### 🔹 SQL migration
+### SQL migration
 
-`/supabase/migrations/20251105T_create_profiles_table.sql`
+`/supabase/migrations/20251105120000_create_profiles_table.sql`
 
 ```sql
 create table profiles (
@@ -230,11 +253,9 @@ on profiles for insert
 with check ( auth.uid() = id );
 ```
 
----
+### Trigger tự động tạo profile
 
-### 🔹 Trigger tự động tạo profile
-
-`/supabase/migrations/20251105T_trigger_sync_profile.sql`
+`/supabase/migrations/20251105120100_trigger_sync_profile.sql`
 
 ```sql
 create function public.handle_new_user()
@@ -251,8 +272,6 @@ for each row execute procedure public.handle_new_user();
 ```
 
 > ✅ Khi user đăng ký → trigger tự tạo profile tương ứng.
-
----
 
 ## 2.6 🧩 Metadata & Claims
 
@@ -277,8 +296,6 @@ using (
 );
 ```
 
----
-
 ## 2.7 🛡️ Bảo vệ route (Protected Routes)
 
 - Dùng **middleware.ts** (server-side) để redirect nếu chưa login.
@@ -297,8 +314,6 @@ export default async function DashboardPage() {
   return <div>Welcome, {data.user.email}</div>;
 }
 ```
-
----
 
 ## 2.8 🧭 Password Reset & Magic Link
 
@@ -320,8 +335,6 @@ await supabase.auth.signInWithOtp({
 
 > Khi người dùng bấm link trong email → Supabase sẽ tự tạo session và redirect về FE.
 
----
-
 ## 2.9 ✅ Checklist hoàn thành
 
 - [ ] Hiểu rõ cơ chế Auth và JWT của Supabase
@@ -330,8 +343,6 @@ await supabase.auth.signInWithOtp({
 - [ ] Có bảng `profiles` đồng bộ user metadata
 - [ ] Hiểu cách thêm custom claim vào JWT
 - [ ] Bảo vệ được trang `/dashboard`
-
----
 
 ## 2.10 💡 Best Practices nội bộ
 
@@ -343,16 +354,12 @@ await supabase.auth.signInWithOtp({
 6. **Tách rõ client/server Supabase client** (`createClient` vs `createServer`).
 7. **Luôn test logout & expired session** khi triển khai auth.
 
----
-
 ## 2.11 📚 Tài liệu tham khảo
 
 - [Supabase Auth Docs](https://supabase.com/docs/guides/auth)
 - [Next.js App Router + Supabase Auth](https://supabase.com/docs/guides/auth/server-side/nextjs)
-- [Managing Sessions with @supabase/ssr](https://supabase.com/docs/guides/auth/server-side/nextjs#using-the-supabase-ssr-package)
-- [Postgres RLS Docs](https://supabase.com/docs/guides/auth/row-level-security)
-
----
+- [Postgres RLS Docs](https://supabase.com/docs/guides/database/postgres/row-level-security)
+- [Supabase Next Demo](https://github.com/lamngockhuong/supabase-next-demo)
 
 ## 2.12 🧾 Output sau phần này
 
