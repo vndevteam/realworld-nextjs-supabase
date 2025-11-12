@@ -56,6 +56,8 @@ export default defineConfig({
     plugins: [ViteImageOptimizer({})],
   },
   head: [
+    // Google Site Verification
+    ["meta", { name: "google-site-verification", content: "8r_1sMHCmkVXpbu7cpiLGfcjDMJngxHXj7Cy6P9Y6Mg" }],
     // Favicon configurations
     ["link", { rel: "shortcut icon", href: `${siteBase}favicon.ico`, sizes: "48x48" }],
     ["link", { rel: "icon", href: `${siteBase}favicon.svg`, type: "image/svg+xml" }],
