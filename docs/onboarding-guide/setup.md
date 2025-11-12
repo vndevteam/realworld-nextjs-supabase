@@ -1,4 +1,4 @@
-# 🧱 Part 1. Setup & Environment Preparation
+# Part 1. Setup & Environment Preparation
 
 > Goal: Set up a standard internal dev environment, run Supabase locally, Next.js frontend, and connect the two.
 

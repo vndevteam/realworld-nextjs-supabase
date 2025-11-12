@@ -1,4 +1,4 @@
-# 📚 Part 14. References
+# Part 14. References
 
 > Goal: Provide catalog of official resources and extended practices, helping dev teams maintain updated knowledge, best practices, and technology trends.
 

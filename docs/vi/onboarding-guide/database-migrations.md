@@ -1,8 +1,6 @@
-# 💾 Phần 4. Database & Migrations
+# Phần 4. Database & Migrations
 
 > Mục tiêu: nắm vững cách thiết kế schema, viết migration chuẩn nội bộ, seed dữ liệu, và quản lý thay đổi DB xuyên suốt môi trường.
-
----
 
 ## 4.1 🎯 Mục tiêu học phần
 
@@ -14,18 +12,16 @@ Sau khi hoàn thành phần này, dev có thể:
 - Tối ưu hiệu năng qua index, enum, constraint.
 - Giữ version schema thống nhất giữa dev/staging/prod.
 
----
-
 ## 4.2 🧠 Kiến thức nền tảng
 
-### 💡 Vì sao cần migrations?
+### Vì sao cần migrations?
 
 - **Tính đồng bộ**: mọi dev đều có schema giống nhau.
 - **Version control**: dễ rollback khi có lỗi.
 - **Automation**: CI/CD có thể apply migration tự động.
 - **Lịch sử thay đổi rõ ràng**: mỗi thay đổi DB có commit trace.
 
-### 💡 Cấu trúc cơ bản của migration
+### Cấu trúc cơ bản của migration
 
 ```sql
 -- migration file ví dụ
@@ -43,11 +39,9 @@ alter table tasks enable row level security;
 comment on table tasks is 'Danh sách công việc của người dùng';
 ```
 
----
-
 ## 4.3 🧩 Tạo migration bằng Supabase CLI
 
-### 🔹 Khởi tạo migration mới
+### Khởi tạo migration mới
 
 ```bash
 supabase migration new create_tasks_table
@@ -55,16 +49,14 @@ supabase migration new create_tasks_table
 
 CLI sẽ tạo file:
 
-```
+```bash
 /supabase/migrations/
   └── 20251105T_create_tasks_table.sql
 ```
 
 Bạn chỉnh SQL trực tiếp trong file này.
 
----
-
-### 🔹 Áp dụng migration local
+### Áp dụng migration local
 
 ```bash
 supabase db reset
@@ -75,9 +67,7 @@ supabase db push
 - `db reset`: xóa DB local, tạo lại toàn bộ schema + seed.
 - `db push`: apply migration mới mà không xóa dữ liệu.
 
----
-
-### 🔹 Kiểm tra trạng thái migration
+### Kiểm tra trạng thái migration
 
 ```bash
 supabase migration list
@@ -85,13 +75,11 @@ supabase migration list
 
 > Hiển thị danh sách migration đã chạy / pending / lỗi.
 
----
-
 ## 4.4 🧱 Thiết kế schema cơ bản (chuẩn nội bộ)
 
 Dưới đây là ví dụ **schema gốc** dùng xuyên suốt tài liệu (ứng dụng “Subscription Manager”).
 
-### 🔹 Tạo bảng `subscriptions`
+### Tạo bảng `subscriptions`
 
 ```sql
 create table subscriptions (
@@ -108,7 +96,7 @@ comment on table subscriptions is 'Thông tin các dịch vụ đăng ký của 
 alter table subscriptions enable row level security;
 ```
 
-### 🔹 Policy cơ bản
+### Policy cơ bản
 
 ```sql
 create policy "Users can view own subscriptions"
@@ -120,11 +108,9 @@ on subscriptions for insert
 with check ( auth.uid() = user_id );
 ```
 
----
-
 ## 4.5 🧾 Index, Constraint, Enum
 
-### 🔹 Index
+### Index
 
 ```sql
 create index idx_subscriptions_user_id on subscriptions(user_id);
@@ -133,7 +119,7 @@ create index idx_subscriptions_renew_date on subscriptions(renew_date);
 
 > Giúp tối ưu truy vấn khi lọc theo user hoặc thời gian.
 
-### 🔹 Enum type
+### Enum type
 
 ```sql
 create type subscription_status as enum ('active', 'expired', 'cancelled');
@@ -141,18 +127,16 @@ create type subscription_status as enum ('active', 'expired', 'cancelled');
 alter table subscriptions add column status subscription_status default 'active';
 ```
 
-### 🔹 Constraint
+### Constraint
 
 ```sql
 alter table subscriptions
 add constraint valid_price check (price >= 0);
 ```
 
----
-
 ## 4.6 🧪 Seed dữ liệu local
 
-### 🔹 Tạo file `/supabase/seed.sql`
+### Tạo file `/supabase/seed.sql`
 
 ```sql
 insert into subscriptions (user_id, service_name, price, renew_date)
@@ -161,15 +145,13 @@ values
   ('00000000-0000-0000-0000-000000000001', 'Spotify', 9.99, '2025-12-15');
 ```
 
-### 🔹 Apply seed
+### Apply seed
 
 ```bash
 supabase db reset --seed
 ```
 
 > CLI sẽ chạy toàn bộ migration rồi chạy `seed.sql` để có dữ liệu test.
-
----
 
 ## 4.7 🧩 Migration workflow chuẩn nội bộ
 
@@ -183,8 +165,6 @@ E --> F[CI/CD apply migration trên staging]
 F --> G[Deploy production sau review]
 ```
 
----
-
 ## 4.8 🧭 Quy ước đặt tên & tổ chức file
 
 | Loại file | Định dạng tên                    | Ví dụ                                |
@@ -195,17 +175,15 @@ F --> G[Deploy production sau review]
 
 **Best Practice:** mỗi thay đổi DB → 1 migration riêng biệt, không gộp nhiều bảng trong 1 file.
 
----
-
 ## 4.9 ⚙️ Đồng bộ schema giữa môi trường
 
-### 🔹 Export schema hiện tại
+### Export schema hiện tại
 
 ```bash
 supabase db dump --local > schema.sql
 ```
 
-### 🔹 Apply schema cho môi trường khác
+### Apply schema cho môi trường khác
 
 ```bash
 supabase db push --db-url postgres://user:pass@host:port/dbname
@@ -213,11 +191,9 @@ supabase db push --db-url postgres://user:pass@host:port/dbname
 
 > Giúp đảm bảo staging/production luôn cùng version.
 
----
-
 ## 4.10 🧩 Tích hợp migration vào CI/CD
 
-### 🔹 GitHub Actions (ví dụ)
+### GitHub Actions (ví dụ)
 
 `.github/workflows/db-migration.yml`
 
@@ -243,8 +219,6 @@ jobs:
         run: supabase db push
 ```
 
----
-
 ## 4.11 🧮 Performance & Maintainability Tips
 
 | Chủ đề          | Best Practice                                            |
@@ -257,8 +231,6 @@ jobs:
 | **Soft delete** | Thêm `deleted_at` thay vì xóa vật lý                     |
 | **Audit log**   | Tạo trigger ghi log khi cần trace hành động              |
 
----
-
 ## 4.12 🧰 Công cụ hỗ trợ kiểm tra schema
 
 - **Supabase Studio → Table Editor / SQL Editor**
@@ -269,8 +241,6 @@ jobs:
 
 - **VSCode extension “Supabase”**: xem trực tiếp schema, run query nhanh.
 
----
-
 ## 4.13 🧭 Checklist hoàn thành
 
 - [ ] Biết tạo và áp dụng migration bằng CLI.
@@ -279,8 +249,6 @@ jobs:
 - [ ] Biết export & đồng bộ schema giữa môi trường.
 - [ ] Hiểu workflow apply migration trong CI/CD.
 - [ ] Giữ được version schema đồng bộ cho toàn team.
-
----
 
 ## 4.14 💡 Best Practices nội bộ
 
@@ -293,16 +261,12 @@ jobs:
 7. **Luôn tạo index cho foreign key**, nhất là khi dùng RLS subquery.
 8. **Tách policy vào file riêng**, để dễ track quyền và rollback.
 
----
-
 ## 4.15 📚 Tài liệu tham khảo
 
 - [Supabase CLI - Database](https://supabase.com/docs/guides/cli/managing-environments)
 - [PostgreSQL Schema Design](https://www.postgresql.org/docs/current/ddl.html)
 - [Supabase Migration Guide](https://supabase.com/docs/guides/database/managing-migrations)
 - [Supabase db push & db reset Docs](https://supabase.com/docs/reference/cli/supabase-db-push)
-
----
 
 ## 4.16 🧾 Output sau phần này
 

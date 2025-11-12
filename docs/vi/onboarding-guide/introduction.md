@@ -1,4 +1,4 @@
-# 🏁 Phần 0. Giới thiệu & Tổng quan
+# Phần 0. Giới thiệu & Tổng quan
 
 > Mục đích: giúp dev mới hiểu “Supabase là gì”, “vì sao chọn stack này”, và “lộ trình học ra sao” trước khi đi vào kỹ thuật cụ thể.
 

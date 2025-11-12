@@ -1,4 +1,4 @@
-# 🔑 Phần 3. Authorization (RLS & Policy)
+# Phần 3. Authorization (RLS & Policy)
 
 > Mục tiêu: hiểu rõ cách Supabase dùng RLS để bảo vệ dữ liệu, viết được policy an toàn cho từng bảng, và gắn được metadata (role, org_id) từ JWT vào policy.
 

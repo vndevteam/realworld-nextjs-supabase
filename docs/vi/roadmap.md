@@ -22,8 +22,6 @@ Mặc định là bạn đã rành Next.js + Postgres + backend truyền thống
 
 > Output: 1 README cho “sample app” – sau này dev mới chỉ cần đọc + run là học.
 
----
-
 ### Phase 1 – Supabase Fundamentals (1–2 ngày)
 
 Mục tiêu: hiểu Supabase như “Postgres + Auth + Realtime + Storage + Edge Functions”, không xem nó như “black-box BaaS”.
@@ -57,8 +55,6 @@ Nội dung:
 >
 > - 1 tài liệu nội bộ: “Supabase Overview cho dev mới” (giới thiệu thành phần + hình kiến trúc).
 > - 1 file SQL migration chuẩn (để sau dùng trong CI/CD).
-
----
 
 ### Phase 2 – Supabase + Next.js Integration (1–3 ngày)
 
@@ -95,8 +91,6 @@ Mục tiêu: thành thạo **App Router + server components + Supabase**.
 >
 > - 1 “Supabase + Next.js Starter” repo nội bộ.
 > - Tài liệu “Coding convention: cách gọi Supabase trong Next.js (server/client)”.
-
----
 
 ### Phase 3 – Batch job, background work & advanced feature (2–4 ngày)
 
@@ -142,8 +136,6 @@ Mục tiêu: trả lời các câu “bài toán truyền thống” theo style 
 >   - Cron cleanup data hằng đêm.
 >   - Edge Function + Cron gửi email nhắc hạn.
 
----
-
 ### Phase 4 – DevOps, CI/CD & môi trường (2–3 ngày)
 
 Mục tiêu: hiểu **Supabase CLI, migration, test, deploy**.
@@ -172,8 +164,6 @@ Mục tiêu: hiểu **Supabase CLI, migration, test, deploy**.
 >
 > - Tài liệu “CI/CD cho Supabase + Next.js” với YAML mẫu GitHub Actions.
 > - Checklist khi tạo môi trường mới (dev/stg/prod).
-
----
 
 ## 2. So sánh Supabase + Next.js vs Backend truyền thống
 
@@ -212,8 +202,6 @@ Giả sử “truyền thống” = NestJS/Express + Postgres, deploy trên AWS/
   - Domain phức tạp, long-running computation, heavy integration với hệ thống nội bộ/on-prem.
   - Cần full control infra / multi-region / vendor-neutral.
 
----
-
 ### 2.2. Về DevOps & vận hành
 
 **Supabase**
@@ -238,8 +226,6 @@ Giả sử “truyền thống” = NestJS/Express + Postgres, deploy trên AWS/
 - Tốn effort nhưng:
 
   - Kiểm soát chi tiết infra, tuning performance & cost.
-
----
 
 ## 3. Khung tài liệu Best Practices + các bài toán nên cover
 
@@ -339,8 +325,6 @@ Bạn có thể thiết kế **1 bộ tài liệu nội bộ** với structure k
     - Giảm round-trip (ưu tiên RPC/Edge Functions cho logic phức tạp).
     - Gợi ý phân bổ project/môi trường để tối ưu cost.
 
----
-
 ### 3.2. Những bài toán “truyền thống” nên có example Supabase
 
 Gợi ý các bài toán bạn nên implement song song **2 bản** (Supabase + Next.js vs backend truyền thống) để so effort:
@@ -357,8 +341,6 @@ Mỗi bài toán, bạn có thể làm 1 bảng nhỏ so sánh:
 - Cột 1: Cần làm gì trong backend truyền thống (NestJS + RDS + S3 + cron)
 - Cột 2: Cần làm gì với Supabase (feature nào, config gì, code khoảng bao nhiêu)
   => Sau vài bài, bạn sẽ có **“Effort Comparison”** rất dễ training dev mới.
-
----
 
 [1]: https://supabase.com/docs/guides/getting-started?utm_source=chatgpt.com "Getting Started | Supabase Docs"
 [2]: https://supabase.com/docs?utm_source=chatgpt.com "Supabase Docs"

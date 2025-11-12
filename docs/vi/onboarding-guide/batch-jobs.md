@@ -1,8 +1,6 @@
-# ⏰ Phần 6. Batch Job & Background Tasks
+# Phần 6. Batch Job & Background Tasks
 
 > Mục tiêu: nắm được cách chạy các tác vụ định kỳ (cron), xử lý nền (queue), và thực thi job phức tạp bằng Supabase Edge Functions hoặc SQL.
-
----
 
 ## 6.1 🎯 Mục tiêu học phần
 
@@ -18,8 +16,6 @@ Sau khi hoàn thành phần này, dev có thể:
 - Viết và debug Edge Function cho background tasks.
 - Giữ job chạy an toàn, quan sát và log được.
 
----
-
 ## 6.2 🧩 Các lựa chọn batch job trong Supabase
 
 | Loại                     | Dành cho                | Ưu điểm                  | Hạn chế                  |
@@ -34,19 +30,17 @@ Sau khi hoàn thành phần này, dev có thể:
 > - Nếu _gọi API ngoài / gửi email / xử lý file_ → **Edge Function + Cron**
 > - Nếu _job lớn, nhiều tác vụ song song_ → **pgmq**
 
----
-
 ## 6.3 ⚙️ 1️⃣ Batch job với `pg_cron` (SQL scheduler)
 
 `pg_cron` là PostgreSQL extension được Supabase bật sẵn.
 
-### 🔹 Bật extension (nếu chưa có)
+### Bật extension (nếu chưa có)
 
 ```sql
 create extension if not exists pg_cron;
 ```
 
-### 🔹 Tạo job định kỳ (cleanup)
+### Tạo job định kỳ (cleanup)
 
 ```sql
 select cron.schedule(
@@ -58,13 +52,13 @@ select cron.schedule(
 );
 ```
 
-### 🔹 Xem danh sách job
+### Xem danh sách job
 
 ```sql
 select * from cron.job;
 ```
 
-### 🔹 Xem lịch sử job
+### Xem lịch sử job
 
 ```sql
 select * from cron.job_run_details order by runid desc limit 10;
@@ -72,9 +66,7 @@ select * from cron.job_run_details order by runid desc limit 10;
 
 > 📝 Supabase sẽ tự chạy job này trong nền theo lịch cron.
 
----
-
-### 💡 Dạng cron schedule
+### Dạng cron schedule
 
 | Biểu thức      | Ý nghĩa               |
 | -------------- | --------------------- |
@@ -83,13 +75,11 @@ select * from cron.job_run_details order by runid desc limit 10;
 | `0 3 * * *`    | Hằng ngày lúc 3h sáng |
 | `*/15 * * * *` | Mỗi 15 phút           |
 
----
-
 ## 6.4 ⚡ 2️⃣ Edge Functions + Cron Scheduler
 
 Khi job cần **logic phức tạp hơn SQL** (ví dụ: gửi email, gọi API ngoài).
 
-### 🔹 Tạo Edge Function
+### Tạo Edge Function
 
 ```bash
 supabase functions new send-reminder
@@ -122,17 +112,13 @@ serve(async () => {
 });
 ```
 
----
-
-### 🔹 Deploy function
+### Deploy function
 
 ```bash
 supabase functions deploy send-reminder
 ```
 
----
-
-### 🔹 Tạo Cron gọi function
+### Tạo Cron gọi function
 
 ```sql
 select cron.schedule(
@@ -150,9 +136,7 @@ select cron.schedule(
 
 > 🧠 `pg_net` được Supabase dùng để gọi HTTP request trực tiếp trong DB.
 
----
-
-### 🔹 Log & Debug function
+### Log & Debug function
 
 ```bash
 supabase functions logs --name send-reminder
@@ -160,19 +144,17 @@ supabase functions logs --name send-reminder
 
 > Bạn sẽ thấy log của từng lần gọi cron job.
 
----
-
 ## 6.5 📬 3️⃣ Queue với `pgmq`
 
 Khi job cần retry, chia nhỏ task, hoặc xử lý theo hàng đợi.
 
-### 🔹 Bật extension
+### Bật extension
 
 ```sql
 create extension if not exists pgmq;
 ```
 
-### 🔹 Tạo queue và push message
+### Tạo queue và push message
 
 ```sql
 select pgmq.create('email_queue');
@@ -183,7 +165,7 @@ select pgmq.send('email_queue', jsonb_build_object(
 ));
 ```
 
-### 🔹 Consumer đọc queue (Edge Function)
+### Consumer đọc queue (Edge Function)
 
 `/supabase/functions/email-worker/index.ts`
 
@@ -213,7 +195,7 @@ serve(async () => {
 });
 ```
 
-### 🔹 Tạo cron gọi worker
+### Tạo cron gọi worker
 
 ```sql
 select cron.schedule(
@@ -227,8 +209,6 @@ select cron.schedule(
 
 > Worker chạy mỗi 5 phút, xử lý batch 5 message mỗi lần.
 
----
-
 ## 6.6 🧭 Use-case thực tế gợi ý
 
 | Use-case                         | Gợi ý triển khai        |
@@ -240,29 +220,25 @@ select cron.schedule(
 | Tự động hạ cờ trạng thái expired | pg_cron                 |
 | Retry khi job lỗi                | pgmq (retry queue)      |
 
----
-
 ## 6.7 📊 Monitoring & Debug
 
-### 🔹 Xem log job
+### Xem log job
 
 ```sql
 select * from cron.job_run_details order by start_time desc limit 5;
 ```
 
-### 🔹 Xem log Edge Function
+### Xem log Edge Function
 
 ```bash
 supabase functions logs --name send-reminder
 ```
 
-### 🔹 Debug queue
+### Debug queue
 
 ```sql
 select * from pgmq.read('email_queue', 10);
 ```
-
----
 
 ## 6.8 🧰 Quy ước nội bộ
 
@@ -273,8 +249,6 @@ select * from pgmq.read('email_queue', 10);
 | Log            | Luôn `console.log()` hoặc ghi vào bảng `job_log`               |
 | Idempotent     | Job phải có thể chạy lại mà không lỗi                          |
 | Alert          | Cron fail → gửi log đến Slack/Email (qua Edge Function)        |
-
----
 
 ## 6.9 🧾 Ví dụ: Job cleanup audit log cũ
 
@@ -290,8 +264,6 @@ select cron.schedule(
 );
 ```
 
----
-
 ## 6.10 🧭 Checklist hoàn thành
 
 - [ ] Biết chạy cron SQL bằng `pg_cron`.
@@ -300,8 +272,6 @@ select cron.schedule(
 - [ ] Gửi email / cleanup / sync job thành công.
 - [ ] Biết cách log & debug job run.
 - [ ] Áp dụng naming + logging chuẩn nội bộ.
-
----
 
 ## 6.11 💡 Best Practices nội bộ
 
@@ -316,16 +286,12 @@ select cron.schedule(
 9. **Trước khi deploy**: chạy `supabase functions logs --tail` để kiểm tra runtime.
 10. **Giới hạn retry** (với pgmq) để tránh job lặp vô hạn.
 
----
-
 ## 6.12 📚 Tài liệu tham khảo
 
 - [Supabase pg_cron Docs](https://supabase.com/docs/guides/database/extensions/pg-cron)
 - [Supabase Edge Functions Docs](https://supabase.com/docs/guides/functions)
 - [Supabase pgmq (Message Queue)](https://supabase.com/docs/guides/database/extensions/pgmq)
 - [Supabase net/http_post](https://supabase.com/docs/guides/database/extensions/pg-net)
-
----
 
 ## 6.13 🧾 Output sau phần này
 

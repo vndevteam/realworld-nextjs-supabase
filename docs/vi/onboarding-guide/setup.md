@@ -1,4 +1,4 @@
-# 🧱 Phần 1. Cài đặt & Chuẩn bị môi trường
+# Phần 1. Cài đặt & Chuẩn bị môi trường
 
 > Mục tiêu: thiết lập môi trường dev chuẩn nội bộ, chạy được Supabase local, Next.js frontend, và kết nối giữa hai bên.
 

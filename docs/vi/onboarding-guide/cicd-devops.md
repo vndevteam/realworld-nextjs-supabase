@@ -1,8 +1,6 @@
-# ⚙️ Phần 8. CI/CD & DevOps
+# Phần 8. CI/CD & DevOps
 
 > Mục tiêu: thiết lập quy trình CI/CD tự động cho Supabase và Next.js, quản lý nhiều môi trường (dev/staging/prod), và đảm bảo deploy an toàn, rollback dễ dàng.
-
----
 
 ## 8.1 🎯 Mục tiêu học phần
 
@@ -14,8 +12,6 @@ Sau khi hoàn thành phần này, dev có thể:
 - Hiểu cách giám sát, logging và rollback.
 - Biết tối ưu cost & DevOps effort cho dự án Supabase-first.
 
----
-
 ## 8.2 🧩 Kiến trúc CI/CD tổng quan
 
 ```mermaid
@@ -26,8 +22,6 @@ B -->|Step 2| D[Supabase CLI - db push / test / function deploy]
 B -->|Step 3| E[Next.js build & deploy to Vercel]
 E -->|Monitoring| F[Supabase Logs + Alerts]
 ```
-
----
 
 ## 8.3 ⚙️ Chuẩn bị CI/CD
 
@@ -50,8 +44,6 @@ E -->|Monitoring| F[Supabase Logs + Alerts]
 | `VERCEL_TOKEN`                                               | Token deploy Next.js           |
 | `VERCEL_ORG_ID` / `VERCEL_PROJECT_ID`                        | Từ dashboard Vercel            |
 | `NEXT_PUBLIC_SUPABASE_URL` / `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Cho FE build                   |
-
----
 
 ## 8.4 🧰 CI/CD pipeline mẫu
 
@@ -109,13 +101,11 @@ jobs:
 
 > 💡 `supabase functions deploy --all` sẽ tự động deploy tất cả function mới/updated.
 
----
-
 ## 8.5 🧩 Multi-environment setup (dev/staging/prod)
 
-### 📂 Cấu trúc môi trường
+### Cấu trúc môi trường
 
-```
+```bash
 .env.development
 .env.staging
 .env.production
@@ -137,8 +127,6 @@ env:
 ```
 
 > ✅ Tự động chọn project Supabase khác nhau theo branch (`staging` hoặc `main`).
-
----
 
 ## 8.6 🧱 Migration workflow (Production-safe)
 
@@ -170,8 +158,6 @@ E --> F[Prod migration run]
 
 > 🔐 **Luôn require review trước khi apply migration lên production.**
 
----
-
 ## 8.7 🧩 Deploy Edge Functions riêng biệt
 
 Khi bạn chỉ update function mà không thay đổi schema.
@@ -188,8 +174,6 @@ supabase functions deploy send-reminder
 ```
 
 > ✅ Giúp deploy nhanh hơn mà không ảnh hưởng DB migration.
-
----
 
 ## 8.8 🧠 Rollback strategy
 
@@ -210,8 +194,6 @@ supabase functions deploy send-reminder@<previous-version>
 
 > ✅ Giữ file function versioned trong Git giúp rollback nhanh.
 
----
-
 ## 8.9 🧭 Monitoring & Observability
 
 | Thành phần          | Cách theo dõi                         | Công cụ           |
@@ -221,8 +203,6 @@ supabase functions deploy send-reminder@<previous-version>
 | **Frontend deploy** | Dashboard Vercel / Cloudflare         | Web UI            |
 | **Error tracking**  | Sentry hoặc Logflare                  | Optional          |
 | **System alert**    | Email / Slack webhook                 | via Edge Function |
-
----
 
 ## 8.10 🧮 Backup & Disaster Recovery
 
@@ -240,8 +220,6 @@ supabase functions deploy send-reminder@<previous-version>
   ```
 
 - Luôn backup trước migration lớn hoặc xóa dữ liệu hàng loạt.
-
----
 
 ## 8.11 🧰 Local DevOps Utilities
 
@@ -265,8 +243,6 @@ docker system prune -f
 
 > Giúp dev dễ setup local, không phụ thuộc manual steps.
 
----
-
 ## 8.12 🧭 Checklist hoàn thành
 
 - [ ] Pipeline GitHub Actions hoạt động (build + migrate + deploy).
@@ -275,8 +251,6 @@ docker system prune -f
 - [ ] Function deploy được tự động hóa.
 - [ ] Có cách rollback migration & function.
 - [ ] Có log + alert cho job và function.
-
----
 
 ## 8.13 💡 Best Practices nội bộ
 
@@ -291,8 +265,6 @@ docker system prune -f
 9. **Ghi lại tất cả các job vào changelog CI/CD.**
 10. **Luôn có rollback script (migration + function).**
 
----
-
 ## 8.14 📚 Tài liệu tham khảo
 
 - [Supabase CLI – Managing Environments](https://supabase.com/docs/guides/cli/managing-environments)
@@ -300,8 +272,6 @@ docker system prune -f
 - [Supabase Functions Deploy](https://supabase.com/docs/reference/cli/supabase-functions-deploy)
 - [GitHub Actions Manual Approval](https://github.com/marketplace/actions/manual-approval)
 - [Vercel CLI Deploy Docs](https://vercel.com/docs/cli/deploy)
-
----
 
 ## 8.15 🧾 Output sau phần này
 

@@ -1,8 +1,6 @@
-# 🧩 Part 7. API & Integration Patterns
+# Part 7. API & Integration Patterns
 
 > Goal: Understand API integration patterns with Supabase, design appropriate API layers, and connect to external services securely, observably, and testably.
-
----
 
 ## 7.1 🎯 Learning Objectives
 
@@ -13,8 +11,6 @@ After completing this section, developers can:
 - Integrate **Webhooks (Stripe, Slack, Email)** into the system.
 - Implement **event-driven** pattern: trigger in DB → call Edge Function.
 - Write logs, retries, and secure API calls correctly.
-
----
 
 ## 7.2 🧠 API Integration Architecture Overview
 
@@ -28,8 +24,6 @@ A -->|Route Handler| F[Custom API Layer]
 ```
 
 > 🔍 Supabase allows you to **both read/write DB directly** and **trigger functions or webhooks** to extend to other systems.
-
----
 
 ## 7.3 ⚙️ 1️⃣ When to Call Supabase Directly from FE
 
@@ -58,8 +52,6 @@ export default function Profile() {
 
 ✅ Advantages: fast, concise, realtime.
 ⚠️ Disadvantages: no control over complex logic, hard to trace, tightly dependent on RLS.
-
----
 
 ## 7.4 ⚙️ 2️⃣ When to Use Intermediate API Layer (Route Handler)
 
@@ -105,8 +97,6 @@ export async function POST(req: Request) {
 - Lose realtime.
 - Must maintain intermediate layer (DevOps + CI).
 
----
-
 ## 7.5 ⚙️ 3️⃣ When to Use Edge Function
 
 **Suitable when:**
@@ -140,11 +130,9 @@ Deploy:
 supabase functions deploy notify-slack
 ```
 
----
-
 ## 7.6 🧩 4️⃣ Webhook from Supabase (Trigger → Edge Function)
 
-### 🔹 Create Trigger in DB
+### Create Trigger in DB
 
 ```sql
 create or replace function notify_new_invoice()
@@ -169,11 +157,9 @@ for each row execute function notify_new_invoice();
 
 > ✅ When invoice is inserted → trigger calls Slack function.
 
----
-
 ## 7.7 ⚡ 5️⃣ Integrate External Webhooks (Stripe, GitHub, etc.)
 
-### 🔹 Stripe Webhook Example
+### Stripe Webhook Example
 
 `app/api/stripe/route.ts`
 
@@ -213,8 +199,6 @@ export async function POST(req: Request) {
 
 > ⚠️ **Don't parse JSON before verifying signature** — Stripe requires raw body.
 
----
-
 ## 7.8 🧭 Event-driven Integration Pattern
 
 When the system becomes more complex, you should use the **Event → Function → Queue** pattern:
@@ -228,17 +212,15 @@ D --> E[Worker Function]
 E --> F[External API / Email]
 ```
 
-### 💡 Advantages
+### Advantages
 
 - Don't block user requests.
 - Have retry / logs.
 - Easy to extend when adding events.
 
----
-
 ## 7.9 🧠 Error Handling & Logging
 
-### 🔹 Log Request / Response
+### Log Request / Response
 
 ```ts
 try {
@@ -256,7 +238,7 @@ try {
 }
 ```
 
-### 🔹 `api_log` Table
+### `api_log` Table
 
 ```sql
 create table api_log (
@@ -267,8 +249,6 @@ create table api_log (
   created_at timestamptz default now()
 );
 ```
-
----
 
 ## 7.10 🧰 Security & Rate Limiting
 
@@ -289,8 +269,6 @@ create table api_log (
 4. **Hide sensitive endpoints** (place under `/api/internal/`) and protect with token header.
 5. **Log all API errors** to trace via Supabase Logs.
 
----
-
 ## 7.11 🧭 Completion Checklist
 
 - [ ] Know when to call Supabase directly vs intermediate API.
@@ -299,8 +277,6 @@ create table api_log (
 - [ ] Can integrate Stripe / Slack / Gmail webhooks.
 - [ ] Understand event-driven pattern: Trigger → Function → Queue.
 - [ ] Have `api_log` table to store traces & errors.
-
----
 
 ## 7.12 💡 Internal Best Practices
 
@@ -315,8 +291,6 @@ create table api_log (
 9. **Limit API call timeout ≤ 10s.**
 10. **Document all internal endpoints clearly in `/docs/api.md`.**
 
----
-
 ## 7.13 📚 References
 
 - [Supabase Functions & Webhooks](https://supabase.com/docs/guides/functions)
@@ -324,8 +298,6 @@ create table api_log (
 - [Next.js Route Handlers](https://nextjs.org/docs/app/building-your-application/routing/route-handlers)
 - [Stripe Webhook Verification](https://stripe.com/docs/webhooks/signatures)
 - [Supabase Queue (pgmq)](https://supabase.com/docs/guides/database/extensions/pgmq)
-
----
 
 ## 7.14 🧾 Output After This Section
 

@@ -1,4 +1,4 @@
-# 📚 Phần 14. Tài liệu Tham Khảo
+# Phần 14. Tài liệu Tham Khảo
 
 > Mục tiêu: cung cấp danh mục tài nguyên chính thức và thực hành mở rộng, giúp đội ngũ dev duy trì cập nhật kiến thức, best practice, và xu hướng công nghệ.
 

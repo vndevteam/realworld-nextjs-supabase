@@ -1,8 +1,6 @@
-# 🧩 Phần 7. API & Integration Patterns
+# Phần 7. API & Integration Patterns
 
 > Mục tiêu: hiểu các mô hình tích hợp API với Supabase, thiết kế lớp API hợp lý, và kết nối được với dịch vụ bên ngoài một cách an toàn, observable, và có thể test.
-
----
 
 ## 7.1 🎯 Mục tiêu học phần
 
@@ -13,8 +11,6 @@ Sau khi hoàn thành phần này, dev có thể:
 - Tích hợp **Webhook (Stripe, Slack, Email)** vào hệ thống.
 - Triển khai pattern **event-driven**: trigger trong DB → call Edge Function.
 - Viết log, retry, và bảo mật API calls đúng cách.
-
----
 
 ## 7.2 🧠 Tổng quan kiến trúc API Integration
 
@@ -28,8 +24,6 @@ A -->|Route Handler| F[Custom API Layer]
 ```
 
 > 🔍 Supabase cho phép bạn **vừa đọc/ghi trực tiếp DB**, vừa **kích hoạt function hoặc webhook** để mở rộng sang các hệ thống khác.
-
----
 
 ## 7.3 ⚙️ 1️⃣ Khi nào gọi Supabase trực tiếp từ FE
 
@@ -58,8 +52,6 @@ export default function Profile() {
 
 ✅ Ưu điểm: nhanh, gọn, realtime.
 ⚠️ Nhược điểm: không kiểm soát logic phức tạp, khó trace, phụ thuộc RLS chặt chẽ.
-
----
 
 ## 7.4 ⚙️ 2️⃣ Khi nào nên có lớp API trung gian (Route Handler)
 
@@ -105,8 +97,6 @@ export async function POST(req: Request) {
 - Mất realtime.
 - Phải maintain layer trung gian (DevOps + CI).
 
----
-
 ## 7.5 ⚙️ 3️⃣ Khi nào nên dùng Edge Function
 
 **Phù hợp khi:**
@@ -140,11 +130,9 @@ Deploy:
 supabase functions deploy notify-slack
 ```
 
----
-
 ## 7.6 🧩 4️⃣ Webhook từ Supabase (Trigger → Edge Function)
 
-### 🔹 Tạo trigger trong DB
+### Tạo trigger trong DB
 
 ```sql
 create or replace function notify_new_invoice()
@@ -169,11 +157,9 @@ for each row execute function notify_new_invoice();
 
 > ✅ Khi invoice được insert → trigger gọi function Slack.
 
----
-
 ## 7.7 ⚡ 5️⃣ Tích hợp Webhook ngoài (Stripe, GitHub, v.v.)
 
-### 🔹 Ví dụ Stripe webhook
+### Ví dụ Stripe webhook
 
 `app/api/stripe/route.ts`
 
@@ -213,8 +199,6 @@ export async function POST(req: Request) {
 
 > ⚠️ **Không parse JSON trước khi xác minh signature** — Stripe yêu cầu raw body.
 
----
-
 ## 7.8 🧭 Event-driven integration pattern
 
 Khi hệ thống phức tạp hơn, bạn nên dùng pattern **Event → Function → Queue**:
@@ -228,17 +212,15 @@ D --> E[Worker Function]
 E --> F[External API / Email]
 ```
 
-### 💡 Ưu điểm
+### Ưu điểm
 
 - Không block user request.
 - Có retry / log.
 - Mở rộng dễ dàng khi có thêm event.
 
----
-
 ## 7.9 🧠 Error Handling & Logging
 
-### 🔹 Log request / response
+### Log request / response
 
 ```ts
 try {
@@ -256,7 +238,7 @@ try {
 }
 ```
 
-### 🔹 Table `api_log`
+### Table `api_log`
 
 ```sql
 create table api_log (
@@ -267,8 +249,6 @@ create table api_log (
   created_at timestamptz default now()
 );
 ```
-
----
 
 ## 7.10 🧰 Bảo mật & Rate Limiting
 
@@ -289,8 +269,6 @@ create table api_log (
 4. **Ẩn endpoint nhạy cảm** (đặt dưới `/api/internal/`) và bảo vệ bằng token header.
 5. **Log mọi lỗi API** để có thể trace qua Supabase Logs.
 
----
-
 ## 7.11 🧭 Checklist hoàn thành
 
 - [ ] Biết khi nào gọi Supabase trực tiếp vs API trung gian.
@@ -299,8 +277,6 @@ create table api_log (
 - [ ] Tích hợp được Stripe / Slack / Gmail webhook.
 - [ ] Hiểu event-driven pattern: Trigger → Function → Queue.
 - [ ] Có bảng `api_log` để lưu trace & error.
-
----
 
 ## 7.12 💡 Best Practices nội bộ
 
@@ -315,8 +291,6 @@ create table api_log (
 9. **Giới hạn timeout API call ≤ 10s.**
 10. **Document rõ các endpoint nội bộ trong `/docs/api.md`.**
 
----
-
 ## 7.13 📚 Tài liệu tham khảo
 
 - [Supabase Functions & Webhooks](https://supabase.com/docs/guides/functions)
@@ -324,8 +298,6 @@ create table api_log (
 - [Next.js Route Handlers](https://nextjs.org/docs/app/building-your-application/routing/route-handlers)
 - [Stripe Webhook Verification](https://stripe.com/docs/webhooks/signatures)
 - [Supabase Queue (pgmq)](https://supabase.com/docs/guides/database/extensions/pgmq)
-
----
 
 ## 7.14 🧾 Output sau phần này
 

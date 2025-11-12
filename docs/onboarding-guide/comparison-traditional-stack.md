@@ -1,8 +1,6 @@
-# ⚖️ Part 12. Comparison with Traditional Tech Stack
+# Part 12. Comparison with Traditional Tech Stack
 
 > Goal: Understand differences between "Supabase-first architecture" and "Traditional Backend API" — in structure, implementation effort, cost, development speed, and long-term operational capability.
-
----
 
 ## 12.1 🎯 Learning Objectives
 
@@ -11,8 +9,6 @@ After this section, you can:
 - Clearly explain when to use **Supabase-first**, when to use **traditional backend**.
 - Understand **trade-offs** in performance, cost, and maintainability.
 - Easily make technology decisions for real projects.
-
----
 
 ## 12.2 🧩 Overview Comparison
 
@@ -38,11 +34,9 @@ After this section, you can:
 | **Developer Experience**    | High, new devs onboard quickly                                 | Good with strong backend team                       |
 | **Time to MVP**             | Very fast (1–3 days)                                           | Medium (1–2 weeks)                                  |
 
----
-
 ## 12.3 ⚙️ Detailed Comparison by Layer
 
-### 🔹 Authentication & Authorization
+### Authentication & Authorization
 
 | Criteria                                    | Supabase                     | Traditional Backend        |
 | ------------------------------------------- | ---------------------------- | -------------------------- |
@@ -55,9 +49,7 @@ After this section, you can:
 ✅ **Supabase Advantages:** Deploy auth extremely fast, JWT security standard.
 ⚠️ **Disadvantages:** Hard to extend custom claims or complex multi-tenant logic.
 
----
-
-### 🔹 Database & ORM
+### Database & ORM
 
 | Criteria            | Supabase                   | Traditional Backend                |
 | ------------------- | -------------------------- | ---------------------------------- |
@@ -70,9 +62,7 @@ After this section, you can:
 ✅ **Supabase** suitable for MVP, fast SaaS CRUD.
 ⚠️ **Traditional Backend** stronger when complex transaction logic or hybrid DB needed.
 
----
-
-### 🔹 API & Integration
+### API & Integration
 
 | Criteria                 | Supabase                      | Traditional Backend              |
 | ------------------------ | ----------------------------- | -------------------------------- |
@@ -85,9 +75,7 @@ After this section, you can:
 ✅ **Supabase:** Simplifies backend API.
 ⚠️ **Traditional:** More flexible when complex logic, deep validation needed.
 
----
-
-### 🔹 CI/CD & DevOps
+### CI/CD & DevOps
 
 | Criteria     | Supabase                          | Traditional Backend                |
 | ------------ | --------------------------------- | ---------------------------------- |
@@ -101,9 +89,7 @@ After this section, you can:
 ✅ **Supabase:** Reduces DevOps effort 70–80%.
 ⚠️ **Traditional:** More flexible with custom infra, multi-region, network layer.
 
----
-
-### 🔹 Cost & Maintainability
+### Cost & Maintainability
 
 | Criteria             | Supabase-first     | Traditional Backend       |
 | -------------------- | ------------------ | ------------------------- |
@@ -116,8 +102,6 @@ After this section, you can:
 
 ✅ Supabase helps startups save significant initial costs.
 ⚠️ When scaling large (millions of users, heavy compute), need hybrid architecture.
-
----
 
 ## 12.4 🚀 Performance Trade-off
 
@@ -134,8 +118,6 @@ After this section, you can:
 Supabase **excels for MVP / small to medium SaaS**,
 Traditional Backend **superior when extremely high performance and detailed infrastructure control needed**.
 
----
-
 ## 12.5 🧠 Dev Experience & Productivity
 
 | Factor               | Supabase-first                | Traditional                      |
@@ -148,8 +130,6 @@ Traditional Backend **superior when extremely high performance and detailed infr
 | Hotfix / Deploy      | 1 CLI command                 | Pipeline build, restart server   |
 | Documentation        | Concise, easy self-learn      | Must document internal standards |
 
----
-
 ## 12.6 🧮 Effort vs Value Overview
 
 | Phase                      | Supabase Effort             | Traditional Effort | Notes                    |
@@ -160,8 +140,6 @@ Traditional Backend **superior when extremely high performance and detailed infr
 | Long-term Maintenance      | ⭐ Easy                     | ⚠️ Costly          | Supabase auto-updates    |
 | DevOps Cost                | ⭐ Low                      | 🔺 High            | No server admin needed   |
 | Flexibility (custom logic) | ⚠️ Limited                  | ⭐ High            | Backend more free        |
-
----
 
 ## 12.7 🧭 When to Choose Supabase
 
@@ -174,8 +152,6 @@ Traditional Backend **superior when extremely high performance and detailed infr
 - Next.js or frontend-heavy codebase.
 - Want to optimize infrastructure costs early stage.
 
----
-
 ## 12.8 ⚙️ When to Choose Traditional Backend
 
 ✅ **Use separate backend when:**
@@ -185,8 +161,6 @@ Traditional Backend **superior when extremely high performance and detailed infr
 - Have strong backend team or dedicated DevOps.
 - Need extremely high performance, network control, connection pooling.
 - System needs multi-region / private VPC / fine-grained IAM.
-
----
 
 ## 12.9 🧾 Quantitative Comparison Summary
 
@@ -206,8 +180,6 @@ Traditional Backend **superior when extremely high performance and detailed infr
 | Feature Release Speed | 🚀 Fast           | ⚙️ Slower              |
 | ROI (effort/value)    | ⭐ Highest        | ⚖️ Depends on use case |
 
----
-
 ## 12.10 💡 Hybrid Architecture Implementation Advice
 
 Many companies now choose **Hybrid model**:
@@ -216,8 +188,8 @@ Many companies now choose **Hybrid model**:
 flowchart TD
 A[Next.js Frontend] -->|Supabase SDK| B[(Supabase Auth + DB + Storage)]
 B --> C[Edge Functions]
-C -->|async jobs| D[Backend Microservice (NestJS / Kotlin)]
-D --> E[(RDS / Data Lake / AI Engine)]
+C -->|async jobs| D[Backend Microservice - NestJS / Kotlin]
+D --> E[RDS / Data Lake / AI Engine]
 ```
 
 💡 **This pattern ideal when:**
@@ -225,8 +197,6 @@ D --> E[(RDS / Data Lake / AI Engine)]
 - Supabase handles Auth, CRUD, Realtime.
 - Separate backend only for heavy logic or async jobs.
 - Easy to scale while keeping costs low early stage.
-
----
 
 ## 12.11 🧭 Checklist for Choosing Stack for Project
 
@@ -241,8 +211,6 @@ D --> E[(RDS / Data Lake / AI Engine)]
 | System needs parallel processing or heavy compute? | ✅ Traditional Backend         |
 | Expect global multi-region expansion?              | ⚙️ Hybrid (Supabase + Backend) |
 
----
-
 ## 12.12 📚 References
 
 - [Supabase vs Firebase vs AWS Amplify](https://supabase.com/docs/guides/resources/compare)
@@ -251,8 +219,6 @@ D --> E[(RDS / Data Lake / AI Engine)]
 - [Spring Boot Architecture](https://spring.io/projects/spring-boot)
 - [AWS Pricing Calculator](https://calculator.aws/)
 - [PostgREST Performance Notes](https://postgrest.org/en/stable/performance.html)
-
----
 
 ## 12.13 🧾 Output After This Section
 

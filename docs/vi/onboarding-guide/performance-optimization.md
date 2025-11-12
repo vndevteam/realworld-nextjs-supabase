@@ -1,8 +1,6 @@
-# 💰 Phần 11. Cost & Performance Optimization
+# Phần 11. Cost & Performance Optimization
 
 > Mục tiêu: tối ưu chi phí (compute, storage, logs) và hiệu năng (query, cache, function) của hệ thống Supabase + Next.js mà không đánh đổi tính bảo mật hay ổn định.
-
----
 
 ## 11.1 🎯 Mục tiêu học phần
 
@@ -13,8 +11,6 @@ Sau khi hoàn thành phần này, dev có thể:
 - Giảm chi phí vận hành qua cron batch, cold start, và log retention.
 - So sánh chi phí – effort với backend truyền thống (NestJS / Spring Boot).
 - Xây dựng guideline nội bộ để dự đoán cost.
-
----
 
 ## 11.2 🧩 Tổng quan các yếu tố ảnh hưởng đến chi phí
 
@@ -28,11 +24,9 @@ Sau khi hoàn thành phần này, dev có thể:
 | **Logs**           | retention & volume                       | xóa log cũ, log structured        |
 | **CDN / Frontend** | build, bandwidth, SSR load               | static caching, ISR, Edge caching |
 
----
-
 ## 11.3 ⚙️ Database Optimization
 
-### 🔹 1️⃣ Tối ưu truy vấn (SQL)
+### 1️⃣ Tối ưu truy vấn (SQL)
 
 **Dấu hiệu query chậm:**
 
@@ -56,7 +50,7 @@ order by created_at desc
 limit 20 offset 0;
 ```
 
-### 🔹 2️⃣ Caching query
+### 2️⃣ Caching query
 
 - Dùng **Edge Function** hoặc **Server Action** để cache query tĩnh:
 
@@ -66,11 +60,9 @@ export const revalidate = 60; // cache 1 phút
 
 - Supabase API có thể gắn Cloudflare cache (nếu chỉ đọc public data).
 
----
-
 ## 11.4 🧮 Index & Table Size Management
 
-### 🔹 Kiểm tra index lớn / dư thừa
+### Kiểm tra index lớn / dư thừa
 
 ```sql
 select indexrelid::regclass as index_name,
@@ -79,13 +71,13 @@ from pg_index join pg_class on pg_class.oid = pg_index.indrelid
 order by pg_relation_size(indexrelid) desc;
 ```
 
-### 🔹 Xóa index dư
+### Xóa index dư
 
 ```sql
 drop index if exists idx_old_unused;
 ```
 
-### 🔹 Dọn bảng tạm / log cũ
+### Dọn bảng tạm / log cũ
 
 ```sql
 delete from system_logs where created_at < now() - interval '30 days';
@@ -94,11 +86,9 @@ vacuum analyze system_logs;
 
 > 🧠 “vacuum analyze” giúp giảm dung lượng disk và tối ưu plan query.
 
----
-
 ## 11.5 ⚡ Edge Function Performance
 
-### 🔹 1️⃣ Cold Start
+### 1️⃣ Cold Start
 
 - Supabase Edge Functions có latency khởi động 100–500ms lần đầu.
 - Giảm bằng cách:
@@ -107,7 +97,7 @@ vacuum analyze system_logs;
   - Không import module nặng (Stripe SDK → dùng REST trực tiếp).
   - Dùng **Deno Deploy global cache** (Supabase tự optimize).
 
-### 🔹 2️⃣ Batch requests
+### 2️⃣ Batch requests
 
 Thay vì gọi API liên tục từng record:
 
@@ -115,12 +105,10 @@ Thay vì gọi API liên tục từng record:
 await supabase.from("payments").insert(batchData);
 ```
 
-### 🔹 3️⃣ Timeouts
+### 3️⃣ Timeouts
 
 - Giới hạn thời gian function < 10s (Supabase free tier max ~20s).
 - Nếu cần chạy dài → đưa vào **pgmq worker** hoặc batch cron.
-
----
 
 ## 11.6 🧰 pg_cron & Batch Optimization
 
@@ -131,8 +119,6 @@ await supabase.from("payments").insert(batchData);
 | Job thất bại lặp lại       | Gắn retry logic qua pgmq                          |
 | Log cron quá nhiều         | Giới hạn log giữ 7 ngày                           |
 | Function chạy cron         | Gọi bằng `net.http_post` thay vì loop client-side |
-
----
 
 ## 11.7 🧱 Realtime Optimization
 
@@ -156,8 +142,6 @@ useEffect(() => {
 - Chỉ bật realtime với bảng cần thiết.
 - Batch UI update (debounce 1–2s).
 
----
-
 ## 11.8 🧩 Storage Optimization
 
 | Vấn đề                 | Giải pháp                          |
@@ -180,8 +164,6 @@ select cron.schedule(
 );
 ```
 
----
-
 ## 11.9 🌐 Frontend (Next.js) Optimization
 
 | Thành phần             | Giải pháp                                 |
@@ -199,8 +181,6 @@ select cron.schedule(
 export const revalidate = 300; // cache 5 phút
 ```
 
----
-
 ## 11.10 💾 Log & Retention Optimization
 
 | Loại log         | Giữ bao lâu | Ghi chú           |
@@ -217,16 +197,14 @@ delete from system_logs where created_at < now() - interval '30 days';
 
 > ⚠️ Không nên lưu trace log quá lâu nếu không cần — tốn chi phí và giảm tốc độ query.
 
----
-
 ## 11.11 📊 Giám sát hiệu năng định kỳ
 
-### 🔹 Dùng dashboard Supabase
+### Dùng dashboard Supabase
 
 - Theo dõi CPU, memory, I/O, query time
 - Tab **Database → Performance Insights**
 
-### 🔹 Dùng `pg_stat_statements`
+### Dùng `pg_stat_statements`
 
 ```sql
 select query, mean_exec_time, calls
@@ -234,14 +212,12 @@ from pg_stat_statements
 order by mean_exec_time desc limit 5;
 ```
 
-### 🔹 Kết hợp logging function + metrics table
+### Kết hợp logging function + metrics table
 
 ```sql
 insert into perf_metrics (name, duration_ms, at)
 values ('send_reminder_job', 125, now());
 ```
-
----
 
 ## 11.12 💰 So sánh chi phí Supabase-first vs Backend truyền thống
 
@@ -259,8 +235,6 @@ values ('send_reminder_job', 125, now());
 | **Maintainability**    | Rất cao                    | Trung bình                                 |
 | **Tổng Effort DevOps** | ↓ 70–80%                   | baseline 100%                              |
 
----
-
 ## 11.13 🧭 Checklist tối ưu chi phí & hiệu năng
 
 | Mục                                           | Trạng thái |
@@ -276,8 +250,6 @@ values ('send_reminder_job', 125, now());
 | 🔹 Theo dõi cost dashboard Supabase           | ☐          |
 | 🔹 Giữ performance report hàng tuần           | ☐          |
 
----
-
 ## 11.14 💡 Best Practices nội bộ
 
 1. **Luôn đo performance bằng metrics thay vì cảm giác.**
@@ -291,8 +263,6 @@ values ('send_reminder_job', 125, now());
 9. **Luôn review chi phí Storage & Realtime trước khi scale plan.**
 10. **Chạy load test nhẹ trước mỗi version lớn.**
 
----
-
 ## 11.15 📚 Tài liệu tham khảo
 
 - [Supabase Pricing](https://supabase.com/pricing)
@@ -300,8 +270,6 @@ values ('send_reminder_job', 125, now());
 - [Postgres EXPLAIN Tutorial](https://www.postgresql.org/docs/current/using-explain.html)
 - [Next.js Performance Optimization](https://nextjs.org/docs/optimizing)
 - [pg_stat_statements Overview](https://supabase.com/docs/guides/database/extensions/pg-stat-statements)
-
----
 
 ## 11.16 🧾 Output sau phần này
 

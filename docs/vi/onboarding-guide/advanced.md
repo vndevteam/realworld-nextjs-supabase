@@ -1,8 +1,6 @@
-# 🧭 Phần 13. Phụ lục (Advanced)
+# Phần 13. Phụ lục (Advanced)
 
 > Mục tiêu: cung cấp các kiến thức nâng cao giúp tối ưu, mở rộng và tích hợp Supabase + Next.js vào các hệ thống phức tạp, quy mô lớn hoặc yêu cầu đặc biệt.
-
----
 
 ## 13.1 🎯 Nội dung chính của phần phụ lục
 
@@ -20,8 +18,6 @@
 | 13.11 | DevOps Automation (IaC, Supabase CLI Pro) | IaC & self-host Supabase                  |
 | 13.12 | Case Study & Design Patterns              | Các mô hình triển khai thực tế            |
 | 13.13 | Training Expansion & Knowledge Base       | Cách duy trì và mở rộng tài liệu training |
-
----
 
 ## 13.2 🧱 Supabase Architecture Deep Dive
 
@@ -47,11 +43,9 @@ F --> G
 
 > 💡 Mỗi project Supabase là một cluster cô lập gồm Postgres + service layer.
 
----
-
 ## 13.3 ⚙️ Performance Profiling & Query Planning
 
-### 🧠 Công cụ chính
+### Công cụ chính
 
 - `EXPLAIN ANALYZE`
 - `pg_stat_statements`
@@ -70,23 +64,19 @@ order by created_at desc;
 
 Kết quả:
 
-```
+```bash
 Index Scan using invoices_customer_id_idx on invoices
 (cost=0.42..8.54 rows=10 width=...) (actual time=0.1..0.3)
 ```
 
 ✅ Giải thích: Query sử dụng đúng index → hiệu năng tốt.
 
----
-
-### ⚙️ Khi query chậm
+### Khi query chậm
 
 - Thiếu index → `Seq Scan`
 - Hàm trong WHERE (`lower(column)`) → không dùng index
 - Dùng `IN (...)` quá nhiều giá trị
 - `ORDER BY` + `OFFSET` lớn → nên dùng keyset pagination
-
----
 
 ## 13.4 🔍 Supabase + OpenTelemetry (OTEL)
 
@@ -118,11 +108,9 @@ export async function getUserData() {
 
 > 💡 Cho phép quan sát transaction xuyên suốt: user click → API → DB query.
 
----
-
 ## 13.5 🧩 Advanced Edge Functions
 
-### ✅ Function composition
+### Function composition
 
 Gọi function từ function khác (service role):
 
@@ -134,7 +122,7 @@ await fetch(`${Deno.env.get("FN_URL")}/notify-user`, {
 });
 ```
 
-### ✅ Middleware pattern
+### Middleware pattern
 
 ```ts
 const withAuth = (handler) => async (req) => {
@@ -144,7 +132,7 @@ const withAuth = (handler) => async (req) => {
 };
 ```
 
-### ✅ Retry pattern
+### Retry pattern
 
 Dùng pgmq queue:
 
@@ -154,23 +142,21 @@ select pgmq.send('retry-queue', json_build_object('event', 'email_fail'));
 
 > Supabase Edge + pgmq có thể thay thế RabbitMQ trong quy mô nhỏ.
 
----
-
 ## 13.6 🧮 Database Replication & Read Scaling
 
-### 🔹 Read replicas
+### Read replicas
 
 Supabase Pro/Enterprise hỗ trợ **replica DB** → scale read.
 
 - Sử dụng param: `read_replica=true` trong connection string.
 - Next.js SSR có thể dùng replica cho các query tĩnh.
 
-### 🔹 Connection pooling
+### Connection pooling
 
 - Dùng **PgBouncer** để giới hạn session count.
 - Supabase tự động bật PgBouncer trên môi trường production.
 
-### 🔹 Partitioning
+### Partitioning
 
 ```sql
 create table logs_y2025m11 partition of logs
@@ -179,11 +165,9 @@ for values from ('2025-11-01') to ('2025-12-01');
 
 > Giúp truy vấn log nhanh hơn, giảm table size tổng.
 
----
-
 ## 13.7 🤖 Integration with AI / Analytics
 
-### 🔹 Lưu vector embedding
+### Lưu vector embedding
 
 ```sql
 create extension if not exists vector;
@@ -194,7 +178,7 @@ create table doc_embeddings (
 );
 ```
 
-### 🔹 Search tương đồng
+### Search tương đồng
 
 ```sql
 select id, content
@@ -202,11 +186,9 @@ from doc_embeddings
 order by embedding <-> '[0.1, 0.2, ...]' limit 5;
 ```
 
-### 🔹 Kết nối BigQuery / Snowflake
+### Kết nối BigQuery / Snowflake
 
 Dùng `pg_fdw` hoặc `pgbouncer` connector → đẩy dữ liệu analytics ra data warehouse.
-
----
 
 ## 13.8 🧾 Data Governance & Compliance (PII / GDPR)
 
@@ -219,8 +201,6 @@ Dùng `pg_fdw` hoặc `pgbouncer` connector → đẩy dữ liệu analytics ra 
 | Backup bảo mật          | Bật encryption-at-rest (Supabase mặc định có) |
 
 > 🔐 Supabase Pro/Enterprise tuân thủ SOC2 và GDPR by default.
-
----
 
 ## 13.9 🧱 Multi-Tenant Architecture
 
@@ -237,7 +217,7 @@ using ( tenant_id = current_setting('app.tenant_id')::uuid );
 
 ### 2️⃣ Separate schema per tenant
 
-```
+```bash
 tenant_1.orders
 tenant_2.orders
 ```
@@ -251,8 +231,6 @@ tenant_2.orders
 → Sử dụng Supabase CLI deploy nhiều project.
 
 > Phù hợp khi khách hàng lớn cần isolation hoàn toàn.
-
----
 
 ## 13.10 🧩 Supabase Plugin Ecosystem
 
@@ -268,11 +246,9 @@ tenant_2.orders
 | `pgjwt`            | Custom JWT encode/decode       |
 | `http`             | Trigger webhook từ DB event    |
 
----
-
 ## 13.11 ⚙️ DevOps Automation (IaC & Self-host)
 
-### 🧩 Infrastructure as Code (IaC)
+### Infrastructure as Code (IaC)
 
 Dùng Terraform + Supabase provider:
 
@@ -284,7 +260,7 @@ resource "supabase_project" "main" {
 }
 ```
 
-### 🧩 Self-host Supabase (Enterprise)
+### Self-host Supabase (Enterprise)
 
 ```bash
 git clone https://github.com/supabase/supabase
@@ -293,8 +269,6 @@ docker compose up
 ```
 
 > Khi cần deploy trong private network / on-premise.
-
----
 
 ## 13.12 🧠 Case Study & Design Patterns
 
@@ -307,13 +281,11 @@ docker compose up
 | AI note app           | pgvector + Supabase Storage          | Search + Lưu file audio |
 | Analytics pipeline    | pg_net + BigQuery sync               | Serverless ETL nhỏ gọn  |
 
----
-
 ## 13.13 📚 Training Expansion & Knowledge Base
 
-### 💡 Cấu trúc Notion / Wiki nội bộ
+### Cấu trúc Notion / Wiki nội bộ
 
-```
+```bash
 Supabase Training Hub
 ├── Getting Started
 │   ├── Setup Environment
@@ -339,8 +311,6 @@ Supabase Training Hub
 > - Exercise checklist
 > - Review quiz
 
----
-
 ## 13.14 🧭 Checklist hoàn thành (Advanced Level)
 
 | Mục                                               | Trạng thái |
@@ -356,8 +326,6 @@ Supabase Training Hub
 | Tự động hóa deploy bằng CLI / Terraform           | ☐          |
 | Đóng góp case study nội bộ                        | ☐          |
 
----
-
 ## 13.15 💡 Hướng phát triển tiếp theo
 
 - Xây dựng **Supabase Internal Template Repo** (boilerplate chuẩn).
@@ -365,8 +333,6 @@ Supabase Training Hub
 - Viết **Plugin nội bộ (pg_function)** cho use case riêng.
 - Xây dựng **AI Copilot internal** để tự động gợi ý query / policy.
 - Tổ chức **Supabase Camp**: mini training hàng quý.
-
----
 
 ## 13.16 🧾 Output sau phần này
 
@@ -377,8 +343,6 @@ Supabase Training Hub
 > - [x] Hiểu sâu cơ chế hoạt động Supabase.
 > - [x] Viết Edge Function, policy, và cron nâng cao.
 > - [x] Thiết kế multi-tenant, compliance-ready architecture.
-
----
 
 ## ✅ Kết luận toàn bộ tài liệu
 

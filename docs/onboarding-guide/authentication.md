@@ -1,4 +1,4 @@
-# 🔐 Part 2. Authentication
+# Part 2. Authentication
 
 > Goal: Master the complete registration – login – session management – route protection flow in Next.js + Supabase.
 
@@ -251,8 +251,6 @@ create policy "Users can insert their own profile"
 on profiles for insert
 with check ( auth.uid() = id );
 ```
-
----
 
 ### Trigger to Auto-Create Profile
 
