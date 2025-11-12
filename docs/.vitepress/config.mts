@@ -1,5 +1,6 @@
 import { defineConfig } from 'vitepress'
 import { ViteImageOptimizer} from 'vite-plugin-image-optimizer'
+import taskLists from 'markdown-it-task-lists'
 
 const siteBase = "/realworld-nextjs-supabase/";
 
@@ -12,6 +13,16 @@ export default defineConfig({
   ignoreDeadLinks: [
     /^https?:\/\/localhost/,
   ],
+  markdown: {
+    // Enable checkbox rendering: - [ ] and - [x]
+    // This allows markdown lists with checkboxes to render as interactive checkboxes
+    breaks: false,
+    config: (md) => {
+      // Enable task lists (checkboxes) using markdown-it-task-lists plugin
+      // Syntax: - [ ] unchecked, - [x] checked
+      md.use(taskLists)
+    },
+  },
   vite: {
     // Build optimization to handle chunk size warnings
     build: {

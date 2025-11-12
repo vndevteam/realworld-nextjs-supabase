@@ -448,6 +448,16 @@ Only add complexity with:
 - Reference specs as `specs/auth/spec.md`
 - Link related changes and PRs
 
+### Mermaid Diagram Guidelines
+
+When creating Mermaid diagrams in documentation:
+
+- **Parentheses in labels**: If a node label contains parentheses `()`, wrap the entire label in double quotes `""` to avoid syntax errors
+  - ✅ Correct: `D["Queue (pgmq)"]`
+  - ❌ Incorrect: `D[Queue (pgmq)]`
+- Use quotes for any labels containing special characters that might conflict with Mermaid syntax
+- Test diagrams render correctly before committing
+
 ### Capability Naming
 
 - Use verb-noun: `user-auth`, `payment-capture`

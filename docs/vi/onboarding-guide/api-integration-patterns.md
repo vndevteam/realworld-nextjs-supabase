@@ -207,7 +207,7 @@ Khi hệ thống phức tạp hơn, bạn nên dùng pattern **Event → Functio
 flowchart LR
 A[Database Insert] --> B[DB Trigger]
 B --> C[Edge Function Handler]
-C --> D[Queue (pgmq)]
+C --> D["Queue (pgmq)"]
 D --> E[Worker Function]
 E --> F[External API / Email]
 ```
