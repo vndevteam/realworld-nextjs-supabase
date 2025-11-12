@@ -17,9 +17,9 @@ After completing this section, developers can:
 ```mermaid
 flowchart TD
 A[User] -->|JWT Token| B[Supabase Auth]
-B -->|Row Policy| C[(Postgres + RLS)]
+B -->|Row Policy| C["(Postgres + RLS)"]
 C --> D[Edge Functions]
-D --> E[External APIs (Stripe, Slack...)]
+D --> E["External APIs (Stripe, Slack...)"]
 F[Storage Buckets] -->|RLS| C
 G[CI/CD Secrets] --> D
 ```

@@ -16,14 +16,14 @@ Sau khi hoàn thành phần này, dev có thể:
 
 ```mermaid
 flowchart TD
-A[Client (Browser)] -->|SDK @supabase/supabase-js| B[Supabase API]
-B --> C[(Postgres DB)]
+A["Client (Browser)"] -->|SDK @supabase/supabase-js| B[Supabase API]
+B --> C["(Postgres DB)"]
 A -->|Server Action / Route Handler| D[Next.js Server]
 D -->|Supabase Server Client| B
 C -->|Realtime event| A
 ```
 
-### 🔍 Giải thích
+### Giải thích
 
 - **Client SDK** dùng cho thao tác UI nhanh (fetch nhẹ, subscribe realtime).
 - **Server Client** dùng cho logic cần bảo mật (create, update, delete).

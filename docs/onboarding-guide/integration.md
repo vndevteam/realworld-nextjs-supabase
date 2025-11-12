@@ -16,14 +16,14 @@ After completing this section, developers can:
 
 ```mermaid
 flowchart TD
-A[Client (Browser)] -->|SDK @supabase/supabase-js| B[Supabase API]
-B --> C[(Postgres DB)]
+A["Client (Browser)"] -->|SDK @supabase/supabase-js| B[Supabase API]
+B --> C["(Postgres DB)"]
 A -->|Server Action / Route Handler| D[Next.js Server]
 D -->|Supabase Server Client| B
 C -->|Realtime event| A
 ```
 
-### 🔍 Explanation
+### Explanation
 
 - **Client SDK** used for quick UI operations (light fetches, realtime subscriptions).
 - **Server Client** used for logic requiring security (create, update, delete).

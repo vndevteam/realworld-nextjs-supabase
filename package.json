@@ -25,6 +25,7 @@
 	"devDependencies": {
 		"@commitlint/config-conventional": "^20.0.0",
 		"husky": "^9.1.7",
+		"markdown-it-task-lists": "^2.1.1",
 		"sharp": "^0.34.5",
 		"supabase": "^2.54.11",
 		"svgo": "^4.0.0",
