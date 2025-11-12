@@ -1,8 +1,6 @@
-# 🔍 Phần 9. Observability & Debugging
+# Phần 9. Observability & Debugging
 
 > Mục tiêu: xây dựng khả năng “quan sát toàn diện” — logs, traces, metrics — để phát hiện sớm lỗi, hiểu nguyên nhân gốc (root cause), và tối ưu hiệu năng của Supabase + Next.js.
-
----
 
 ## 9.1 🎯 Mục tiêu học phần
 
@@ -13,8 +11,6 @@ Sau khi hoàn thành phần này, dev có thể:
 - Ghi log nghiệp vụ (custom logging).
 - Giám sát query chậm, error HTTP, hoặc job fail.
 - Thiết lập cảnh báo (Slack, Email, Sentry, v.v.).
-
----
 
 ## 9.2 🧩 Các lớp Observability trong hệ thống
 
@@ -35,11 +31,9 @@ E --> F[External Monitoring: Sentry / Grafana / Slack]
 | **Background jobs**    | Cron fail, queue retry                 | pg_cron / pgmq log    |
 | **Integration**        | Webhook fail, 3rd-party timeout        | API log table / alert |
 
----
-
 ## 9.3 ⚙️ Log cơ bản trong Supabase
 
-### 🔹 1️⃣ Edge Function Logs
+### 1️⃣ Edge Function Logs
 
 ```bash
 supabase functions logs --name send-reminder --follow
@@ -47,7 +41,7 @@ supabase functions logs --name send-reminder --follow
 
 > Hiển thị log thực tế của function khi được gọi (error, console.log, status).
 
-### 🔹 2️⃣ Database Logs (Query / Error)
+### 2️⃣ Database Logs (Query / Error)
 
 Truy cập **Supabase Dashboard → Logs → Database**
 Hoặc query thủ công:
@@ -59,13 +53,13 @@ where event_type = 'postgres'
 order by timestamp desc limit 10;
 ```
 
-### 🔹 3️⃣ Cron Job Logs
+### 3️⃣ Cron Job Logs
 
 ```sql
 select * from cron.job_run_details order by start_time desc limit 5;
 ```
 
-### 🔹 4️⃣ Realtime Errors
+### 4️⃣ Realtime Errors
 
 Nếu Realtime channel disconnect:
 
@@ -75,8 +69,6 @@ supabase
   .subscribe()
   .on("error", (err) => console.error("Realtime error:", err));
 ```
-
----
 
 ## 9.4 🧰 Log có cấu trúc (Structured Logging)
 
@@ -95,11 +87,9 @@ console.log(
 
 > Dễ gửi qua pipeline (Sentry, Loki, Logflare) hoặc parse lại bằng SQL JSON query.
 
----
-
 ## 9.5 🧠 Debug trong Edge Function
 
-### 🔹 Local serve với live log
+### Local serve với live log
 
 ```bash
 supabase functions serve send-reminder
@@ -111,7 +101,7 @@ Sau đó test:
 curl -i http://localhost:54321/functions/v1/send-reminder
 ```
 
-### 🔹 Gắn try/catch chi tiết
+### Gắn try/catch chi tiết
 
 ```ts
 try {
@@ -123,8 +113,6 @@ try {
 ```
 
 > ✅ Khi deploy, log này sẽ hiển thị trong `supabase functions logs`.
-
----
 
 ## 9.6 🧩 Log trong Database (bảng custom)
 
@@ -152,11 +140,9 @@ await supabase.from("system_logs").insert({
 
 > Có thể xem lại log bằng dashboard hoặc export ra Grafana / DataDog.
 
----
-
 ## 9.7 ⚡ Debug Performance Query
 
-### 🔹 Dò query chậm
+### Dò query chậm
 
 ```sql
 select query, total_exec_time, calls
@@ -164,13 +150,13 @@ from pg_stat_statements
 order by total_exec_time desc limit 10;
 ```
 
-### 🔹 Bật extension
+### Bật extension
 
 ```sql
 create extension if not exists pg_stat_statements;
 ```
 
-### 🔹 Phân tích EXPLAIN ANALYZE
+### Phân tích EXPLAIN ANALYZE
 
 ```sql
 explain analyze select * from subscriptions where user_id = 'abc';
@@ -178,11 +164,9 @@ explain analyze select * from subscriptions where user_id = 'abc';
 
 > Giúp xác định thiếu index, scan toàn bảng, hoặc RLS overhead.
 
----
-
 ## 9.8 🧭 Observability cho Next.js
 
-### 🔹 Log cơ bản
+### Log cơ bản
 
 ```ts
 import pino from "pino";
@@ -192,7 +176,7 @@ logger.info({ route: "/api/task", user, latency });
 logger.error({ route: "/api/task", err });
 ```
 
-### 🔹 Sentry integration
+### Sentry integration
 
 ```bash
 npm i @sentry/nextjs
@@ -209,8 +193,6 @@ Sentry.init({
 ```
 
 > ✅ Tự động bắt lỗi FE/BE, hiển thị stacktrace + user info + release version.
-
----
 
 ## 9.9 🧩 Alerting (Email / Slack)
 
@@ -246,8 +228,6 @@ await fetch(`${SUPABASE_FN_URL}/alert-slack`, {
 
 > 🔔 Giúp team nhận thông báo trong Slack khi có lỗi runtime.
 
----
-
 ## 9.10 🧮 Monitor hệ thống định kỳ
 
 | Thành phần     | Kiểm tra                   | Tần suất  | Cách thực hiện               |
@@ -259,8 +239,6 @@ await fetch(`${SUPABASE_FN_URL}/alert-slack`, {
 | FE latency     | TTFB, LCP, error           | Liên tục  | Vercel / Sentry              |
 | Integration    | API timeout                | Hàng ngày | `api_log` table              |
 
----
-
 ## 9.11 🧭 Checklist hoàn thành
 
 - [ ] Biết cách đọc log Supabase (DB, Cron, Function).
@@ -270,8 +248,6 @@ await fetch(`${SUPABASE_FN_URL}/alert-slack`, {
 - [ ] Thiết lập Sentry cho FE + BE.
 - [ ] Tạo cảnh báo Slack tự động.
 - [ ] Có dashboard hoặc query kiểm tra log định kỳ.
-
----
 
 ## 9.12 💡 Best Practices nội bộ
 
@@ -286,8 +262,6 @@ await fetch(`${SUPABASE_FN_URL}/alert-slack`, {
 9. **Gắn timestamp ISO trong tất cả log.**
 10. **Giữ retention log ≥ 30 ngày.**
 
----
-
 ## 9.13 📚 Tài liệu tham khảo
 
 - [Supabase Logs](https://supabase.com/docs/guides/platform/logs)
@@ -295,8 +269,6 @@ await fetch(`${SUPABASE_FN_URL}/alert-slack`, {
 - [Supabase Functions Logs](https://supabase.com/docs/guides/functions/logs)
 - [Sentry Next.js Integration](https://docs.sentry.io/platforms/javascript/guides/nextjs/)
 - [OpenTelemetry + Next.js Guide](https://opentelemetry.io/docs/instrumentation/js/nextjs/)
-
----
 
 ## 9.14 🧾 Output sau phần này
 

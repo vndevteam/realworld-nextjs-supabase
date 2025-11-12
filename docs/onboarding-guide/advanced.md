@@ -1,8 +1,6 @@
-# 🧭 Part 13. Advanced Topics
+# Part 13. Advanced Topics
 
 > Goal: Provide advanced knowledge to optimize, extend, and integrate Supabase + Next.js into complex systems, large scale, or special requirements.
-
----
 
 ## 13.1 🎯 Main Content of Advanced Section
 
@@ -20,8 +18,6 @@
 | 13.11 | DevOps Automation (IaC, Supabase CLI Pro) | IaC & self-host Supabase                   |
 | 13.12 | Case Study & Design Patterns              | Real-world implementation patterns         |
 | 13.13 | Training Expansion & Knowledge Base       | How to maintain and expand training docs   |
-
----
 
 ## 13.2 🧱 Supabase Architecture Deep Dive
 
@@ -47,11 +43,9 @@ F --> G
 
 > 💡 Each Supabase project is an isolated cluster of Postgres + service layer.
 
----
-
 ## 13.3 ⚙️ Performance Profiling & Query Planning
 
-### 🧠 Main Tools
+### Main Tools
 
 - `EXPLAIN ANALYZE`
 - `pg_stat_statements`
@@ -70,23 +64,19 @@ order by created_at desc;
 
 Result:
 
-```
+```bash
 Index Scan using invoices_customer_id_idx on invoices
 (cost=0.42..8.54 rows=10 width=...) (actual time=0.1..0.3)
 ```
 
 ✅ Explanation: Query uses correct index → good performance.
 
----
-
-### ⚙️ When Query is Slow
+### When Query is Slow
 
 - Missing index → `Seq Scan`
 - Function in WHERE (`lower(column)`) → can't use index
 - Using `IN (...)` with too many values
 - `ORDER BY` + large `OFFSET` → should use keyset pagination
-
----
 
 ## 13.4 🔍 Supabase + OpenTelemetry (OTEL)
 
@@ -118,11 +108,9 @@ export async function getUserData() {
 
 > 💡 Allows observing transactions end-to-end: user click → API → DB query.
 
----
-
 ## 13.5 🧩 Advanced Edge Functions
 
-### ✅ Function Composition
+### Function Composition
 
 Call function from another function (service role):
 
@@ -134,7 +122,7 @@ await fetch(`${Deno.env.get("FN_URL")}/notify-user`, {
 });
 ```
 
-### ✅ Middleware Pattern
+### Middleware Pattern
 
 ```ts
 const withAuth = (handler) => async (req) => {
@@ -144,7 +132,7 @@ const withAuth = (handler) => async (req) => {
 };
 ```
 
-### ✅ Retry Pattern
+### Retry Pattern
 
 Use pgmq queue:
 
@@ -154,23 +142,21 @@ select pgmq.send('retry-queue', json_build_object('event', 'email_fail'));
 
 > Supabase Edge + pgmq can replace RabbitMQ at small scale.
 
----
-
 ## 13.6 🧮 Database Replication & Read Scaling
 
-### 🔹 Read Replicas
+### Read Replicas
 
 Supabase Pro/Enterprise supports **replica DB** → scale reads.
 
 - Use param: `read_replica=true` in connection string.
 - Next.js SSR can use replica for static queries.
 
-### 🔹 Connection Pooling
+### Connection Pooling
 
 - Use **PgBouncer** to limit session count.
 - Supabase automatically enables PgBouncer on production.
 
-### 🔹 Partitioning
+### Partitioning
 
 ```sql
 create table logs_y2025m11 partition of logs
@@ -179,11 +165,9 @@ for values from ('2025-11-01') to ('2025-12-01');
 
 > Helps query logs faster, reduces total table size.
 
----
-
 ## 13.7 🤖 Integration with AI / Analytics
 
-### 🔹 Store Vector Embeddings
+### Store Vector Embeddings
 
 ```sql
 create extension if not exists vector;
@@ -194,7 +178,7 @@ create table doc_embeddings (
 );
 ```
 
-### 🔹 Similarity Search
+### Similarity Search
 
 ```sql
 select id, content
@@ -202,11 +186,9 @@ from doc_embeddings
 order by embedding <-> '[0.1, 0.2, ...]' limit 5;
 ```
 
-### 🔹 Connect BigQuery / Snowflake
+### Connect BigQuery / Snowflake
 
 Use `pg_fdw` or `pgbouncer` connector → push analytics data to data warehouse.
-
----
 
 ## 13.8 🧾 Data Governance & Compliance (PII / GDPR)
 
@@ -219,8 +201,6 @@ Use `pg_fdw` or `pgbouncer` connector → push analytics data to data warehouse.
 | Secure Backup                  | Enable encryption-at-rest (Supabase default)  |
 
 > 🔐 Supabase Pro/Enterprise complies with SOC2 and GDPR by default.
-
----
 
 ## 13.9 🧱 Multi-Tenant Architecture
 
@@ -237,7 +217,7 @@ using ( tenant_id = current_setting('app.tenant_id')::uuid );
 
 ### 2️⃣ Separate Schema Per Tenant
 
-```
+```bash
 tenant_1.orders
 tenant_2.orders
 ```
@@ -251,8 +231,6 @@ tenant_2.orders
 → Use Supabase CLI to deploy multiple projects.
 
 > Suitable when large customers need complete isolation.
-
----
 
 ## 13.10 🧩 Supabase Plugin Ecosystem
 
@@ -268,11 +246,9 @@ tenant_2.orders
 | `pgjwt`            | Custom JWT encode/decode        |
 | `http`             | Trigger webhooks from DB events |
 
----
-
 ## 13.11 ⚙️ DevOps Automation (IaC & Self-host)
 
-### 🧩 Infrastructure as Code (IaC)
+### Infrastructure as Code (IaC)
 
 Use Terraform + Supabase provider:
 
@@ -284,7 +260,7 @@ resource "supabase_project" "main" {
 }
 ```
 
-### 🧩 Self-host Supabase (Enterprise)
+### Self-host Supabase (Enterprise)
 
 ```bash
 git clone https://github.com/supabase/supabase
@@ -293,8 +269,6 @@ docker compose up
 ```
 
 > When need to deploy in private network / on-premise.
-
----
 
 ## 13.12 🧠 Case Study & Design Patterns
 
@@ -307,13 +281,11 @@ docker compose up
 | AI note app           | pgvector + Supabase Storage          | Search + Store audio files |
 | Analytics pipeline    | pg_net + BigQuery sync               | Lightweight serverless ETL |
 
----
-
 ## 13.13 📚 Training Expansion & Knowledge Base
 
-### 💡 Internal Notion / Wiki Structure
+### Internal Notion / Wiki Structure
 
-```
+```bash
 Supabase Training Hub
 ├── Getting Started
 │   ├── Setup Environment
@@ -339,8 +311,6 @@ Supabase Training Hub
 > - Exercise checklist
 > - Review quiz
 
----
-
 ## 13.14 🧭 Completion Checklist (Advanced Level)
 
 | Item                                                 | Status |
@@ -356,8 +326,6 @@ Supabase Training Hub
 | Automate deployment with CLI / Terraform             | ☐      |
 | Contribute internal case studies                     | ☐      |
 
----
-
 ## 13.15 💡 Next Development Directions
 
 - Build **Supabase Internal Template Repo** (standard boilerplate).
@@ -365,8 +333,6 @@ Supabase Training Hub
 - Write **Internal Plugins (pg_function)** for specific use cases.
 - Build **AI Copilot Internal** to auto-suggest queries / policies.
 - Organize **Supabase Camp**: mini training quarterly.
-
----
 
 ## 13.16 🧾 Output After This Section
 
@@ -377,8 +343,6 @@ Supabase Training Hub
 > - [x] Deeply understand Supabase internal mechanisms.
 > - [x] Write advanced Edge Functions, policies, and cron jobs.
 > - [x] Design multi-tenant, compliance-ready architecture.
-
----
 
 ## ✅ Conclusion of Entire Documentation
 

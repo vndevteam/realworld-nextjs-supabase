@@ -1,4 +1,4 @@
-# 🔑 Part 3. Authorization (RLS & Policy)
+# Part 3. Authorization (RLS & Policy)
 
 > Goal: Understand how Supabase uses RLS to protect data, write secure policies for each table, and attach metadata (role, org_id) from JWT to policies.
 

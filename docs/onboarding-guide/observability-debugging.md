@@ -1,8 +1,6 @@
-# 🔍 Part 9. Observability & Debugging
+# Part 9. Observability & Debugging
 
 > Goal: Build comprehensive "observability" — logs, traces, metrics — to detect errors early, understand root causes, and optimize Supabase + Next.js performance.
-
----
 
 ## 9.1 🎯 Learning Objectives
 
@@ -13,8 +11,6 @@ After completing this section, developers can:
 - Write business logs (custom logging).
 - Monitor slow queries, HTTP errors, or job failures.
 - Set up alerts (Slack, Email, Sentry, etc.).
-
----
 
 ## 9.2 🧩 Observability Layers in System
 
@@ -35,11 +31,9 @@ E --> F[External Monitoring: Sentry / Grafana / Slack]
 | **Background jobs**    | Cron failures, queue retries                  | pg_cron / pgmq logs    |
 | **Integration**        | Webhook failures, 3rd-party timeouts          | API log table / alerts |
 
----
-
 ## 9.3 ⚙️ Basic Logging in Supabase
 
-### 🔹 1️⃣ Edge Function Logs
+### 1️⃣ Edge Function Logs
 
 ```bash
 supabase functions logs --name send-reminder --follow
@@ -47,7 +41,7 @@ supabase functions logs --name send-reminder --follow
 
 > Displays actual function logs when called (errors, console.log, status).
 
-### 🔹 2️⃣ Database Logs (Query / Error)
+### 2️⃣ Database Logs (Query / Error)
 
 Access **Supabase Dashboard → Logs → Database**
 Or query manually:
@@ -59,13 +53,13 @@ where event_type = 'postgres'
 order by timestamp desc limit 10;
 ```
 
-### 🔹 3️⃣ Cron Job Logs
+### 3️⃣ Cron Job Logs
 
 ```sql
 select * from cron.job_run_details order by start_time desc limit 5;
 ```
 
-### 🔹 4️⃣ Realtime Errors
+### 4️⃣ Realtime Errors
 
 If Realtime channel disconnects:
 
@@ -75,8 +69,6 @@ supabase
   .subscribe()
   .on("error", (err) => console.error("Realtime error:", err));
 ```
-
----
 
 ## 9.4 🧰 Structured Logging
 
@@ -95,11 +87,9 @@ console.log(
 
 > Easy to send through pipelines (Sentry, Loki, Logflare) or parse with SQL JSON queries.
 
----
-
 ## 9.5 🧠 Debugging in Edge Functions
 
-### 🔹 Local Serve with Live Logs
+### Local Serve with Live Logs
 
 ```bash
 supabase functions serve send-reminder
@@ -111,7 +101,7 @@ Then test:
 curl -i http://localhost:54321/functions/v1/send-reminder
 ```
 
-### 🔹 Add Detailed try/catch
+### Add Detailed try/catch
 
 ```ts
 try {
@@ -123,8 +113,6 @@ try {
 ```
 
 > ✅ When deployed, this log will appear in `supabase functions logs`.
-
----
 
 ## 9.6 🧩 Logging in Database (Custom Table)
 
@@ -152,11 +140,9 @@ await supabase.from("system_logs").insert({
 
 > Can review logs via dashboard or export to Grafana / DataDog.
 
----
-
 ## 9.7 ⚡ Debug Performance Queries
 
-### 🔹 Find Slow Queries
+### Find Slow Queries
 
 ```sql
 select query, total_exec_time, calls
@@ -164,13 +150,13 @@ from pg_stat_statements
 order by total_exec_time desc limit 10;
 ```
 
-### 🔹 Enable Extension
+### Enable Extension
 
 ```sql
 create extension if not exists pg_stat_statements;
 ```
 
-### 🔹 Analyze EXPLAIN ANALYZE
+### Analyze EXPLAIN ANALYZE
 
 ```sql
 explain analyze select * from subscriptions where user_id = 'abc';
@@ -178,11 +164,9 @@ explain analyze select * from subscriptions where user_id = 'abc';
 
 > Helps identify missing indexes, full table scans, or RLS overhead.
 
----
-
 ## 9.8 🧭 Observability for Next.js
 
-### 🔹 Basic Logging
+### Basic Logging
 
 ```ts
 import pino from "pino";
@@ -192,7 +176,7 @@ logger.info({ route: "/api/task", user, latency });
 logger.error({ route: "/api/task", err });
 ```
 
-### 🔹 Sentry Integration
+### Sentry Integration
 
 ```bash
 npm i @sentry/nextjs
@@ -209,8 +193,6 @@ Sentry.init({
 ```
 
 > ✅ Automatically catches FE/BE errors, displays stacktrace + user info + release version.
-
----
 
 ## 9.9 🧩 Alerting (Email / Slack)
 
@@ -246,8 +228,6 @@ await fetch(`${SUPABASE_FN_URL}/alert-slack`, {
 
 > 🔔 Helps team receive notifications in Slack when runtime errors occur.
 
----
-
 ## 9.10 🧮 Periodic System Monitoring
 
 | Component      | Check                           | Frequency  | How to Implement             |
@@ -259,8 +239,6 @@ await fetch(`${SUPABASE_FN_URL}/alert-slack`, {
 | FE latency     | TTFB, LCP, errors               | Continuous | Vercel / Sentry              |
 | Integration    | API timeouts                    | Daily      | `api_log` table              |
 
----
-
 ## 9.11 🧭 Completion Checklist
 
 - [ ] Know how to read Supabase logs (DB, Cron, Functions).
@@ -270,8 +248,6 @@ await fetch(`${SUPABASE_FN_URL}/alert-slack`, {
 - [ ] Set up Sentry for FE + BE.
 - [ ] Created automatic Slack alerts.
 - [ ] Have dashboard or queries to check logs periodically.
-
----
 
 ## 9.12 💡 Internal Best Practices
 
@@ -286,8 +262,6 @@ await fetch(`${SUPABASE_FN_URL}/alert-slack`, {
 9. **Attach ISO timestamp to all logs.**
 10. **Keep log retention ≥ 30 days.**
 
----
-
 ## 9.13 📚 References
 
 - [Supabase Logs](https://supabase.com/docs/guides/platform/logs)
@@ -295,8 +269,6 @@ await fetch(`${SUPABASE_FN_URL}/alert-slack`, {
 - [Supabase Functions Logs](https://supabase.com/docs/guides/functions/logs)
 - [Sentry Next.js Integration](https://docs.sentry.io/platforms/javascript/guides/nextjs/)
 - [OpenTelemetry + Next.js Guide](https://opentelemetry.io/docs/instrumentation/js/nextjs/)
-
----
 
 ## 9.14 🧾 Output After This Section
 

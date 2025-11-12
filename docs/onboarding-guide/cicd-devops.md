@@ -1,8 +1,6 @@
-# ⚙️ Part 8. CI/CD & DevOps
+# Part 8. CI/CD & DevOps
 
 > Goal: Set up automated CI/CD processes for Supabase and Next.js, manage multiple environments (dev/staging/prod), and ensure safe deployment and easy rollback.
-
----
 
 ## 8.1 🎯 Learning Objectives
 
@@ -14,8 +12,6 @@ After completing this section, developers can:
 - Understand monitoring, logging, and rollback.
 - Know how to optimize cost & DevOps effort for Supabase-first projects.
 
----
-
 ## 8.2 🧩 CI/CD Architecture Overview
 
 ```mermaid
@@ -26,8 +22,6 @@ B -->|Step 2| D[Supabase CLI - db push / test / function deploy]
 B -->|Step 3| E[Next.js build & deploy to Vercel]
 E -->|Monitoring| F[Supabase Logs + Alerts]
 ```
-
----
 
 ## 8.3 ⚙️ CI/CD Preparation
 
@@ -50,8 +44,6 @@ E -->|Monitoring| F[Supabase Logs + Alerts]
 | `VERCEL_TOKEN`                                               | Next.js deploy token         |
 | `VERCEL_ORG_ID` / `VERCEL_PROJECT_ID`                        | From Vercel dashboard        |
 | `NEXT_PUBLIC_SUPABASE_URL` / `NEXT_PUBLIC_SUPABASE_ANON_KEY` | For FE build                 |
-
----
 
 ## 8.4 🧰 Sample CI/CD Pipeline
 
@@ -109,13 +101,11 @@ jobs:
 
 > 💡 `supabase functions deploy --all` will automatically deploy all new/updated functions.
 
----
-
 ## 8.5 🧩 Multi-environment Setup (dev/staging/prod)
 
-### 📂 Environment Structure
+### Environment Structure
 
-```
+```bash
 .env.development
 .env.staging
 .env.production
@@ -137,8 +127,6 @@ env:
 ```
 
 > ✅ Automatically select different Supabase projects based on branch (`staging` or `main`).
-
----
 
 ## 8.6 🧱 Migration Workflow (Production-safe)
 
@@ -170,8 +158,6 @@ E --> F[Prod migration run]
 
 > 🔐 **Always require review before applying migrations to production.**
 
----
-
 ## 8.7 🧩 Deploy Edge Functions Separately
 
 When you only update functions without changing schema.
@@ -188,8 +174,6 @@ supabase functions deploy send-reminder
 ```
 
 > ✅ Helps deploy faster without affecting DB migrations.
-
----
 
 ## 8.8 🧠 Rollback Strategy
 
@@ -210,8 +194,6 @@ supabase functions deploy send-reminder@<previous-version>
 
 > ✅ Keeping function files versioned in Git helps quick rollback.
 
----
-
 ## 8.9 🧭 Monitoring & Observability
 
 | Component           | How to Monitor                        | Tool              |
@@ -221,8 +203,6 @@ supabase functions deploy send-reminder@<previous-version>
 | **Frontend deploy** | Vercel / Cloudflare dashboard         | Web UI            |
 | **Error tracking**  | Sentry or Logflare                    | Optional          |
 | **System alert**    | Email / Slack webhook                 | via Edge Function |
-
----
 
 ## 8.10 🧮 Backup & Disaster Recovery
 
@@ -240,8 +220,6 @@ supabase functions deploy send-reminder@<previous-version>
   ```
 
 - Always backup before large migrations or bulk data deletion.
-
----
 
 ## 8.11 🧰 Local DevOps Utilities
 
@@ -265,8 +243,6 @@ docker system prune -f
 
 > Helps devs set up local easily, not dependent on manual steps.
 
----
-
 ## 8.12 🧭 Completion Checklist
 
 - [ ] GitHub Actions pipeline works (build + migrate + deploy).
@@ -275,8 +251,6 @@ docker system prune -f
 - [ ] Function deployment automated.
 - [ ] Have way to rollback migrations & functions.
 - [ ] Have logs + alerts for jobs and functions.
-
----
 
 ## 8.13 💡 Internal Best Practices
 
@@ -291,8 +265,6 @@ docker system prune -f
 9. **Document all jobs in CI/CD changelog.**
 10. **Always have rollback scripts (migration + function).**
 
----
-
 ## 8.14 📚 References
 
 - [Supabase CLI – Managing Environments](https://supabase.com/docs/guides/cli/managing-environments)
@@ -300,8 +272,6 @@ docker system prune -f
 - [Supabase Functions Deploy](https://supabase.com/docs/reference/cli/supabase-functions-deploy)
 - [GitHub Actions Manual Approval](https://github.com/marketplace/actions/manual-approval)
 - [Vercel CLI Deploy Docs](https://vercel.com/docs/cli/deploy)
-
----
 
 ## 8.15 🧾 Output After This Section
 

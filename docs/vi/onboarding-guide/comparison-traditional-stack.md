@@ -1,9 +1,7 @@
-# ⚖️ Phần 12. So sánh với Techstack Truyền Thống
+# Phần 12. So sánh với Techstack Truyền Thống
 
 > Mục tiêu: Hiểu sự khác biệt giữa “Supabase-first architecture” và “Backend API truyền thống”
 > — về cấu trúc, effort triển khai, chi phí, tốc độ phát triển, và khả năng vận hành lâu dài.
-
----
 
 ## 12.1 🎯 Mục tiêu học phần
 
@@ -12,8 +10,6 @@ Sau phần này, bạn có thể:
 - Giải thích rõ khi nào nên dùng **Supabase-first**, khi nào nên dùng **backend truyền thống**.
 - Hiểu **trade-off** về performance, chi phí, và maintainability.
 - Dễ dàng đưa ra quyết định công nghệ cho dự án thực tế.
-
----
 
 ## 12.2 🧩 So sánh tổng quan
 
@@ -39,11 +35,9 @@ Sau phần này, bạn có thể:
 | **Developer Experience**    | Cao, dev mới onboard nhanh                                      | Tốt với team backend mạnh                             |
 | **Thời gian ra MVP**        | Rất nhanh (1–3 ngày)                                            | Trung bình (1–2 tuần)                                 |
 
----
-
 ## 12.3 ⚙️ So sánh chi tiết theo từng layer
 
-### 🔹 Authentication & Authorization
+### Authentication & Authorization
 
 | Tiêu chí                                    | Supabase                | Backend truyền thống      |
 | ------------------------------------------- | ----------------------- | ------------------------- |
@@ -56,9 +50,7 @@ Sau phần này, bạn có thể:
 ✅ **Ưu điểm Supabase:** Triển khai auth cực nhanh, bảo mật chuẩn JWT.
 ⚠️ **Nhược điểm:** Khó mở rộng custom claim hoặc multi-tenant logic phức tạp.
 
----
-
-### 🔹 Database & ORM
+### Database & ORM
 
 | Tiêu chí           | Supabase                      | Backend truyền thống               |
 | ------------------ | ----------------------------- | ---------------------------------- |
@@ -71,9 +63,7 @@ Sau phần này, bạn có thể:
 ✅ **Supabase** phù hợp MVP, SaaS CRUD nhanh.
 ⚠️ **Backend truyền thống** mạnh hơn khi cần transaction logic phức tạp hoặc DB hybrid.
 
----
-
-### 🔹 API & Integration
+### API & Integration
 
 | Tiêu chí                 | Supabase                       | Backend truyền thống             |
 | ------------------------ | ------------------------------ | -------------------------------- |
@@ -86,9 +76,7 @@ Sau phần này, bạn có thể:
 ✅ **Supabase:** đơn giản hóa backend API.
 ⚠️ **Truyền thống:** linh hoạt hơn khi cần nhiều logic phức tạp, validation sâu.
 
----
-
-### 🔹 CI/CD & DevOps
+### CI/CD & DevOps
 
 | Tiêu chí     | Supabase                          | Backend truyền thống               |
 | ------------ | --------------------------------- | ---------------------------------- |
@@ -102,9 +90,7 @@ Sau phần này, bạn có thể:
 ✅ **Supabase:** giảm DevOps effort 70–80%.
 ⚠️ **Truyền thống:** linh hoạt hơn với custom infra, multi-region, network layer.
 
----
-
-### 🔹 Cost & Maintainability
+### Cost & Maintainability
 
 | Tiêu chí             | Supabase-first     | Backend truyền thống  |
 | -------------------- | ------------------ | --------------------- |
@@ -117,8 +103,6 @@ Sau phần này, bạn có thể:
 
 ✅ Supabase giúp startup tiết kiệm chi phí khởi điểm lớn.
 ⚠️ Khi scale lớn (hàng triệu user, heavy compute), cần hybrid kiến trúc.
-
----
 
 ## 12.4 🚀 Performance Trade-off
 
@@ -135,8 +119,6 @@ Sau phần này, bạn có thể:
 Supabase **xuất sắc cho MVP / SaaS vừa và nhỏ**,
 Backend truyền thống **vượt trội khi cần performance cực cao và kiểm soát hạ tầng chi tiết.**
 
----
-
 ## 12.5 🧠 Dev Experience & Productivity
 
 | Yếu tố               | Supabase-first            | Truyền thống                   |
@@ -149,8 +131,6 @@ Backend truyền thống **vượt trội khi cần performance cực cao và ki
 | Hotfix / Deploy      | 1 CLI command             | Pipeline build, restart server |
 | Documentation        | Gọn, dễ tự học            | Phải tự ghi lại chuẩn nội bộ   |
 
----
-
 ## 12.6 🧮 Tổng quan Effort vs Value
 
 | Giai đoạn                  | Supabase Effort             | Truyền thống Effort | Ghi chú                  |
@@ -161,8 +141,6 @@ Backend truyền thống **vượt trội khi cần performance cực cao và ki
 | Bảo trì lâu dài            | ⭐ Dễ                       | ⚠️ Tốn công         | Supabase update tự động  |
 | Chi phí DevOps             | ⭐ Thấp                     | 🔺 Cao              | Không cần server admin   |
 | Flexibility (custom logic) | ⚠️ Hạn chế                  | ⭐ Cao              | Backend tự do hơn        |
-
----
 
 ## 12.7 🧭 Khi nào nên chọn Supabase
 
@@ -175,8 +153,6 @@ Backend truyền thống **vượt trội khi cần performance cực cao và ki
 - Dự án codebase Next.js hoặc frontend-heavy.
 - Muốn tối ưu chi phí hạ tầng giai đoạn đầu.
 
----
-
 ## 12.8 ⚙️ Khi nào nên chọn Backend Truyền Thống
 
 ✅ **Dùng backend riêng khi:**
@@ -186,8 +162,6 @@ Backend truyền thống **vượt trội khi cần performance cực cao và ki
 - Có team backend mạnh hoặc DevOps riêng.
 - Cần hiệu năng cực cao, kiểm soát networking, connection pooling.
 - Hệ thống cần multi-region / private VPC / fine-grained IAM.
-
----
 
 ## 12.9 🧾 Tổng hợp so sánh định lượng
 
@@ -207,8 +181,6 @@ Backend truyền thống **vượt trội khi cần performance cực cao và ki
 | Tốc độ release feature | 🚀 Nhanh          | ⚙️ Chậm hơn           |
 | ROI (effort/value)     | ⭐ Cao nhất       | ⚖️ Phụ thuộc use case |
 
----
-
 ## 12.10 💡 Lời khuyên triển khai Hybrid Architecture
 
 Nhiều công ty hiện nay chọn **Hybrid model**:
@@ -217,8 +189,8 @@ Nhiều công ty hiện nay chọn **Hybrid model**:
 flowchart TD
 A[Next.js Frontend] -->|Supabase SDK| B[(Supabase Auth + DB + Storage)]
 B --> C[Edge Functions]
-C -->|async jobs| D[Backend Microservice (NestJS / Kotlin)]
-D --> E[(RDS / Data Lake / AI Engine)]
+C -->|async jobs| D[Backend Microservice - NestJS / Kotlin]
+D --> E[RDS / Data Lake / AI Engine]
 ```
 
 💡 **Pattern này lý tưởng khi:**
@@ -226,8 +198,6 @@ D --> E[(RDS / Data Lake / AI Engine)]
 - Supabase xử lý Auth, CRUD, Realtime.
 - Backend riêng chỉ dùng cho logic nặng hoặc async job.
 - Dễ scale mà vẫn giữ chi phí thấp giai đoạn đầu.
-
----
 
 ## 12.11 🧭 Checklist chọn stack cho dự án
 
@@ -242,8 +212,6 @@ D --> E[(RDS / Data Lake / AI Engine)]
 | Hệ thống cần xử lý song song hoặc tính toán nặng? | ✅ Backend truyền thống        |
 | Dự kiến mở rộng global multi-region?              | ⚙️ Hybrid (Supabase + Backend) |
 
----
-
 ## 12.12 📚 Tài liệu tham khảo
 
 - [Supabase vs Firebase vs AWS Amplify](https://supabase.com/docs/guides/resources/compare)
@@ -252,8 +220,6 @@ D --> E[(RDS / Data Lake / AI Engine)]
 - [Spring Boot Architecture](https://spring.io/projects/spring-boot)
 - [AWS Pricing Calculator](https://calculator.aws/)
 - [PostgREST Performance Notes](https://postgrest.org/en/stable/performance.html)
-
----
 
 ## 12.13 🧾 Output sau phần này
 

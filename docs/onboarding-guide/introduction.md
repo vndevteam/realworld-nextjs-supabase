@@ -1,4 +1,4 @@
-# 🏁 Part 0. Introduction & Overview
+# Part 0. Introduction & Overview
 
 > Purpose: Help new developers understand "what Supabase is", "why choose this stack", and "what the learning path looks like" before diving into specific technical details.
 

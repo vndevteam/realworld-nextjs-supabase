@@ -1,8 +1,6 @@
-# 🛡️ Part 10. Security Best Practices
+# Part 10. Security Best Practices
 
 > Goal: Understand security layers in Supabase + Next.js systems, master "secure-by-default" principles, and avoid common mistakes when deploying projects to production.
-
----
 
 ## 10.1 🎯 Learning Objectives
 
@@ -13,8 +11,6 @@ After completing this section, developers can:
 - Limit access to Edge Functions, Storage, and Webhooks.
 - Protect secrets in CI/CD.
 - Understand authorization model in Supabase.
-
----
 
 ## 10.2 🧩 Main Security Layers
 
@@ -37,8 +33,6 @@ G[CI/CD Secrets] --> D
 | **Functions**          | Unauthorized calls   | Header validation + rate limiting   |
 | **CI/CD**              | Exposed secrets      | GitHub Encrypted Secrets            |
 | **Webhook**            | Fake requests        | Verify signatures                   |
-
----
 
 ## 10.3 🔑 1️⃣ API Keys & Environment Variables
 
@@ -66,8 +60,6 @@ SUPABASE_SERVICE_ROLE_KEY=...
 
 **Never** export `service_role_key` to browser or public APIs.
 
----
-
 ## 10.4 🧱 2️⃣ Row Level Security (RLS)
 
 RLS is the most important "security barrier" in Supabase.
@@ -81,8 +73,6 @@ RLS is the most important "security barrier" in Supabase.
 | Policies check `auth.uid()` for users                              | ☐     | Don't rely on email                          |
 | Separate policies for `admin` / `service role`                     | ☐     | `auth.jwt()->>'role' = 'admin'`              |
 | Test policies with `Run as user` in dashboard                      | ☐     | Ensure no data leaks                         |
-
----
 
 ### Correct Example
 
@@ -107,8 +97,6 @@ for select
 using ( true ); -- ❌ anyone can view
 ```
 
----
-
 ## 10.5 🔐 3️⃣ Auth & Session Security
 
 ### ✅ Token Expiration
@@ -131,8 +119,6 @@ await supabase.auth.signOut({ scope: "local" });
 ### ✅ Instead
 
 Supabase SSR client (`@supabase/ssr`) automatically stores sessions via secure cookies.
-
----
 
 ## 10.6 🧩 4️⃣ Edge Functions Security
 
@@ -158,8 +144,6 @@ if (!["https://app.example.com"].includes(origin!)) {
 
 - Use Cloudflare or Supabase Function middleware:
   cache IP → count requests → block if exceeds threshold.
-
----
 
 ## 10.7 🧱 5️⃣ Storage Bucket Security
 
@@ -187,8 +171,6 @@ const { data } = await supabase.storage
   .from("user-files")
   .createSignedUrl("user-123/avatar.png", 3600);
 ```
-
----
 
 ## 10.8 ⚙️ 6️⃣ Webhook & Integration Security
 
@@ -222,8 +204,6 @@ if (secret !== Deno.env.get("INTERNAL_SECRET"))
   return new Response("Unauthorized", { status: 401 });
 ```
 
----
-
 ## 10.9 🧰 7️⃣ CI/CD & Secrets Protection
 
 | Risk                    | Mitigation                                              |
@@ -238,7 +218,7 @@ if (secret !== Deno.env.get("INTERNAL_SECRET"))
 
 Setup:
 
-```
+```bash
 SUPABASE_ACCESS_TOKEN
 SUPABASE_PROJECT_REF
 SUPABASE_SERVICE_ROLE_KEY
@@ -246,8 +226,6 @@ VERCEL_TOKEN
 ```
 
 > 🔐 All secrets only referenced in workflows, not hardcoded in YAML.
-
----
 
 ## 10.10 🧮 8️⃣ Database-Level Hardening
 
@@ -260,8 +238,6 @@ VERCEL_TOKEN
 | `limited extension` | Only enable necessary extensions (`pg_cron`, `pgmq`, `pg_net`). |
 | `audit_log`         | Log all delete or update actions.                               |
 
----
-
 ## 10.11 🧠 9️⃣ Frontend Security (Next.js)
 
 | Threat               | Solution                                                             |
@@ -272,8 +248,6 @@ VERCEL_TOKEN
 | Clickjacking         | Add header `X-Frame-Options: DENY`                                   |
 | Error Leak           | Hide server errors when returning to FE (only send generic messages) |
 | Cache sensitive data | Disable caching for `/api/*` routes containing user info             |
-
----
 
 ## 10.12 🧭 10️⃣ Auditing & Incident Response
 
@@ -309,8 +283,6 @@ VERCEL_TOKEN
    - Compare `auth.uid()` doesn't match `created_by` → send Slack alert.
    - Cron check hourly for delete / update actions.
 
----
-
 ## 10.13 🧭 Overall Security Checklist
 
 | Item                                     | Status |
@@ -326,8 +298,6 @@ VERCEL_TOKEN
 | 🚨 Have audit logs and Slack alerts      | ☐      |
 | ✅ Periodically rotate keys & tokens     | ☐      |
 
----
-
 ## 10.14 💡 Internal Best Practices
 
 1. **Security by Default** – all tables, buckets, functions default to _blocked access_.
@@ -341,8 +311,6 @@ VERCEL_TOKEN
 9. **Limit bandwidth for public buckets.**
 10. **Always test "unauthorized access" cases in QA.**
 
----
-
 ## 10.15 📚 References
 
 - [Supabase Security Overview](https://supabase.com/docs/guides/platform/security)
@@ -351,8 +319,6 @@ VERCEL_TOKEN
 - [Supabase Storage Security](https://supabase.com/docs/guides/storage)
 - [Next.js Security Headers](https://nextjs.org/docs/advanced-features/security-headers)
 - [OWASP Top 10 (2023)](https://owasp.org/www-project-top-ten/)
-
----
 
 ## 10.16 🧾 Output After This Section
 

@@ -34,8 +34,6 @@ Documentation goals:
    - Features to implement: Auth, CRUD, Batch Job, Upload, Cron
    - Directory structure, learning flow by module
 
----
-
 ## 🧱 Part 1. Setup & Environment Preparation
 
 1. **Tool installation**
@@ -63,8 +61,6 @@ Documentation goals:
    - `/lib` – Supabase client, hooks
    - `/supabase` – migrations, policies, seeds
    - `/scripts` – batch jobs, automation
-
----
 
 ## 🔐 Part 2. Authentication
 
@@ -103,8 +99,6 @@ Documentation goals:
    - Hooks `auth.users` → `profile` table sync
    - Best practice: sync user profile using trigger or Edge Function
 
----
-
 ## 🔑 Part 3. Authorization (RLS & Policy)
 
 1. **Introduction to RLS (Row-Level Security)**
@@ -130,8 +124,6 @@ Documentation goals:
    - Test policies before coding (SQL playground)
    - Convention for writing policy.sql / migration.sql files
 
----
-
 ## 💾 Part 4. Database & Migrations
 
 1. **Schema design**
@@ -156,8 +148,6 @@ Documentation goals:
    - RPC functions
    - Caching (Next.js revalidate tag)
    - Use `explain analyze` to check queries
-
----
 
 ## 🌐 Part 5. Supabase + Next.js Integration
 
@@ -185,8 +175,6 @@ Documentation goals:
    - Write Edge Functions (`supabase functions new send-email`)
    - Test and deploy Edge Functions
    - Call Edge Functions from Next.js (client/server)
-
----
 
 ## ⏰ Part 6. Batch Job & Background Tasks
 
@@ -217,8 +205,6 @@ Documentation goals:
    - Logs in Supabase dashboard
    - Retry / failure tracking
 
----
-
 ## 🧩 Part 7. API & Integration Patterns
 
 1. **Direct Query vs API Proxy**
@@ -235,8 +221,6 @@ Documentation goals:
 
    - Stripe / GitHub / Slack webhooks
    - Best practice: store audit logs
-
----
 
 ## ⚙️ Part 8. CI/CD & DevOps
 
@@ -264,8 +248,6 @@ Documentation goals:
    - Integration test with Supabase local
    - Mock Supabase in Jest
 
----
-
 ## 🔍 Part 9. Observability & Debugging
 
 1. **Logs**
@@ -284,8 +266,6 @@ Documentation goals:
    - Alert email / Slack when jobs fail
    - Basic metrics (API latency, job duration, etc.)
 
----
-
 ## 🔒 Part 10. Security Best Practices
 
 1. **API keys & secrets**
@@ -302,8 +282,6 @@ Documentation goals:
 
    - Use Edge Function middleware
    - Logging and spam detection
-
----
 
 ## 💰 Part 11. Cost & Performance Optimization
 
@@ -322,8 +300,6 @@ Documentation goals:
 
    - Compare CRUD performance: Supabase vs traditional API backend
 
----
-
 ## 📊 Part 12. Comparison with Traditional Tech Stack
 
 | Category            | Supabase + Next.js      | Traditional Backend   |
@@ -336,8 +312,6 @@ Documentation goals:
 | DevOps              | CLI + Dashboard         | Self-setup infra      |
 | Initial cost        | Very low                | Medium – high         |
 | Large-scale scaling | Vendor limits           | Full control          |
-
----
 
 ## 🧠 Part 13. Appendix (Advanced)
 
@@ -359,8 +333,6 @@ Documentation goals:
 
    - Common errors (RLS deny, token expired, etc.)
    - Debug checklist
-
----
 
 ## 📎 Part 14. References
 

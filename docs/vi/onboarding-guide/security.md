@@ -1,8 +1,6 @@
-# 🛡️ Phần 10. Security Best Practices
+# Phần 10. Security Best Practices
 
 > Mục tiêu: hiểu rõ các lớp bảo mật trong hệ thống Supabase + Next.js, nắm quy tắc “an toàn theo mặc định” (secure-by-default), và tránh những sai lầm phổ biến khi đưa dự án lên production.
-
----
 
 ## 10.1 🎯 Mục tiêu học phần
 
@@ -13,8 +11,6 @@ Sau khi hoàn thành phần này, dev có thể:
 - Giới hạn quyền truy cập Edge Functions, Storage, và Webhook.
 - Bảo vệ secrets trong CI/CD.
 - Hiểu mô hình phân quyền trong Supabase.
-
----
 
 ## 10.2 🧩 Các lớp bảo mật chính
 
@@ -37,8 +33,6 @@ G[CI/CD Secrets] --> D
 | **Functions**          | Unauthorized call | Header validation + rate limit    |
 | **CI/CD**              | Lộ secrets        | GitHub Encrypted Secrets          |
 | **Webhook**            | Giả request       | Verify signature                  |
-
----
 
 ## 10.3 🔑 1️⃣ API Keys & Environment Variables
 
@@ -66,8 +60,6 @@ SUPABASE_SERVICE_ROLE_KEY=...
 
 **Không bao giờ** export `service_role_key` ra trình duyệt hay API public.
 
----
-
 ## 10.4 🧱 2️⃣ Row Level Security (RLS)
 
 RLS là “hàng rào bảo mật” quan trọng nhất trong Supabase.
@@ -81,8 +73,6 @@ RLS là “hàng rào bảo mật” quan trọng nhất trong Supabase.
 | Policy có `auth.uid()` kiểm tra user                       | ☐       | Không rely vào email                         |
 | Policy cho `admin` / `service role` riêng                  | ☐       | `auth.jwt()->>'role' = 'admin'`              |
 | Test policy bằng `Run as user` trong dashboard             | ☐       | Đảm bảo không leak dữ liệu                   |
-
----
 
 ### Ví dụ chính xác
 
@@ -107,8 +97,6 @@ for select
 using ( true ); -- ❌ bất kỳ ai cũng xem được
 ```
 
----
-
 ## 10.5 🔐 3️⃣ Auth & Session Security
 
 ### ✅ Token expiration
@@ -131,8 +119,6 @@ await supabase.auth.signOut({ scope: "local" });
 ### ✅ Thay vào đó
 
 Supabase SSR client (`@supabase/ssr`) đã tự động lưu session qua cookies an toàn.
-
----
 
 ## 10.6 🧩 4️⃣ Edge Functions Security
 
@@ -158,8 +144,6 @@ if (!["https://app.example.com"].includes(origin!)) {
 
 - Dùng Cloudflare hoặc Supabase Function middleware:
   cache IP → đếm request → block nếu vượt ngưỡng.
-
----
 
 ## 10.7 🧱 5️⃣ Storage Bucket Security
 
@@ -187,8 +171,6 @@ const { data } = await supabase.storage
   .from("user-files")
   .createSignedUrl("user-123/avatar.png", 3600);
 ```
-
----
 
 ## 10.8 ⚙️ 6️⃣ Webhook & Integration Security
 
@@ -222,8 +204,6 @@ if (secret !== Deno.env.get("INTERNAL_SECRET"))
   return new Response("Unauthorized", { status: 401 });
 ```
 
----
-
 ## 10.9 🧰 7️⃣ CI/CD & Secrets Protection
 
 | Rủi ro                   | Biện pháp                                            |
@@ -238,7 +218,7 @@ if (secret !== Deno.env.get("INTERNAL_SECRET"))
 
 Thiết lập:
 
-```
+```bash
 SUPABASE_ACCESS_TOKEN
 SUPABASE_PROJECT_REF
 SUPABASE_SERVICE_ROLE_KEY
@@ -246,8 +226,6 @@ VERCEL_TOKEN
 ```
 
 > 🔐 Tất cả secrets chỉ được tham chiếu trong workflow, không hardcode trong YAML.
-
----
 
 ## 10.10 🧮 8️⃣ Database-Level Hardening
 
@@ -260,8 +238,6 @@ VERCEL_TOKEN
 | `limited extension` | Chỉ bật extension cần thiết (`pg_cron`, `pgmq`, `pg_net`). |
 | `audit_log`         | Lưu mọi hành động xóa hoặc cập nhật dữ liệu.               |
 
----
-
 ## 10.11 🧠 9️⃣ Frontend Security (Next.js)
 
 | Mối nguy             | Giải pháp                                               |
@@ -272,8 +248,6 @@ VERCEL_TOKEN
 | Clickjacking         | Thêm header `X-Frame-Options: DENY`                     |
 | Error Leak           | Ẩn lỗi server khi trả về FE (chỉ gửi message chung)     |
 | Cache sensitive data | Tắt caching với route `/api/*` chứa user info           |
-
----
 
 ## 10.12 🧭 10️⃣ Auditing & Incident Response
 
@@ -309,8 +283,6 @@ VERCEL_TOKEN
    - So sánh `auth.uid()` không trùng `created_by` → gửi Slack alert.
    - Cron check hàng giờ các hành động delete / update.
 
----
-
 ## 10.13 🧭 Checklist bảo mật tổng thể
 
 | Mục                                      | Trạng thái |
@@ -326,8 +298,6 @@ VERCEL_TOKEN
 | 🚨 Có audit log và alert Slack           | ☐          |
 | ✅ Định kỳ rotate keys & tokens          | ☐          |
 
----
-
 ## 10.14 💡 Best Practices nội bộ
 
 1. **Security by Default** – mọi bảng, bucket, function mặc định _bị chặn truy cập_.
@@ -341,8 +311,6 @@ VERCEL_TOKEN
 9. **Giới hạn bandwidth public bucket.**
 10. **Luôn test các case “truy cập trái phép” trong QA.**
 
----
-
 ## 10.15 📚 Tài liệu tham khảo
 
 - [Supabase Security Overview](https://supabase.com/docs/guides/platform/security)
@@ -351,8 +319,6 @@ VERCEL_TOKEN
 - [Supabase Storage Security](https://supabase.com/docs/guides/storage)
 - [Next.js Security Headers](https://nextjs.org/docs/advanced-features/security-headers)
 - [OWASP Top 10 (2023)](https://owasp.org/www-project-top-ten/)
-
----
 
 ## 10.16 🧾 Output sau phần này
 

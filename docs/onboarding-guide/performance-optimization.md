@@ -1,8 +1,6 @@
-# 💰 Part 11. Cost & Performance Optimization
+# Part 11. Cost & Performance Optimization
 
 > Goal: Optimize costs (compute, storage, logs) and performance (queries, cache, functions) of Supabase + Next.js systems without sacrificing security or stability.
-
----
 
 ## 11.1 🎯 Learning Objectives
 
@@ -13,8 +11,6 @@ After completing this section, developers can:
 - Reduce operational costs via cron batches, cold starts, and log retention.
 - Compare cost – effort with traditional backends (NestJS / Spring Boot).
 - Build internal guidelines to predict costs.
-
----
 
 ## 11.2 🧩 Overview of Cost Factors
 
@@ -28,11 +24,9 @@ After completing this section, developers can:
 | **Logs**           | retention & volume                          | delete old logs, structured logging   |
 | **CDN / Frontend** | builds, bandwidth, SSR load                 | static caching, ISR, Edge caching     |
 
----
-
 ## 11.3 ⚙️ Database Optimization
 
-### 🔹 1️⃣ Query Optimization (SQL)
+### 1️⃣ Query Optimization (SQL)
 
 **Signs of slow queries:**
 
@@ -56,7 +50,7 @@ order by created_at desc
 limit 20 offset 0;
 ```
 
-### 🔹 2️⃣ Query Caching
+### 2️⃣ Query Caching
 
 - Use **Edge Functions** or **Server Actions** to cache static queries:
 
@@ -66,11 +60,9 @@ export const revalidate = 60; // cache 1 minute
 
 - Supabase API can attach Cloudflare cache (if only reading public data).
 
----
-
 ## 11.4 🧮 Index & Table Size Management
 
-### 🔹 Check Large / Redundant Indexes
+### Check Large / Redundant Indexes
 
 ```sql
 select indexrelid::regclass as index_name,
@@ -79,13 +71,13 @@ from pg_index join pg_class on pg_class.oid = pg_index.indrelid
 order by pg_relation_size(indexrelid) desc;
 ```
 
-### 🔹 Remove Redundant Indexes
+### Remove Redundant Indexes
 
 ```sql
 drop index if exists idx_old_unused;
 ```
 
-### 🔹 Clean Up Temp Tables / Old Logs
+### Clean Up Temp Tables / Old Logs
 
 ```sql
 delete from system_logs where created_at < now() - interval '30 days';
@@ -94,11 +86,9 @@ vacuum analyze system_logs;
 
 > 🧠 "vacuum analyze" helps reduce disk space and optimize query plans.
 
----
-
 ## 11.5 ⚡ Edge Function Performance
 
-### 🔹 1️⃣ Cold Start
+### 1️⃣ Cold Start
 
 - Supabase Edge Functions have startup latency of 100–500ms first time.
 - Reduce by:
@@ -107,7 +97,7 @@ vacuum analyze system_logs;
   - Don't import heavy modules (Stripe SDK → use REST directly).
   - Use **Deno Deploy global cache** (Supabase auto-optimizes).
 
-### 🔹 2️⃣ Batch Requests
+### 2️⃣ Batch Requests
 
 Instead of calling API continuously per record:
 
@@ -115,12 +105,10 @@ Instead of calling API continuously per record:
 await supabase.from("payments").insert(batchData);
 ```
 
-### 🔹 3️⃣ Timeouts
+### 3️⃣ Timeouts
 
 - Limit function time < 10s (Supabase free tier max ~20s).
 - If need longer → move to **pgmq worker** or batch cron.
-
----
 
 ## 11.6 🧰 pg_cron & Batch Optimization
 
@@ -131,8 +119,6 @@ await supabase.from("payments").insert(batchData);
 | Job fails repeatedly       | Add retry logic via pgmq                             |
 | Too many cron logs         | Limit logs to 7 days                                 |
 | Function runs cron         | Call via `net.http_post` instead of client-side loop |
-
----
 
 ## 11.7 🧱 Realtime Optimization
 
@@ -156,8 +142,6 @@ useEffect(() => {
 - Only enable realtime for necessary tables.
 - Batch UI updates (debounce 1–2s).
 
----
-
 ## 11.8 🧩 Storage Optimization
 
 | Problem                       | Solution                                   |
@@ -180,8 +164,6 @@ select cron.schedule(
 );
 ```
 
----
-
 ## 11.9 🌐 Frontend (Next.js) Optimization
 
 | Component              | Solution                                        |
@@ -199,8 +181,6 @@ select cron.schedule(
 export const revalidate = 300; // cache 5 minutes
 ```
 
----
-
 ## 11.10 💾 Log & Retention Optimization
 
 | Log Type         | Keep How Long | Notes               |
@@ -217,16 +197,14 @@ delete from system_logs where created_at < now() - interval '30 days';
 
 > ⚠️ Don't store trace logs too long if not needed — wastes costs and slows queries.
 
----
-
 ## 11.11 📊 Periodic Performance Monitoring
 
-### 🔹 Use Supabase Dashboard
+### Use Supabase Dashboard
 
 - Monitor CPU, memory, I/O, query time
 - Tab **Database → Performance Insights**
 
-### 🔹 Use `pg_stat_statements`
+### Use `pg_stat_statements`
 
 ```sql
 select query, mean_exec_time, calls
@@ -234,14 +212,12 @@ from pg_stat_statements
 order by mean_exec_time desc limit 5;
 ```
 
-### 🔹 Combine Function Logging + Metrics Table
+### Combine Function Logging + Metrics Table
 
 ```sql
 insert into perf_metrics (name, duration_ms, at)
 values ('send_reminder_job', 125, now());
 ```
-
----
 
 ## 11.12 💰 Cost Comparison: Supabase-first vs Traditional Backend
 
@@ -259,8 +235,6 @@ values ('send_reminder_job', 125, now());
 | **Maintainability**     | Very high                     | Medium                                    |
 | **Total DevOps Effort** | ↓ 70–80%                      | baseline 100%                             |
 
----
-
 ## 11.13 🧭 Cost & Performance Optimization Checklist
 
 | Item                                             | Status |
@@ -276,8 +250,6 @@ values ('send_reminder_job', 125, now());
 | 🔹 Track Supabase cost dashboard                 | ☐      |
 | 🔹 Keep weekly performance reports               | ☐      |
 
----
-
 ## 11.14 💡 Internal Best Practices
 
 1. **Always measure performance with metrics instead of feeling.**
@@ -291,8 +263,6 @@ values ('send_reminder_job', 125, now());
 9. **Always review Storage & Realtime costs before scaling plan.**
 10. **Run light load tests before each major version.**
 
----
-
 ## 11.15 📚 References
 
 - [Supabase Pricing](https://supabase.com/pricing)
@@ -300,8 +270,6 @@ values ('send_reminder_job', 125, now());
 - [Postgres EXPLAIN Tutorial](https://www.postgresql.org/docs/current/using-explain.html)
 - [Next.js Performance Optimization](https://nextjs.org/docs/optimizing)
 - [pg_stat_statements Overview](https://supabase.com/docs/guides/database/extensions/pg-stat-statements)
-
----
 
 ## 11.16 🧾 Output After This Section
 

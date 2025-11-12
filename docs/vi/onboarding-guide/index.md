@@ -34,8 +34,6 @@ Mục tiêu của bộ tài liệu:
    - Các tính năng sẽ triển khai: Auth, CRUD, Batch Job, Upload, Cron
    - Cấu trúc thư mục, flow học tập theo từng module
 
----
-
 ## 🧱 Phần 1. Cài đặt & Chuẩn bị môi trường
 
 1. **Cài đặt công cụ**
@@ -63,8 +61,6 @@ Mục tiêu của bộ tài liệu:
    - `/lib` – Supabase client, hooks
    - `/supabase` – migrations, policies, seeds
    - `/scripts` – batch jobs, automation
-
----
 
 ## 🔐 Phần 2. Authentication
 
@@ -103,8 +99,6 @@ Mục tiêu của bộ tài liệu:
    - Hooks `auth.users` → `profile` table sync
    - Best practice: sync user profile bằng trigger hoặc Edge Function
 
----
-
 ## 🔑 Phần 3. Authorization (RLS & Policy)
 
 1. **Giới thiệu RLS (Row-Level Security)**
@@ -130,8 +124,6 @@ Mục tiêu của bộ tài liệu:
    - Test policy trước khi code (SQL playground)
    - Quy ước viết file policy.sql / migration.sql
 
----
-
 ## 💾 Phần 4. Database & Migrations
 
 1. **Thiết kế schema**
@@ -156,8 +148,6 @@ Mục tiêu của bộ tài liệu:
    - RPC function
    - Caching (Next.js revalidate tag)
    - Dùng `explain analyze` để kiểm tra query
-
----
 
 ## 🌐 Phần 5. Supabase + Next.js Integration
 
@@ -185,8 +175,6 @@ Mục tiêu của bộ tài liệu:
    - Viết Edge Function (`supabase functions new send-email`)
    - Test và deploy Edge Function
    - Gọi Edge Function từ Next.js (client/server)
-
----
 
 ## ⏰ Phần 6. Batch Job & Background Tasks
 
@@ -217,8 +205,6 @@ Mục tiêu của bộ tài liệu:
    - Logs trong Supabase dashboard
    - Retry / failure tracking
 
----
-
 ## 🧩 Phần 7. API & Integration Patterns
 
 1. **Direct Query vs API Proxy**
@@ -235,8 +221,6 @@ Mục tiêu của bộ tài liệu:
 
    - Stripe / GitHub / Slack webhook
    - Best practice lưu audit log
-
----
 
 ## ⚙️ Phần 8. CI/CD & DevOps
 
@@ -264,8 +248,6 @@ Mục tiêu của bộ tài liệu:
    - Integration test với Supabase local
    - Mock Supabase trong Jest
 
----
-
 ## 🔍 Phần 9. Observability & Debugging
 
 1. **Logs**
@@ -284,8 +266,6 @@ Mục tiêu của bộ tài liệu:
    - Alert email / Slack khi job fail
    - Metrics cơ bản (API latency, job duration,…)
 
----
-
 ## 🔒 Phần 10. Security Best Practices
 
 1. **API key & secret**
@@ -302,8 +282,6 @@ Mục tiêu của bộ tài liệu:
 
    - Dùng Edge Function middleware
    - Logging và detect spam
-
----
 
 ## 💰 Phần 11. Cost & Performance Optimization
 
@@ -322,8 +300,6 @@ Mục tiêu của bộ tài liệu:
 
    - So sánh performance CRUD Supabase vs API backend truyền thống
 
----
-
 ## 📊 Phần 12. So sánh với Techstack truyền thống
 
 | Hạng mục       | Supabase + Next.js      | Backend truyền thống  |
@@ -336,8 +312,6 @@ Mục tiêu của bộ tài liệu:
 | DevOps         | CLI + Dashboard         | Tự setup infra        |
 | Cost khởi điểm | Rất thấp                | Trung bình – cao      |
 | Scaling lớn    | Giới hạn vendor         | Tự do control         |
-
----
 
 ## 🧠 Phần 13. Phụ lục (Advanced)
 
@@ -359,8 +333,6 @@ Mục tiêu của bộ tài liệu:
 
    - Các lỗi thường gặp (RLS deny, token expired,…)
    - Checklist debug
-
----
 
 ## 📎 Phần 14. Tài liệu tham khảo
 

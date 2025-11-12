@@ -1,8 +1,6 @@
-# 🌐 Part 5. Supabase + Next.js Integration
+# Part 5. Supabase + Next.js Integration
 
 > Goal: Understand how to integrate Supabase SDK into Next.js App Router (SSR/CSR), perform CRUD securely with RLS, and implement realtime UI + file upload.
-
----
 
 ## 5.1 🎯 Learning Objectives
 
@@ -13,8 +11,6 @@ After completing this section, developers can:
 - Understand how to protect queries via RLS and JWT session.
 - Update UI in realtime when data changes.
 - Upload files securely with Supabase Storage.
-
----
 
 ## 5.2 🧩 Supabase – Next.js Connection Architecture
 
@@ -32,8 +28,6 @@ C -->|Realtime event| A
 - **Client SDK** used for quick UI operations (light fetches, realtime subscriptions).
 - **Server Client** used for logic requiring security (create, update, delete).
 - **RLS** ensures data is only accessed by valid users.
-
----
 
 ## 5.3 ⚙️ Setup Supabase Client
 
@@ -65,8 +59,6 @@ export const createServer = () => {
 };
 ```
 
----
-
 ## 5.4 🧠 When to Use Client vs Server
 
 | Situation                                 | Use                              | Explanation                   |
@@ -76,11 +68,9 @@ export const createServer = () => {
 | Complex logic (batch, external API calls) | Route Handler / Edge Function    | Separate for reuse            |
 | Fetch when rendering SSR                  | Server SDK                       | Maintain session and SEO      |
 
----
-
 ## 5.5 💾 Basic CRUD (Server Action)
 
-### 📄 `app/subscriptions/page.tsx`
+### `app/subscriptions/page.tsx`
 
 ```tsx
 import { createServer } from "@/lib/supabaseServer";
@@ -107,7 +97,7 @@ export default async function SubscriptionPage() {
 }
 ```
 
-### 🧭 Create New (Server Action)
+### Create New (Server Action)
 
 `app/subscriptions/add.tsx`
 
@@ -148,8 +138,6 @@ export default function AddSubscription() {
 
 > ✅ Because Supabase has RLS enabled, users can only add records with `user_id = auth.uid()`.
 
----
-
 ## 5.6 🧭 Route Handlers (Optional API Layer)
 
 `app/api/subscriptions/route.ts`
@@ -169,8 +157,6 @@ export async function POST(req: Request) {
 
 > Advantages: can add middleware / logging / transform data.
 > Use when FE doesn't call Supabase directly or needs external API integration.
-
----
 
 ## 5.7 ⚡ Realtime Update
 
@@ -219,15 +205,13 @@ export default function RealtimeList() {
 
 > ⚡ Every time a user adds/edits/deletes a subscription → UI automatically updates in realtime.
 
----
-
 ## 5.8 🖼️ Upload Files with Supabase Storage
 
-### 1️⃣ Create Bucket
+### 1. Create Bucket
 
 In Supabase Dashboard → Storage → Create Bucket → `invoices`
 
-### 2️⃣ Enable RLS for Bucket
+### 2. Enable RLS for Bucket
 
 ```sql
 create policy "Users can upload own invoices"
@@ -235,7 +219,7 @@ on storage.objects for insert
 with check ( auth.uid() = owner );
 ```
 
-### 3️⃣ Upload File from Client
+### 3. Upload File from Client
 
 ```tsx
 "use client";
@@ -258,7 +242,7 @@ export default function UploadInvoice() {
 }
 ```
 
-### 4️⃣ Get Signed URL to Download
+### 4. Get Signed URL to Download
 
 ```ts
 const { data } = await supabase.storage
@@ -268,8 +252,6 @@ console.log(data.signedUrl);
 ```
 
 > ✅ Signed URL allows users to access files temporarily (1 hour).
-
----
 
 ## 5.9 🧭 Server Components with Session
 
@@ -293,8 +275,6 @@ export default async function Dashboard() {
 
 > ✅ Keep session secure, no client-side state needed.
 
----
-
 ## 5.10 🧩 Error Handling
 
 | Situation        | How to Handle                      | Suggestion                            |
@@ -304,8 +284,6 @@ export default async function Dashboard() {
 | API Timeout      | Reduce payload or paginate         | `limit()`, `range()`                  |
 | Upload error 413 | File > 50MB                        | Compress or split                     |
 
----
-
 ## 5.11 🧭 Completion Checklist
 
 - [ ] Have set up client & server Supabase in Next.js
@@ -314,8 +292,6 @@ export default async function Dashboard() {
 - [ ] Realtime updates UI successfully
 - [ ] Upload / download files securely
 - [ ] Understand how to attach session and auth to SSR
-
----
 
 ## 5.12 💡 Internal Best Practices
 
@@ -328,16 +304,12 @@ export default async function Dashboard() {
 7. **Don't store JWT in localStorage** — Supabase manages cookies automatically.
 8. **Log every important CRUD operation** (use triggers or Edge Functions).
 
----
-
 ## 5.13 📚 References
 
 - [Supabase JS SDK Docs](https://supabase.com/docs/reference/javascript/start)
 - [Next.js App Router Server Actions](https://nextjs.org/docs/app/building-your-application/data-fetching/server-actions)
 - [Supabase Realtime Docs](https://supabase.com/docs/guides/realtime)
 - [Supabase Storage Security](https://supabase.com/docs/guides/storage)
-
----
 
 ## 5.14 🧾 Output After This Section
 

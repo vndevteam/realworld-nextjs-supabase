@@ -1,4 +1,4 @@
-# 🔐 Phần 2. Authentication
+# Phần 2. Authentication
 
 > Mục tiêu: nắm được toàn bộ quy trình đăng ký – đăng nhập – quản lý session – bảo vệ route trong Next.js + Supabase.
 
@@ -50,8 +50,6 @@ pnpm add @supabase/ssr
 ```
 
 `@supabase/ssr` giúp **giữ session Supabase trên server** (quan trọng cho App Router).
-
----
 
 ### Cấu trúc helper chuẩn nội bộ
 

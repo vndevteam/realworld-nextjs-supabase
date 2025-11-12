@@ -1,8 +1,6 @@
-# 🌐 Phần 5. Supabase + Next.js Integration
+# Phần 5. Supabase + Next.js Integration
 
 > Mục tiêu: hiểu cách tích hợp Supabase SDK vào Next.js App Router (SSR/CSR), thực hiện CRUD an toàn với RLS, và triển khai realtime UI + file upload.
-
----
 
 ## 5.1 🎯 Mục tiêu học phần
 
@@ -13,8 +11,6 @@ Sau khi hoàn thành phần này, dev có thể:
 - Hiểu cách bảo vệ truy vấn qua RLS và session JWT.
 - Cập nhật UI realtime khi dữ liệu thay đổi.
 - Upload file an toàn với Supabase Storage.
-
----
 
 ## 5.2 🧩 Kiến trúc kết nối Supabase – Next.js
 
@@ -32,8 +28,6 @@ C -->|Realtime event| A
 - **Client SDK** dùng cho thao tác UI nhanh (fetch nhẹ, subscribe realtime).
 - **Server Client** dùng cho logic cần bảo mật (create, update, delete).
 - **RLS** đảm bảo dữ liệu chỉ truy cập bởi user hợp lệ.
-
----
 
 ## 5.3 ⚙️ Thiết lập Supabase Client
 
@@ -65,8 +59,6 @@ export const createServer = () => {
 };
 ```
 
----
-
 ## 5.4 🧠 Khi nào dùng Client vs Server
 
 | Tình huống                                   | Dùng                             | Giải thích                |
@@ -76,11 +68,9 @@ export const createServer = () => {
 | Xử lý logic phức tạp (batch, API call ngoài) | Route Handler / Edge Function    | Tách riêng để reuse       |
 | Fetch khi render SSR                         | Server SDK                       | Giữ session và SEO        |
 
----
-
 ## 5.5 💾 CRUD cơ bản (Server Action)
 
-### 📄 `app/subscriptions/page.tsx`
+### `app/subscriptions/page.tsx`
 
 ```tsx
 import { createServer } from "@/lib/supabaseServer";
@@ -107,7 +97,7 @@ export default async function SubscriptionPage() {
 }
 ```
 
-### 🧭 Tạo mới (Server Action)
+### Tạo mới (Server Action)
 
 `app/subscriptions/add.tsx`
 
@@ -148,8 +138,6 @@ export default function AddSubscription() {
 
 > ✅ Vì Supabase đã bật RLS, user chỉ có thể thêm record có `user_id = auth.uid()`.
 
----
-
 ## 5.6 🧭 Route Handlers (API layer tuỳ chọn)
 
 `app/api/subscriptions/route.ts`
@@ -169,8 +157,6 @@ export async function POST(req: Request) {
 
 > Ưu điểm: có thể thêm middleware / logging / transform data.
 > Dùng khi FE không gọi Supabase trực tiếp hoặc cần tích hợp API ngoài.
-
----
 
 ## 5.7 ⚡ Realtime Update
 
@@ -219,15 +205,13 @@ export default function RealtimeList() {
 
 > ⚡ Mỗi khi user thêm/sửa/xóa subscription → UI tự động cập nhật realtime.
 
----
-
 ## 5.8 🖼️ Upload file với Supabase Storage
 
-### 1️⃣ Tạo bucket
+### 1. Tạo bucket
 
 Trong Supabase Dashboard → Storage → Create Bucket → `invoices`
 
-### 2️⃣ Bật RLS cho bucket
+### 2. Bật RLS cho bucket
 
 ```sql
 create policy "Users can upload own invoices"
@@ -235,7 +219,7 @@ on storage.objects for insert
 with check ( auth.uid() = owner );
 ```
 
-### 3️⃣ Upload file từ client
+### 3. Upload file từ client
 
 ```tsx
 "use client";
@@ -258,7 +242,7 @@ export default function UploadInvoice() {
 }
 ```
 
-### 4️⃣ Lấy signed URL để tải xuống
+### 4. Lấy signed URL để tải xuống
 
 ```ts
 const { data } = await supabase.storage
@@ -268,8 +252,6 @@ console.log(data.signedUrl);
 ```
 
 > ✅ Signed URL giúp user chỉ có thể truy cập file tạm thời (1h).
-
----
 
 ## 5.9 🧭 Server Components với Session
 
@@ -293,8 +275,6 @@ export default async function Dashboard() {
 
 > ✅ Giữ session an toàn, không cần state client-side.
 
----
-
 ## 5.10 🧩 Error Handling
 
 | Tình huống       | Cách xử lý                             | Gợi ý                                |
@@ -304,8 +284,6 @@ export default async function Dashboard() {
 | Timeout API      | Giảm payload hoặc paginate             | `limit()`, `range()`                 |
 | Upload lỗi 413   | File > 50MB                            | Nén hoặc tách nhỏ                    |
 
----
-
 ## 5.11 🧭 Checklist hoàn thành
 
 - [ ] Đã thiết lập client & server Supabase trong Next.js
@@ -314,8 +292,6 @@ export default async function Dashboard() {
 - [ ] Realtime cập nhật UI thành công
 - [ ] Upload / download file an toàn
 - [ ] Hiểu cách gắn session và auth vào SSR
-
----
 
 ## 5.12 💡 Best Practices nội bộ
 
@@ -328,16 +304,12 @@ export default async function Dashboard() {
 7. **Không lưu JWT trong localStorage** — Supabase tự quản lý cookie.
 8. **Ghi log mỗi thao tác CRUD quan trọng** (dùng trigger hoặc Edge Function).
 
----
-
 ## 5.13 📚 Tài liệu tham khảo
 
 - [Supabase JS SDK Docs](https://supabase.com/docs/reference/javascript/start)
 - [Next.js App Router Server Actions](https://nextjs.org/docs/app/building-your-application/data-fetching/server-actions)
 - [Supabase Realtime Docs](https://supabase.com/docs/guides/realtime)
 - [Supabase Storage Security](https://supabase.com/docs/guides/storage)
-
----
 
 ## 5.14 🧾 Output sau phần này
 

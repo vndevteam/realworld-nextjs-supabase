@@ -135,7 +135,7 @@ openspec validate [change] --strict
 
 ## Directory Structure
 
-```
+```bash
 openspec/
 ├── project.md              # Project conventions
 ├── specs/                  # Current truth - what IS built
@@ -157,7 +157,7 @@ openspec/
 
 ### Decision Tree
 
-```
+```bash
 New request?
 ├─ Bug fix restoring spec behavior? → Fix directly
 ├─ Typo/format/comment? → Fix directly
@@ -394,7 +394,7 @@ openspec validate $CHANGE --strict
 
 ## Multi-Capability Example
 
-```
+```bash
 openspec/changes/add-2fa-notify/
 ├── proposal.md
 ├── tasks.md
