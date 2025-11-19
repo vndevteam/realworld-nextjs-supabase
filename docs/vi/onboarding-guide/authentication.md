@@ -37,7 +37,7 @@ Database->>Policy: Kiểm tra `auth.uid()` → Cho phép / Từ chối
 | Khái niệm                    | Giải thích                                                                   |
 | ---------------------------- | ---------------------------------------------------------------------------- |
 | **Anon Key**                 | Public key dùng ở frontend để gọi Supabase API (quyền hạn hạn chế).          |
-| **Service Role Key**         | Dùng cho backend (Edge Functions / server) — có quyền bỏ qua RLS.            |
+| **Service Role Key**         | Dùng cho backend (Edge Functions / server) - có quyền bỏ qua RLS.            |
 | **JWT Token**                | Chứa thông tin user (id, role, email, metadata). Được gửi trong mọi request. |
 | **RLS (Row-Level Security)** | Policy trong DB kiểm tra `auth.uid()` để xác định quyền truy cập.            |
 
@@ -100,15 +100,15 @@ export async function createServer() {
 }
 ```
 
-### Middleware bảo vệ route
+### Middleware (proxy) bảo vệ route
 
-`/middleware.ts`
+`/proxy.ts`
 
 ```ts
 import { NextResponse, type NextRequest } from "next/server";
 import { createServer } from "@/lib/supabaseServer";
 
-export async function middleware(req: NextRequest) {
+export async function proxy(req: NextRequest) {
   const res = NextResponse.next();
   const supabase = await createServer();
   const { data } = await supabase.auth.getSession();
@@ -124,6 +124,8 @@ export const config = {
   matcher: ["/dashboard/:path*"],
 };
 ```
+
+> Chú ý: [Middleware đã được đổi tên thành proxy để bảo vệ route](https://nextjs.org/docs/messages/middleware-to-proxy).
 
 ## 2.4 🧭 Luồng đăng nhập / đăng ký / đăng xuất
 
@@ -242,13 +244,19 @@ create table profiles (
 );
 alter table profiles enable row level security;
 
-create policy "Public profiles are viewable by owner"
+create policy "Users can view their own profile"
 on profiles for select
-using ( auth.uid() = id );
+using ((select auth.uid()) = id );
 
 create policy "Users can insert their own profile"
 on profiles for insert
-with check ( auth.uid() = id );
+with check ((select auth.uid()) = id );
+
+create policy "Users can update their own profile"
+on profiles
+for update
+using ((select auth.uid()) = id )
+with check ((select auth.uid()) = id );
 ```
 
 ### Trigger tự động tạo profile
@@ -257,7 +265,9 @@ with check ( auth.uid() = id );
 
 ```sql
 create function public.handle_new_user()
-returns trigger as $$
+returns trigger
+SET search_path = ''
+as $$
 begin
   insert into public.profiles (id) values (new.id);
   return new;
@@ -346,7 +356,7 @@ await supabase.auth.signInWithOtp({
 
 ## 2.10 💡 Best Practices nội bộ
 
-1. **Không bao giờ lưu mật khẩu thủ công** — luôn dùng API `auth.signUp`.
+1. **Không bao giờ lưu mật khẩu thủ công** - luôn dùng API `auth.signUp`.
 2. **Không chia sẻ service key** cho FE (chỉ dùng anon key).
 3. **Luôn sync user profile** bằng trigger, không tạo thủ công.
 4. **Luôn bật RLS** cho mọi bảng có liên quan đến user.

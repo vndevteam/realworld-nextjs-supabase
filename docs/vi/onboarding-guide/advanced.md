@@ -195,7 +195,7 @@ Dùng `pg_fdw` hoặc `pgbouncer` connector → đẩy dữ liệu analytics ra 
 | Vấn đề                  | Giải pháp                                     |
 | ----------------------- | --------------------------------------------- |
 | Dữ liệu cá nhân (PII)   | Mã hóa AES hoặc hash với pgcrypto             |
-| Yêu cầu “xóa vĩnh viễn” | `soft delete` + job thực thi cứng sau 30 ngày |
+| Yêu cầu "xóa vĩnh viễn" | `soft delete` + job thực thi cứng sau 30 ngày |
 | Audit access            | Trigger ghi vào bảng `audit_log`              |
 | Role separation         | Không cho service role query full user table  |
 | Backup bảo mật          | Bật encryption-at-rest (Supabase mặc định có) |

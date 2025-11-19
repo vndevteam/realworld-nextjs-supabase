@@ -1,6 +1,6 @@
 # Part 12. Comparison with Traditional Tech Stack
 
-> Goal: Understand differences between "Supabase-first architecture" and "Traditional Backend API" — in structure, implementation effort, cost, development speed, and long-term operational capability.
+> Goal: Understand differences between "Supabase-first architecture" and "Traditional Backend API" - in structure, implementation effort, cost, development speed, and long-term operational capability.
 
 ## 12.1 🎯 Learning Objectives
 

@@ -84,7 +84,7 @@ delete from system_logs where created_at < now() - interval '30 days';
 vacuum analyze system_logs;
 ```
 
-> 🧠 “vacuum analyze” giúp giảm dung lượng disk và tối ưu plan query.
+> 🧠 "vacuum analyze" giúp giảm dung lượng disk và tối ưu plan query.
 
 ## 11.5 ⚡ Edge Function Performance
 
@@ -195,7 +195,7 @@ export const revalidate = 300; // cache 5 phút
 delete from system_logs where created_at < now() - interval '30 days';
 ```
 
-> ⚠️ Không nên lưu trace log quá lâu nếu không cần — tốn chi phí và giảm tốc độ query.
+> ⚠️ Không nên lưu trace log quá lâu nếu không cần - tốn chi phí và giảm tốc độ query.
 
 ## 11.11 📊 Giám sát hiệu năng định kỳ
 
@@ -253,7 +253,7 @@ values ('send_reminder_job', 125, now());
 ## 11.14 💡 Best Practices nội bộ
 
 1. **Luôn đo performance bằng metrics thay vì cảm giác.**
-2. **Không optimize sớm — chỉ optimize khi có dữ liệu.**
+2. **Không optimize sớm - chỉ optimize khi có dữ liệu.**
 3. **Đặt cron & function chạy ngoài giờ cao điểm.**
 4. **Prefetch và paginate thay vì tải bulk.**
 5. **Tách bảng log ra schema riêng (`log.*`) để dễ cleanup.**

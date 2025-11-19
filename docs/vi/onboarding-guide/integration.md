@@ -31,33 +31,7 @@ C -->|Realtime event| A
 
 ## 5.3 ⚙️ Thiết lập Supabase Client
 
-### `/lib/supabaseClient.ts`
-
-```ts
-import { createBrowserClient } from "@supabase/ssr";
-
-export const createClient = () =>
-  createBrowserClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-  );
-```
-
-### `/lib/supabaseServer.ts`
-
-```ts
-import { cookies } from "next/headers";
-import { createServerClient } from "@supabase/ssr";
-
-export const createServer = () => {
-  const cookieStore = cookies();
-  return createServerClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-    { cookies: { get: (name) => cookieStore.get(name)?.value } }
-  );
-};
-```
+> 📖 **Lưu ý**: Phần thiết lập cho `/lib/supabaseClient.ts` và `/lib/supabaseServer.ts` đã được mô tả chi tiết trong [Phần 2 – Authentication](./authentication.md#cau-truc-helper-chuan-noi-bo). Vui lòng tham khảo phần đó để xem implementation đầy đủ.
 
 ## 5.4 🧠 Khi nào dùng Client vs Server
 
@@ -288,26 +262,26 @@ export default async function Dashboard() {
 
 - [ ] Đã thiết lập client & server Supabase trong Next.js
 - [ ] CRUD hoạt động với RLS
-- [ ] Hiểu khi nào dùng client SDK vs server SDK
+- [ ] Hiểu khi nào dùng client SDK và server SDK
 - [ ] Realtime cập nhật UI thành công
 - [ ] Upload / download file an toàn
 - [ ] Hiểu cách gắn session và auth vào SSR
 
 ## 5.12 💡 Best Practices nội bộ
 
-1. **Luôn chạy CRUD qua RLS** — không bypass bằng service key trừ Edge Function.
+1. **Luôn chạy CRUD qua RLS** - không bypass bằng service key trừ Edge Function.
 2. **Dùng Server Action hoặc Route Handler cho mutation** → tránh expose key.
 3. **Realtime nên giới hạn schema/table** để tiết kiệm kết nối.
 4. **Upload file → dùng signed URL, không public bucket.**
 5. **Tách Supabase logic ra `/lib/hooks/` hoặc `/lib/repository/`** để dễ test.
 6. **Cache nhẹ trong server component** khi fetch dữ liệu tĩnh (`revalidate: 60`).
-7. **Không lưu JWT trong localStorage** — Supabase tự quản lý cookie.
+7. **Không lưu JWT trong localStorage** - Supabase tự quản lý cookie.
 8. **Ghi log mỗi thao tác CRUD quan trọng** (dùng trigger hoặc Edge Function).
 
 ## 5.13 📚 Tài liệu tham khảo
 
 - [Supabase JS SDK Docs](https://supabase.com/docs/reference/javascript/start)
-- [Next.js App Router Server Actions](https://nextjs.org/docs/app/building-your-application/data-fetching/server-actions)
+- [Next.js Create Forms with Server Actions](https://nextjs.org/docs/app/guides/forms)
 - [Supabase Realtime Docs](https://supabase.com/docs/guides/realtime)
 - [Supabase Storage Security](https://supabase.com/docs/guides/storage)
 

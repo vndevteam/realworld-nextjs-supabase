@@ -30,7 +30,7 @@ Mục tiêu của bộ tài liệu:
 
 3. **Case study xuyên suốt (Sample App)**
 
-   - Giới thiệu app mẫu (ví dụ: “Subscription Manager”)
+   - Giới thiệu app mẫu (ví dụ: "Subscription Manager")
    - Các tính năng sẽ triển khai: Auth, CRUD, Batch Job, Upload, Cron
    - Cấu trúc thư mục, flow học tập theo từng module
 
@@ -103,14 +103,14 @@ Mục tiêu của bộ tài liệu:
 
 1. **Giới thiệu RLS (Row-Level Security)**
 
-   - RLS là gì và vì sao Supabase “an toàn mặc định”
+   - RLS là gì và vì sao Supabase "an toàn mặc định"
    - Cấu hình RLS trên table
 
 2. **Viết Policy cơ bản**
 
    - SELECT / INSERT / UPDATE / DELETE
    - Sử dụng `auth.uid()`
-   - Ví dụ: “User chỉ xem được task của chính mình”
+   - Ví dụ: "User chỉ xem được task của chính mình"
 
 3. **Tổ chức Role & Permission**
 
@@ -120,7 +120,7 @@ Mục tiêu của bộ tài liệu:
 
 4. **Best Practices**
 
-   - “Always RLS On”
+   - "Always RLS On"
    - Test policy trước khi code (SQL playground)
    - Quy ước viết file policy.sql / migration.sql
 

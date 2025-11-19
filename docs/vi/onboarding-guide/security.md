@@ -1,6 +1,6 @@
 # Phần 10. Security Best Practices
 
-> Mục tiêu: hiểu rõ các lớp bảo mật trong hệ thống Supabase + Next.js, nắm quy tắc “an toàn theo mặc định” (secure-by-default), và tránh những sai lầm phổ biến khi đưa dự án lên production.
+> Mục tiêu: hiểu rõ các lớp bảo mật trong hệ thống Supabase + Next.js, nắm quy tắc "an toàn theo mặc định" (secure-by-default), và tránh những sai lầm phổ biến khi đưa dự án lên production.
 
 ## 10.1 🎯 Mục tiêu học phần
 
@@ -62,7 +62,7 @@ SUPABASE_SERVICE_ROLE_KEY=...
 
 ## 10.4 🧱 2️⃣ Row Level Security (RLS)
 
-RLS là “hàng rào bảo mật” quan trọng nhất trong Supabase.
+RLS là "hàng rào bảo mật" quan trọng nhất trong Supabase.
 
 ### ✅ Checklist RLS
 
@@ -210,7 +210,7 @@ if (secret !== Deno.env.get("INTERNAL_SECRET"))
 | ------------------------ | ---------------------------------------------------- |
 | Lộ key trong log CI      | Không echo biến env (`set -x`)                       |
 | Secrets bị push lên repo | Thêm `.env*` vào `.gitignore`                        |
-| Truy cập trái phép       | Giới hạn quyền “Read/Write” của GitHub Actions Token |
+| Truy cập trái phép       | Giới hạn quyền "Read/Write" của GitHub Actions Token |
 | Dùng CLI sai ref         | Luôn link đúng project với `supabase link`           |
 | Token hết hạn            | Rotate `SUPABASE_ACCESS_TOKEN` định kỳ               |
 
@@ -309,7 +309,7 @@ VERCEL_TOKEN
 7. **Tạo script kiểm tra policy chưa có `auth.uid()`.**
 8. **Bảo vệ route `/api/internal/*` bằng token nội bộ.**
 9. **Giới hạn bandwidth public bucket.**
-10. **Luôn test các case “truy cập trái phép” trong QA.**
+10. **Luôn test các case "truy cập trái phép" trong QA.**
 
 ## 10.15 📚 Tài liệu tham khảo
 
@@ -328,4 +328,4 @@ VERCEL_TOKEN
 > - [x] Thiết kế RLS & Policy an toàn, tránh leak dữ liệu.
 > - [x] Bảo vệ keys, storage, webhook, và CI/CD secrets.
 > - [x] Tạo audit log và cơ chế cảnh báo sự cố.
-> - [x] Nắm vững nguyên tắc “Secure by Default” cho toàn dự án.
+> - [x] Nắm vững nguyên tắc "Secure by Default" cho toàn dự án.

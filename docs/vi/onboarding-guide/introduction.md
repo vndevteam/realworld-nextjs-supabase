@@ -1,6 +1,6 @@
 # Phần 0. Giới thiệu & Tổng quan
 
-> Mục đích: giúp dev mới hiểu “Supabase là gì”, “vì sao chọn stack này”, và “lộ trình học ra sao” trước khi đi vào kỹ thuật cụ thể.
+> Mục đích: giúp dev mới hiểu "Supabase là gì", "vì sao chọn stack này", và "lộ trình học ra sao" trước khi đi vào kỹ thuật cụ thể.
 
 ## 0.1 🎯 Mục tiêu của tài liệu
 
@@ -26,7 +26,7 @@ Sau khi hoàn thành tài liệu:
 
 - Có thể tạo **Supabase project mới** + **Next.js frontend** từ zero.
 - Tự viết CRUD, Auth, RLS, batch job, storage, deploy CI/CD.
-- Hiểu được **“Supabase = Postgres + Backend service layer”**, không phải chỉ là database.
+- Hiểu được **"Supabase = Postgres + Backend service layer"**, không phải chỉ là database.
 - Có khả năng **review code / hướng dẫn người khác** đúng best practice.
 
 ## 0.2 🧠 Giới thiệu về Supabase
@@ -132,7 +132,7 @@ G[Cron Scheduler] --> F
 ### Yêu cầu tính năng
 
 - User đăng ký / đăng nhập (email + OAuth).
-- Mỗi user có thể tạo nhiều “subscription” (Netflix, Spotify,…).
+- Mỗi user có thể tạo nhiều "subscription" (Netflix, Spotify,…).
 - Gửi email nhắc khi gần hết hạn.
 - Cho phép upload ảnh hóa đơn (invoice).
 - Dashboard hiển thị realtime khi thêm/sửa subscription.
@@ -171,8 +171,8 @@ G[Cron Scheduler] --> F
 
 ## 0.8 💡 Best Practices nội bộ
 
-1. **Luôn nghĩ Supabase như Postgres mở rộng**, không phải “no-code backend”.
-2. **Luôn viết migration và policy bằng SQL** — không thao tác bằng tay trên dashboard production.
+1. **Luôn nghĩ Supabase như Postgres mở rộng**, không phải "no-code backend".
+2. **Luôn viết migration và policy bằng SQL** - không thao tác bằng tay trên dashboard production.
 3. **Mỗi module học → commit riêng** (để dev mới có thể checkout từng bước).
 4. **Bắt đầu từ use-case thật (app xuyên suốt)** → dễ hiểu hơn học khô.
 5. **Sau mỗi phần → review bằng checklist & mini quiz.**

@@ -162,7 +162,7 @@ export default function Home() {
 }
 ```
 
-> 👉 Nếu hiện lỗi `relation "profiles" does not exist`, điều đó bình thường trước khi hoàn thành Phần 2 — ta sẽ tạo bảng `profiles` ở Authentication (mục 2.5) và quay lại Database ở Phần 4.
+> 👉 Nếu hiện lỗi `relation "profiles" does not exist`, điều đó bình thường trước khi hoàn thành Phần 2 - ta sẽ tạo bảng `profiles` ở Authentication (mục 2.5) và quay lại Database ở Phần 4.
 
 ## 1.5 🗂️ Cấu trúc thư mục chuẩn nội bộ
 
@@ -254,7 +254,7 @@ export default function Home() {
 ✅ Sau khi setup, hãy đảm bảo:
 
 - [ ] Chạy được `supabase start` và truy cập Studio local.
-- [ ] Tạo được project Next.js và hiển thị “Hello Supabase”.
+- [ ] Tạo được project Next.js và hiển thị "Hello Supabase".
 - [ ] `.env.local` có 2 biến Supabase URL và Anon Key đúng.
 - [ ] GitHub Actions build thành công.
 - [ ] Docker không bị conflict port (5432–54323).

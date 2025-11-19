@@ -48,7 +48,7 @@ alter table profiles enable row level security;
 create policy "Users can view their own profile"
 on profiles
 for select
-using ( auth.uid() = id );
+using ((select auth.uid()) = id );
 ```
 
 > ✅ Meaning: user can only view records where the record's `id` matches `auth.uid()` from JWT.
@@ -59,7 +59,7 @@ using ( auth.uid() = id );
 create policy "Users can insert their own profile"
 on profiles
 for insert
-with check ( auth.uid() = id );
+with check ((select auth.uid()) = id );
 ```
 
 ### Step 4. Policy for `UPDATE`
@@ -68,8 +68,8 @@ with check ( auth.uid() = id );
 create policy "Users can update their own profile"
 on profiles
 for update
-using ( auth.uid() = id )
-with check ( auth.uid() = id );
+using ((select auth.uid()) = id )
+with check ((select auth.uid()) = id );
 ```
 
 > 🔎 **`using`** checks when _reading records_, while **`with check`** checks when _writing/inserting/updating_.
@@ -141,7 +141,7 @@ using (
 );
 ```
 
-> 👉 This ensures users only see their organization's data, never other organizations' data — **even if a hacker changes the ID**.
+> 👉 This ensures users only see their organization's data, never other organizations' data - **even if a hacker changes the ID**.
 
 ## 3.6 🧩 Using JWT Metadata for Role & Org
 
@@ -259,16 +259,15 @@ for each statement execute procedure log_task_access();
 5. **Metadata in JWT only for context** – doesn't replace complex logic checks.
 6. **Keep policy files versioned** with migrations (`migrations/policies.sql`).
 7. **Test policies** every time you add a new table or role.
-8. **Avoid writing duplicate policy logic — split by action**.
+8. **Avoid writing duplicate policy logic - split by action**.
 9. **Always review "superuser" (admin) policies** to avoid leaking all data.
 10. **Use comments in SQL** to describe each policy's meaning (useful when onboarding new devs).
 
 ## 3.12 📚 References
 
-- [Supabase RLS Guide](https://supabase.com/docs/guides/auth/row-level-security)
+- [Supabase RLS Guide](https://supabase.com/docs/guides/database/postgres/row-level-security)
 - [PostgreSQL Row-Level Security Docs](https://www.postgresql.org/docs/current/ddl-rowsecurity.html)
-- [Supabase Auth JWT Custom Claims](https://supabase.com/docs/guides/auth/auth-jwt)
-- [Example: Multi-tenant SaaS with RLS](https://supabase.com/docs/guides/auth/row-level-security#multi-tenant-rls)
+- [Custom Claims & Role-based Access Control (RBAC)](https://supabase.com/docs/guides/database/postgres/custom-claims-and-role-based-access-control-rbac)
 
 ## 3.13 🧾 Output After This Section
 
