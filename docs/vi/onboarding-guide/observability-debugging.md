@@ -1,6 +1,6 @@
 # Phần 9. Observability & Debugging
 
-> Mục tiêu: xây dựng khả năng “quan sát toàn diện” — logs, traces, metrics — để phát hiện sớm lỗi, hiểu nguyên nhân gốc (root cause), và tối ưu hiệu năng của Supabase + Next.js.
+> Mục tiêu: xây dựng khả năng "quan sát toàn diện" - logs, traces, metrics - để phát hiện sớm lỗi, hiểu nguyên nhân gốc (root cause), và tối ưu hiệu năng của Supabase + Next.js.
 
 ## 9.1 🎯 Mục tiêu học phần
 

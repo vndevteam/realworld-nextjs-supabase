@@ -197,7 +197,7 @@ export async function POST(req: Request) {
 }
 ```
 
-> ⚠️ **Don't parse JSON before verifying signature** — Stripe requires raw body.
+> ⚠️ **Don't parse JSON before verifying signature** - Stripe requires raw body.
 
 ## 7.8 🧭 Event-driven Integration Pattern
 
@@ -252,7 +252,7 @@ create table api_log (
 
 ## 7.10 🧰 Security & Rate Limiting
 
-1. **Don't expose service key** — only use in Edge Functions or Route Handlers.
+1. **Don't expose service key** - only use in Edge Functions or Route Handlers.
 2. **Verify signature** with webhooks (Stripe, Slack, GitHub…).
 3. **Limit requests** with middleware:
 
@@ -283,7 +283,7 @@ create table api_log (
 1. **Route Handler = short logic, Edge Function = complex logic.**
 2. **Always verify signature for webhooks.**
 3. **Don't send requests outside DB transactions.**
-4. **Idempotent API** — calling multiple times doesn't cause duplicates.
+4. **Idempotent API** - calling multiple times doesn't cause duplicates.
 5. **Add detailed logs** in Edge Functions (console.log + table log).
 6. **Use pgmq for retries** when API calls fail.
 7. **Clearly separate public/private endpoints.**

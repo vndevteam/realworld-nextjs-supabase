@@ -31,33 +31,7 @@ C -->|Realtime event| A
 
 ## 5.3 ⚙️ Setup Supabase Client
 
-### `/lib/supabaseClient.ts`
-
-```ts
-import { createBrowserClient } from "@supabase/ssr";
-
-export const createClient = () =>
-  createBrowserClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-  );
-```
-
-### `/lib/supabaseServer.ts`
-
-```ts
-import { cookies } from "next/headers";
-import { createServerClient } from "@supabase/ssr";
-
-export const createServer = () => {
-  const cookieStore = cookies();
-  return createServerClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-    { cookies: { get: (name) => cookieStore.get(name)?.value } }
-  );
-};
-```
+> 📖 **Note**: The setup for `/lib/supabaseClient.ts` and `/lib/supabaseServer.ts` is already covered in detail in [Part 2 – Authentication](./authentication.md#standard-internal-helper-structure). Please refer to that section for the complete implementation.
 
 ## 5.4 🧠 When to Use Client vs Server
 
@@ -295,19 +269,19 @@ export default async function Dashboard() {
 
 ## 5.12 💡 Internal Best Practices
 
-1. **Always run CRUD through RLS** — don't bypass with service key except Edge Functions.
+1. **Always run CRUD through RLS** - don't bypass with service key except Edge Functions.
 2. **Use Server Actions or Route Handlers for mutations** → avoid exposing keys.
 3. **Realtime should limit schema/table** to save connections.
 4. **Upload files → use signed URLs, not public buckets.**
 5. **Separate Supabase logic into `/lib/hooks/` or `/lib/repository/`** for easier testing.
 6. **Light caching in server components** when fetching static data (`revalidate: 60`).
-7. **Don't store JWT in localStorage** — Supabase manages cookies automatically.
+7. **Don't store JWT in localStorage** - Supabase manages cookies automatically.
 8. **Log every important CRUD operation** (use triggers or Edge Functions).
 
 ## 5.13 📚 References
 
 - [Supabase JS SDK Docs](https://supabase.com/docs/reference/javascript/start)
-- [Next.js App Router Server Actions](https://nextjs.org/docs/app/building-your-application/data-fetching/server-actions)
+- [Next.js Create Forms with Server Actions](https://nextjs.org/docs/app/building-your-application/forms/server-actions)
 - [Supabase Realtime Docs](https://supabase.com/docs/guides/realtime)
 - [Supabase Storage Security](https://supabase.com/docs/guides/storage)
 

@@ -37,7 +37,7 @@ Database->>Policy: Check `auth.uid()` → Allow / Deny
 | Concept                      | Explanation                                                                |
 | ---------------------------- | -------------------------------------------------------------------------- |
 | **Anon Key**                 | Public key used in frontend to call Supabase API (limited permissions).    |
-| **Service Role Key**         | Used for backend (Edge Functions / server) — has permission to bypass RLS. |
+| **Service Role Key**         | Used for backend (Edge Functions / server) - has permission to bypass RLS. |
 | **JWT Token**                | Contains user info (id, role, email, metadata). Sent in every request.     |
 | **RLS (Row-Level Security)** | Policy in DB checks `auth.uid()` to determine access permissions.          |
 
@@ -101,15 +101,15 @@ export async function createServer() {
 }
 ```
 
-### Middleware to Protect Routes
+### Middleware (proxy) to Protect Routes
 
-`/middleware.ts`
+`/proxy.ts`
 
 ```ts
 import { NextResponse, type NextRequest } from "next/server";
 import { createServer } from "@/lib/supabaseServer";
 
-export async function middleware(req: NextRequest) {
+export async function proxy(req: NextRequest) {
   const res = NextResponse.next();
   const supabase = await createServer();
   const { data } = await supabase.auth.getSession();
@@ -125,6 +125,8 @@ export const config = {
   matcher: ["/dashboard/:path*"],
 };
 ```
+
+> Note: [Middleware is deprecated and has been renamed to proxy](https://nextjs.org/docs/messages/middleware-to-proxy).
 
 ## 2.4 🧭 Login / Signup / Logout Flow
 
@@ -243,13 +245,19 @@ create table profiles (
 );
 alter table profiles enable row level security;
 
-create policy "Public profiles are viewable by owner"
+create policy "Users can view their own profile"
 on profiles for select
-using ( auth.uid() = id );
+using ((select auth.uid()) = id );
 
 create policy "Users can insert their own profile"
 on profiles for insert
-with check ( auth.uid() = id );
+with check ((select auth.uid()) = id );
+
+create policy "Users can update their own profile"
+on profiles
+for update
+using ((select auth.uid()) = id )
+with check ((select auth.uid()) = id );
 ```
 
 ### Trigger to Auto-Create Profile
@@ -258,7 +266,9 @@ with check ( auth.uid() = id );
 
 ```sql
 create function public.handle_new_user()
-returns trigger as $$
+returns trigger
+SET search_path = ''
+as $$
 begin
   insert into public.profiles (id) values (new.id);
   return new;
@@ -347,7 +357,7 @@ await supabase.auth.signInWithOtp({
 
 ## 2.10 💡 Internal Best Practices
 
-1. **Never store passwords manually** — always use `auth.signUp` API.
+1. **Never store passwords manually** - always use `auth.signUp` API.
 2. **Don't share service key** with FE (only use anon key).
 3. **Always sync user profile** using trigger, don't create manually.
 4. **Always enable RLS** for every table related to users.

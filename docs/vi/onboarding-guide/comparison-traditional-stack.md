@@ -1,7 +1,8 @@
 # Phần 12. So sánh với Techstack Truyền Thống
 
-> Mục tiêu: Hiểu sự khác biệt giữa “Supabase-first architecture” và “Backend API truyền thống”
-> — về cấu trúc, effort triển khai, chi phí, tốc độ phát triển, và khả năng vận hành lâu dài.
+> Mục tiêu: Hiểu sự khác biệt giữa "Supabase-first architecture" và "Backend API truyền thống"
+>
+> - về cấu trúc, effort triển khai, chi phí, tốc độ phát triển, và khả năng vận hành lâu dài.
 
 ## 12.1 🎯 Mục tiêu học phần
 
@@ -48,6 +49,7 @@ Sau phần này, bạn có thể:
 | Tích hợp FE                                 | Supabase client SDK, dễ | API login/logout thủ công |
 
 ✅ **Ưu điểm Supabase:** Triển khai auth cực nhanh, bảo mật chuẩn JWT.
+
 ⚠️ **Nhược điểm:** Khó mở rộng custom claim hoặc multi-tenant logic phức tạp.
 
 ### Database & ORM
@@ -61,6 +63,7 @@ Sau phần này, bạn có thể:
 | Monitoring         | Dashboard Supabase            | pgAdmin / Grafana / custom metrics |
 
 ✅ **Supabase** phù hợp MVP, SaaS CRUD nhanh.
+
 ⚠️ **Backend truyền thống** mạnh hơn khi cần transaction logic phức tạp hoặc DB hybrid.
 
 ### API & Integration
@@ -74,6 +77,7 @@ Sau phần này, bạn có thể:
 | Custom serialization     | Giới hạn                       | Toàn quyền kiểm soát             |
 
 ✅ **Supabase:** đơn giản hóa backend API.
+
 ⚠️ **Truyền thống:** linh hoạt hơn khi cần nhiều logic phức tạp, validation sâu.
 
 ### CI/CD & DevOps
@@ -88,6 +92,7 @@ Sau phần này, bạn có thể:
 | Backup       | Built-in snapshot                 | RDS backup tự setup                |
 
 ✅ **Supabase:** giảm DevOps effort 70–80%.
+
 ⚠️ **Truyền thống:** linh hoạt hơn với custom infra, multi-region, network layer.
 
 ### Cost & Maintainability
@@ -102,6 +107,7 @@ Sau phần này, bạn có thể:
 | Debug                | logs tập trung     | phân tán nhiều tầng   |
 
 ✅ Supabase giúp startup tiết kiệm chi phí khởi điểm lớn.
+
 ⚠️ Khi scale lớn (hàng triệu user, heavy compute), cần hybrid kiến trúc.
 
 ## 12.4 🚀 Performance Trade-off

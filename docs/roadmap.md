@@ -1,6 +1,6 @@
 # Roadmap
 
-## 1. Lộ trình tiếp cận Supabase + Next.js (tối ưu cho “hiểu nhanh, dạy lại được”)
+## 1. Lộ trình tiếp cận Supabase + Next.js (tối ưu cho "hiểu nhanh, dạy lại được")
 
 Mặc định là bạn đã rành Next.js + Postgres + backend truyền thống.
 
@@ -8,8 +8,8 @@ Mặc định là bạn đã rành Next.js + Postgres + backend truyền thống
 
 - Chọn **1 mini-product làm ví dụ xuyên suốt** cho tài liệu/training, ví dụ:
 
-  - “Mini SaaS quản lý subscription”
-  - hoặc “Todo app multi-tenant (nhiều công ty, mỗi công ty nhiều user)”
+  - "Mini SaaS quản lý subscription"
+  - hoặc "Todo app multi-tenant (nhiều công ty, mỗi công ty nhiều user)"
 
 - Yêu cầu nên có:
 
@@ -20,17 +20,17 @@ Mặc định là bạn đã rành Next.js + Postgres + backend truyền thống
 
 - Quy ước luôn: mọi kiến thức Supabase/Next.js đều quy chiếu lại ví dụ này.
 
-> Output: 1 README cho “sample app” – sau này dev mới chỉ cần đọc + run là học.
+> Output: 1 README cho "sample app" – sau này dev mới chỉ cần đọc + run là học.
 
 ### Phase 1 – Supabase Fundamentals (1–2 ngày)
 
-Mục tiêu: hiểu Supabase như “Postgres + Auth + Realtime + Storage + Edge Functions”, không xem nó như “black-box BaaS”.
+Mục tiêu: hiểu Supabase như "Postgres + Auth + Realtime + Storage + Edge Functions", không xem nó như "black-box BaaS".
 
 Nội dung:
 
 1. **Tạo project & hiểu console**
 
-   - Tạo project theo quickstart “Getting Started” và Next.js quickstart. ([Supabase][1])
+   - Tạo project theo quickstart "Getting Started" và Next.js quickstart. ([Supabase][1])
    - Đi qua các tab chính: Database, Auth, Storage, Functions, Cron/Integrations, Logs.
 
 2. **Database & SQL**
@@ -53,7 +53,7 @@ Nội dung:
 
 > Output:
 >
-> - 1 tài liệu nội bộ: “Supabase Overview cho dev mới” (giới thiệu thành phần + hình kiến trúc).
+> - 1 tài liệu nội bộ: "Supabase Overview cho dev mới" (giới thiệu thành phần + hình kiến trúc).
 > - 1 file SQL migration chuẩn (để sau dùng trong CI/CD).
 
 ### Phase 2 – Supabase + Next.js Integration (1–3 ngày)
@@ -62,7 +62,7 @@ Mục tiêu: thành thạo **App Router + server components + Supabase**.
 
 1. **Thiết lập client & SSR**
 
-   - Theo guide “Use Supabase Auth with Next.js” + “Server-side auth for Next.js”:
+   - Theo guide "Use Supabase Auth with Next.js" + "Server-side auth for Next.js":
 
      - `@supabase/supabase-js` + `@supabase/ssr` ([Supabase][3])
      - Tách **client-side client** và **server-side client**
@@ -81,7 +81,7 @@ Mục tiêu: thành thạo **App Router + server components + Supabase**.
      - Server Actions (Next.js) gọi Supabase
      - hoặc Route Handlers (`app/api/...`) làm proxy.
 
-   - Thử sai policy RLS để dev mới “cảm” được cơ chế bảo mật.
+   - Thử sai policy RLS để dev mới "cảm" được cơ chế bảo mật.
 
 4. **Realtime & UI**
 
@@ -89,12 +89,12 @@ Mục tiêu: thành thạo **App Router + server components + Supabase**.
 
 > Output:
 >
-> - 1 “Supabase + Next.js Starter” repo nội bộ.
-> - Tài liệu “Coding convention: cách gọi Supabase trong Next.js (server/client)”.
+> - 1 "Supabase + Next.js Starter" repo nội bộ.
+> - Tài liệu "Coding convention: cách gọi Supabase trong Next.js (server/client)".
 
 ### Phase 3 – Batch job, background work & advanced feature (2–4 ngày)
 
-Mục tiêu: trả lời các câu “bài toán truyền thống” theo style Supabase.
+Mục tiêu: trả lời các câu "bài toán truyền thống" theo style Supabase.
 
 1. **Batch job / Cron**
    Có 2 hướng chính:
@@ -111,8 +111,8 @@ Mục tiêu: trả lời các câu “bài toán truyền thống” theo style 
 
    - Gợi ý trong tài liệu training:
 
-     - “Nếu job thuần DB -> ưu tiên Cron + SQL”
-     - “Nếu job cần HTTP external / logic phức tạp -> Edge Function + Cron scheduler”
+     - "Nếu job thuần DB -> ưu tiên Cron + SQL"
+     - "Nếu job cần HTTP external / logic phức tạp -> Edge Function + Cron scheduler"
 
 2. **Queues & async processing**
 
@@ -130,7 +130,7 @@ Mục tiêu: trả lời các câu “bài toán truyền thống” theo style 
 
 > Output:
 >
-> - Tài liệu “Batch job & Background processing với Supabase”.
+> - Tài liệu "Batch job & Background processing với Supabase".
 > - 1–2 ví dụ cụ thể:
 >
 >   - Cron cleanup data hằng đêm.
@@ -162,12 +162,12 @@ Mục tiêu: hiểu **Supabase CLI, migration, test, deploy**.
 
 > Output:
 >
-> - Tài liệu “CI/CD cho Supabase + Next.js” với YAML mẫu GitHub Actions.
+> - Tài liệu "CI/CD cho Supabase + Next.js" với YAML mẫu GitHub Actions.
 > - Checklist khi tạo môi trường mới (dev/stg/prod).
 
 ## 2. So sánh Supabase + Next.js vs Backend truyền thống
 
-Giả sử “truyền thống” = NestJS/Express + Postgres, deploy trên AWS/GCP, tự lo auth, storage, cron, etc.
+Giả sử "truyền thống" = NestJS/Express + Postgres, deploy trên AWS/GCP, tự lo auth, storage, cron, etc.
 
 ### 2.1. Về effort implement
 
@@ -213,7 +213,7 @@ Giả sử “truyền thống” = NestJS/Express + Postgres, deploy trên AWS/
   - CI/CD cho Edge Functions + schema + tests
   - Monitoring logs/traces qua Supabase UI
 
-- Ít “yak shaving” với infra (no RDS, no SQS, no ECS/EKS config…).
+- Ít "yak shaving" với infra (no RDS, no SQS, no ECS/EKS config…).
 
 **Backend truyền thống**
 
@@ -256,11 +256,11 @@ Bạn có thể thiết kế **1 bộ tài liệu nội bộ** với structure k
    - Pattern multi-tenant:
 
      - `organization_id` gắn với user + data
-     - RLS policy “user chỉ xem được org của mình”
+     - RLS policy "user chỉ xem được org của mình"
 
    - Quy ước:
 
-     - “Luôn dùng RLS, không rely chỉ vào code phía Next.js”
+     - "Luôn dùng RLS, không rely chỉ vào code phía Next.js"
 
 5. **Database Design & Migrations**
 
@@ -325,7 +325,7 @@ Bạn có thể thiết kế **1 bộ tài liệu nội bộ** với structure k
     - Giảm round-trip (ưu tiên RPC/Edge Functions cho logic phức tạp).
     - Gợi ý phân bổ project/môi trường để tối ưu cost.
 
-### 3.2. Những bài toán “truyền thống” nên có example Supabase
+### 3.2. Những bài toán "truyền thống" nên có example Supabase
 
 Gợi ý các bài toán bạn nên implement song song **2 bản** (Supabase + Next.js vs backend truyền thống) để so effort:
 
@@ -340,7 +340,7 @@ Mỗi bài toán, bạn có thể làm 1 bảng nhỏ so sánh:
 
 - Cột 1: Cần làm gì trong backend truyền thống (NestJS + RDS + S3 + cron)
 - Cột 2: Cần làm gì với Supabase (feature nào, config gì, code khoảng bao nhiêu)
-  => Sau vài bài, bạn sẽ có **“Effort Comparison”** rất dễ training dev mới.
+  => Sau vài bài, bạn sẽ có **"Effort Comparison"** rất dễ training dev mới.
 
 [1]: https://supabase.com/docs/guides/getting-started?utm_source=chatgpt.com "Getting Started | Supabase Docs"
 [2]: https://supabase.com/docs?utm_source=chatgpt.com "Supabase Docs"

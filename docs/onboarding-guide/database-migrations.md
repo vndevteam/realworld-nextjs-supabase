@@ -25,7 +25,7 @@ After completing this section, developers can:
 
 ```sql
 -- example migration file
--- 20251105T_create_tasks_table.sql
+-- 20251105120200_create_tasks_table.sql
 
 create table tasks (
   id uuid primary key default gen_random_uuid(),
@@ -51,7 +51,7 @@ CLI will create file:
 
 ```bash
 /supabase/migrations/
-  └── 20251105T_create_tasks_table.sql
+  └── 20251105120200_create_tasks_table.sql
 ```
 
 Edit SQL directly in this file.
@@ -167,11 +167,11 @@ F --> G[Deploy production after review]
 
 ## 4.8 🧭 Naming & File Organization Conventions
 
-| File Type | Name Format                      | Example                              |
-| --------- | -------------------------------- | ------------------------------------ |
-| Migration | `YYYYMMDDTHH_action.sql`         | `20251105T_create_users_table.sql`   |
-| Policy    | `YYYYMMDDTHH_policy_<table>.sql` | `20251106T_policy_subscriptions.sql` |
-| Seed      | `seed.sql`                       | —                                    |
+| File Type | Name Format                         | Example                                   |
+| --------- | ----------------------------------- | ----------------------------------------- |
+| Migration | `YYYYMMDDHHmmss_action.sql`         | `20251105120200_create_users_table.sql`   |
+| Policy    | `YYYYMMDDHHmmss_policy_<table>.sql` | `20251106120200_policy_subscriptions.sql` |
+| Seed      | `seed.sql`                          | -                                         |
 
 **Best Practice:** each DB change → separate migration, don't combine multiple tables in one file.
 
@@ -180,7 +180,7 @@ F --> G[Deploy production after review]
 ### Export Current Schema
 
 ```bash
-supabase db dump --local > schema.sql
+supabase db dump --local -f schema.sql
 ```
 
 ### Apply Schema to Other Environment
@@ -236,10 +236,11 @@ jobs:
 - **Supabase Studio → Table Editor / SQL Editor**
 - **CLI commands:**
 
-  - `supabase db lint` – check SQL errors.
-  - `supabase migration verify` – verify migration files are valid.
+  - `supabase migration list` – view migration status (applied / pending / errors).
+  - `supabase db push` – apply migrations and display errors if SQL is invalid.
+  - `supabase db diff` – compare schema between local and remote to detect differences.
 
-- **VSCode extension "Supabase"**: view schema directly, run queries quickly.
+- **VSCode extension "[Supabase](https://marketplace.visualstudio.com/items?itemName=Supabase.vscode-supabase-extension)"**: view schema directly, run queries quickly.
 
 ## 4.13 🧭 Completion Checklist
 
@@ -252,9 +253,9 @@ jobs:
 
 ## 4.14 💡 Internal Best Practices
 
-1. **Never modify DB directly** on production — only through migrations.
+1. **Never modify DB directly** on production - only through migrations.
 2. **Migrations must have clear description**: comment at top of file with reason, issue link.
-3. **Don't manually merge migration conflicts** — regenerate new file.
+3. **Don't manually merge migration conflicts** - regenerate new file.
 4. **Keep seed.sql concise**, only data for testing.
 5. **Test migration locally before committing** (`supabase db reset`).
 6. **Review migration along with code changes** in PR.
@@ -263,9 +264,10 @@ jobs:
 
 ## 4.15 📚 References
 
-- [Supabase CLI - Database](https://supabase.com/docs/guides/cli/managing-environments)
+- [Supabase Managing Environments](https://supabase.com/docs/guides/deployment/managing-environments)
 - [PostgreSQL Schema Design](https://www.postgresql.org/docs/current/ddl.html)
-- [Supabase Migration Guide](https://supabase.com/docs/guides/database/managing-migrations)
+- [Supabase Migration Guide](https://supabase.com/docs/guides/deployment/database-migrations)
+- [Supabase CLI Database Migrations](https://supabase.com/docs/reference/cli/supabase-migration)
 - [Supabase db push & db reset Docs](https://supabase.com/docs/reference/cli/supabase-db-push)
 
 ## 4.16 🧾 Output After This Section

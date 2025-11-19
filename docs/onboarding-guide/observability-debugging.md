@@ -1,6 +1,6 @@
 # Part 9. Observability & Debugging
 
-> Goal: Build comprehensive "observability" — logs, traces, metrics — to detect errors early, understand root causes, and optimize Supabase + Next.js performance.
+> Goal: Build comprehensive "observability" - logs, traces, metrics - to detect errors early, understand root causes, and optimize Supabase + Next.js performance.
 
 ## 9.1 🎯 Learning Objectives
 

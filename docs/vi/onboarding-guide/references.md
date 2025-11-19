@@ -130,7 +130,7 @@
 
 ## 14.11 🧾 Kết luận
 
-> Phần “Tài liệu tham khảo” không chỉ là danh sách link,
+> Phần "Tài liệu tham khảo" không chỉ là danh sách link,
 > mà là **bản đồ học tập mở rộng** để bạn và team có thể tiếp tục nghiên cứu, thử nghiệm và chia sẻ kiến thức.
 
 ✅ Sau khi hoàn thành toàn bộ 14 phần:

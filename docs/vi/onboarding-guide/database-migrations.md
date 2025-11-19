@@ -25,7 +25,7 @@ Sau khi hoàn thành phần này, dev có thể:
 
 ```sql
 -- migration file ví dụ
--- 20251105T_create_tasks_table.sql
+-- 20251105120200_create_tasks_table.sql
 
 create table tasks (
   id uuid primary key default gen_random_uuid(),
@@ -36,7 +36,7 @@ create table tasks (
 );
 alter table tasks enable row level security;
 
-comment on table tasks is 'Danh sách công việc của người dùng';
+comment on table tasks is 'User task list';
 ```
 
 ## 4.3 🧩 Tạo migration bằng Supabase CLI
@@ -51,7 +51,7 @@ CLI sẽ tạo file:
 
 ```bash
 /supabase/migrations/
-  └── 20251105T_create_tasks_table.sql
+  └── 20251105120200_create_tasks_table.sql
 ```
 
 Bạn chỉnh SQL trực tiếp trong file này.
@@ -77,7 +77,7 @@ supabase migration list
 
 ## 4.4 🧱 Thiết kế schema cơ bản (chuẩn nội bộ)
 
-Dưới đây là ví dụ **schema gốc** dùng xuyên suốt tài liệu (ứng dụng “Subscription Manager”).
+Dưới đây là ví dụ **schema gốc** dùng xuyên suốt tài liệu (ứng dụng "Subscription Manager").
 
 ### Tạo bảng `subscriptions`
 
@@ -92,7 +92,7 @@ create table subscriptions (
   is_active boolean default true,
   created_at timestamptz default now()
 );
-comment on table subscriptions is 'Thông tin các dịch vụ đăng ký của người dùng';
+comment on table subscriptions is 'User subscription service information';
 alter table subscriptions enable row level security;
 ```
 
@@ -167,11 +167,11 @@ F --> G[Deploy production sau review]
 
 ## 4.8 🧭 Quy ước đặt tên & tổ chức file
 
-| Loại file | Định dạng tên                    | Ví dụ                                |
-| --------- | -------------------------------- | ------------------------------------ |
-| Migration | `YYYYMMDDTHH_action.sql`         | `20251105T_create_users_table.sql`   |
-| Policy    | `YYYYMMDDTHH_policy_<table>.sql` | `20251106T_policy_subscriptions.sql` |
-| Seed      | `seed.sql`                       | —                                    |
+| Loại file | Định dạng tên                       | Ví dụ                                     |
+| --------- | ----------------------------------- | ----------------------------------------- |
+| Migration | `YYYYMMDDHHmmss_action.sql`         | `20251105120200_create_users_table.sql`   |
+| Policy    | `YYYYMMDDHHmmss_policy_<table>.sql` | `20251106120200_policy_subscriptions.sql` |
+| Seed      | `seed.sql`                          | -                                         |
 
 **Best Practice:** mỗi thay đổi DB → 1 migration riêng biệt, không gộp nhiều bảng trong 1 file.
 
@@ -180,7 +180,7 @@ F --> G[Deploy production sau review]
 ### Export schema hiện tại
 
 ```bash
-supabase db dump --local > schema.sql
+supabase db dump --local -f schema.sql
 ```
 
 ### Apply schema cho môi trường khác
@@ -236,10 +236,11 @@ jobs:
 - **Supabase Studio → Table Editor / SQL Editor**
 - **CLI commands:**
 
-  - `supabase db lint` – kiểm tra SQL errors.
-  - `supabase migration verify` – xác minh các file migration hợp lệ.
+  - `supabase migration list` – xem trạng thái các migration (đã chạy / pending / lỗi).
+  - `supabase db push` – áp dụng migration và hiển thị lỗi nếu SQL không hợp lệ.
+  - `supabase db diff` – so sánh schema giữa local và remote để phát hiện khác biệt.
 
-- **VSCode extension “Supabase”**: xem trực tiếp schema, run query nhanh.
+- **VSCode extension "[Supabase](https://marketplace.visualstudio.com/items?itemName=Supabase.vscode-supabase-extension)"**: xem trực tiếp schema, run query nhanh.
 
 ## 4.13 🧭 Checklist hoàn thành
 
@@ -252,9 +253,9 @@ jobs:
 
 ## 4.14 💡 Best Practices nội bộ
 
-1. **Tuyệt đối không chỉnh DB trực tiếp** trên production — chỉ qua migration.
+1. **Tuyệt đối không chỉnh DB trực tiếp** trên production - chỉ qua migration.
 2. **Migration phải có mô tả rõ ràng**: comment đầu file ghi lý do, issue link.
-3. **Không merge migration conflict bằng tay** — regenerate file mới.
+3. **Không merge migration conflict bằng tay** - regenerate file mới.
 4. **Giữ seed.sql nhỏ gọn**, chỉ data phục vụ test.
 5. **Test migration local trước khi commit** (`supabase db reset`).
 6. **Review migration cùng code change** trong PR.
@@ -263,9 +264,10 @@ jobs:
 
 ## 4.15 📚 Tài liệu tham khảo
 
-- [Supabase CLI - Database](https://supabase.com/docs/guides/cli/managing-environments)
+- [Supabase Managing Environments](https://supabase.com/docs/guides/deployment/managing-environments)
 - [PostgreSQL Schema Design](https://www.postgresql.org/docs/current/ddl.html)
-- [Supabase Migration Guide](https://supabase.com/docs/guides/database/managing-migrations)
+- [Supabase Migration Guide](https://supabase.com/docs/guides/deployment/database-migrations)
+- [Supabase CLI Database Migrations](https://supabase.com/docs/reference/cli/supabase-migration)
 - [Supabase db push & db reset Docs](https://supabase.com/docs/reference/cli/supabase-db-push)
 
 ## 4.16 🧾 Output sau phần này

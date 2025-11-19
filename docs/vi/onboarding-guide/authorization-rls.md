@@ -32,7 +32,7 @@ D -->|Allow| E[Return data]
 D -->|Deny| F[Error: permission denied]
 ```
 
-> ✅ Quyết định “ai được truy cập” nằm **ngay trong DB**, không phải ở code FE hay API.
+> ✅ Quyết định "ai được truy cập" nằm **ngay trong DB**, không phải ở code FE hay API.
 
 ## 3.3 🧱 Bật RLS và Policy cơ bản
 
@@ -48,7 +48,7 @@ alter table profiles enable row level security;
 create policy "Users can view their own profile"
 on profiles
 for select
-using ( auth.uid() = id );
+using ((select auth.uid()) = id );
 ```
 
 > ✅ Nghĩa là: user chỉ được xem record mà `id` của record đó trùng với `auth.uid()` từ JWT.
@@ -59,7 +59,7 @@ using ( auth.uid() = id );
 create policy "Users can insert their own profile"
 on profiles
 for insert
-with check ( auth.uid() = id );
+with check ((select auth.uid()) = id );
 ```
 
 ### Bước 4. Policy cho `UPDATE`
@@ -68,8 +68,8 @@ with check ( auth.uid() = id );
 create policy "Users can update their own profile"
 on profiles
 for update
-using ( auth.uid() = id )
-with check ( auth.uid() = id );
+using ((select auth.uid()) = id )
+with check ((select auth.uid()) = id );
 ```
 
 > 🔎 **`using`** kiểm tra khi _đọc record_, còn **`with check`** kiểm tra khi _ghi/insert/update_.
@@ -141,7 +141,7 @@ using (
 );
 ```
 
-> 👉 Điều này giúp user chỉ thấy data của tổ chức mình, không bao giờ thấy của tổ chức khác — **ngay cả khi hacker đổi ID**.
+> 👉 Điều này giúp user chỉ thấy data của tổ chức mình, không bao giờ thấy của tổ chức khác - **ngay cả khi hacker đổi ID**.
 
 ## 3.6 🧩 Sử dụng JWT Metadata cho Role & Org
 
@@ -259,16 +259,15 @@ for each statement execute procedure log_task_access();
 5. **Metadata trong JWT chỉ dùng cho context** – không thay thế kiểm tra logic phức tạp.
 6. **Giữ policy file versioned** cùng migration (`migrations/policies.sql`).
 7. **Test policy** mỗi khi thêm bảng hoặc role mới.
-8. **Tránh viết policy trùng logic — tách nhỏ theo hành động**.
-9. **Luôn review chính sách “superuser” (admin)** để tránh leak toàn bộ data.
+8. **Tránh viết policy trùng logic - tách nhỏ theo hành động**.
+9. **Luôn review chính sách "superuser" (admin)** để tránh leak toàn bộ data.
 10. **Dùng comment trong SQL** để mô tả ý nghĩa mỗi policy (hữu ích khi onboarding dev mới).
 
 ## 3.12 📚 Tài liệu tham khảo
 
-- [Supabase RLS Guide](https://supabase.com/docs/guides/auth/row-level-security)
+- [Supabase RLS Guide](https://supabase.com/docs/guides/database/postgres/row-level-security)
 - [PostgreSQL Row-Level Security Docs](https://www.postgresql.org/docs/current/ddl-rowsecurity.html)
-- [Supabase Auth JWT Custom Claims](https://supabase.com/docs/guides/auth/auth-jwt)
-- [Example: Multi-tenant SaaS with RLS](https://supabase.com/docs/guides/auth/row-level-security#multi-tenant-rls)
+- [Custom Claims & Role-based Access Control (RBAC)](https://supabase.com/docs/guides/database/postgres/custom-claims-and-role-based-access-control-rbac)
 
 ## 3.13 🧾 Output sau phần này
 

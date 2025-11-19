@@ -102,7 +102,7 @@ export async function POST(req: Request) {
 **Phù hợp khi:**
 
 - Cần chạy logic phía server **ngoài context của request người dùng**.
-- Xử lý trigger event từ DB hoặc cron (như “invoice created” → gửi email).
+- Xử lý trigger event từ DB hoặc cron (như "invoice created" → gửi email).
 - Gọi API bên ngoài bằng **service role key** (an toàn, có quyền cao hơn).
 
 Ví dụ: `functions/notify-slack/index.ts`
@@ -197,7 +197,7 @@ export async function POST(req: Request) {
 }
 ```
 
-> ⚠️ **Không parse JSON trước khi xác minh signature** — Stripe yêu cầu raw body.
+> ⚠️ **Không parse JSON trước khi xác minh signature** - Stripe yêu cầu raw body.
 
 ## 7.8 🧭 Event-driven integration pattern
 
@@ -252,7 +252,7 @@ create table api_log (
 
 ## 7.10 🧰 Bảo mật & Rate Limiting
 
-1. **Không expose service key** — chỉ dùng trong Edge Functions hoặc Route Handlers.
+1. **Không expose service key** - chỉ dùng trong Edge Functions hoặc Route Handlers.
 2. **Verify signature** với webhook (Stripe, Slack, GitHub…).
 3. **Giới hạn request** bằng middleware:
 
@@ -283,7 +283,7 @@ create table api_log (
 1. **Route Handler = logic ngắn, Edge Function = logic phức tạp.**
 2. **Luôn verify signature cho webhook.**
 3. **Không gửi request ra ngoài trong transaction DB.**
-4. **Idempotent API** — gọi lại nhiều lần không gây duplicate.
+4. **Idempotent API** - gọi lại nhiều lần không gây duplicate.
 5. **Đặt log chi tiết** trong Edge Function (console.log + table log).
 6. **Sử dụng pgmq cho retry** khi API call thất bại.
 7. **Phân quyền rõ endpoint public/private.**

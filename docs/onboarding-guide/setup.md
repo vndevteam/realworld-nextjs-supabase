@@ -162,7 +162,7 @@ export default function Home() {
 }
 ```
 
-> 👉 If you see `relation "profiles" does not exist`, that's expected before Part 2 — we'll create the `profiles` table in Authentication (section 2.5) and revisit DB in Part 4.
+> 👉 If you see `relation "profiles" does not exist`, that's expected before Part 2 - we'll create the `profiles` table in Authentication (section 2.5) and revisit DB in Part 4.
 
 ## 1.5 🗂️ Standard Internal Directory Structure
 

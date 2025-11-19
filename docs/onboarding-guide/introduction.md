@@ -172,7 +172,7 @@ To make learning easier and examples consistent, the documentation will use **on
 ## 0.8 💡 Internal Best Practices
 
 1. **Always think of Supabase as extended Postgres**, not a "no-code backend".
-2. **Always write migrations and policies in SQL** — don't manually operate on production dashboard.
+2. **Always write migrations and policies in SQL** - don't manually operate on production dashboard.
 3. **Each learning module → separate commit** (so new devs can checkout step by step).
 4. **Start from real use cases (app throughout)** → easier to understand than dry learning.
 5. **After each section → review with checklist & mini quiz.**

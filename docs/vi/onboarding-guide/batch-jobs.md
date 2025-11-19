@@ -281,7 +281,7 @@ select cron.schedule(
 4. **Đặt timezone UTC** trong cron, convert sang local khi hiển thị.
 5. **Không dùng SELECT \* trong job**, chỉ lấy cột cần thiết.
 6. **Dùng queue khi job chạy lâu > 30s** để tránh timeout.
-7. **Gắn tag “CRON” trong log message** để lọc trong Supabase Logs.
+7. **Gắn tag "CRON" trong log message** để lọc trong Supabase Logs.
 8. **Review job schedule định kỳ** để tránh spam hoặc duplicate task.
 9. **Trước khi deploy**: chạy `supabase functions logs --tail` để kiểm tra runtime.
 10. **Giới hạn retry** (với pgmq) để tránh job lặp vô hạn.

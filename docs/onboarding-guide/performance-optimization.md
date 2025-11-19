@@ -195,7 +195,7 @@ export const revalidate = 300; // cache 5 minutes
 delete from system_logs where created_at < now() - interval '30 days';
 ```
 
-> ⚠️ Don't store trace logs too long if not needed — wastes costs and slows queries.
+> ⚠️ Don't store trace logs too long if not needed - wastes costs and slows queries.
 
 ## 11.11 📊 Periodic Performance Monitoring
 
@@ -253,7 +253,7 @@ values ('send_reminder_job', 125, now());
 ## 11.14 💡 Internal Best Practices
 
 1. **Always measure performance with metrics instead of feeling.**
-2. **Don't optimize early — only optimize when you have data.**
+2. **Don't optimize early - only optimize when you have data.**
 3. **Schedule cron & functions outside peak hours.**
 4. **Prefetch and paginate instead of bulk loading.**
 5. **Separate log tables into separate schema (`log.*`) for easier cleanup.**
