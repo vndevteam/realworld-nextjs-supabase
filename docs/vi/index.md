@@ -8,8 +8,20 @@ hero:
     - theme: brand
       text: Bắt đầu với Hướng dẫn Onboarding
       link: /vi/onboarding-guide/index
+    - theme: alt
+      text: Tổng quan Dự án
+      link: /vi/project-overview-pdr
 
 features:
+  - title: Tổng quan & PDR
+    details: Hiểu rõ mục tiêu, phạm vi, yêu cầu và trạng thái hiện tại của dự án
+    link: /vi/project-overview-pdr
+  - title: Tóm tắt Codebase
+    details: Tổng quan cấu trúc kho mã, công nghệ và kiến trúc
+    link: /vi/codebase-summary
+  - title: Chuẩn mã
+    details: Hướng dẫn phát triển, mẫu kiến trúc và thực hành tốt nhất
+    link: /vi/codebase-structure-architecture-code-standards
   - title: Xác thực
     details: Xác thực với Supabase
   - title: Phân quyền

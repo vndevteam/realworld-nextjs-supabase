@@ -110,6 +110,14 @@ export default defineConfig({
             items: [{ text: "Roadmap", link: "/roadmap" }],
           },
           {
+            text: "Architecture & Standards",
+            items: [
+              { text: "Project Overview & PDR", link: "/project-overview-pdr" },
+              { text: "Codebase Summary", link: "/codebase-summary" },
+              { text: "Structure & Code Standards", link: "/codebase-structure-architecture-code-standards" },
+            ],
+          },
+          {
             text: "Onboarding Guide",
             items: [
               { text: "Overview", link: "/onboarding-guide/index" },
@@ -157,6 +165,14 @@ export default defineConfig({
           {
             text: "Nội dung",
             items: [{ text: "Lộ trình", link: "/vi/roadmap" }],
+          },
+          {
+            text: "Kiến trúc & Chuẩn",
+            items: [
+              { text: "Tổng quan & PDR", link: "/vi/project-overview-pdr" },
+              { text: "Tóm tắt Codebase", link: "/vi/codebase-summary" },
+              { text: "Cấu trúc & Chuẩn mã", link: "/vi/codebase-structure-architecture-code-standards" },
+            ],
           },
           {
             text: "Hướng dẫn bắt đầu",
