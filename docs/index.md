@@ -8,8 +8,20 @@ hero:
     - theme: brand
       text: Get Started with Onboarding Guide
       link: /onboarding-guide/index
+    - theme: alt
+      text: Project Overview
+      link: /project-overview-pdr
 
 features:
+  - title: Project Overview & PDR
+    details: Understand project goals, scope, requirements, and current status
+    link: /project-overview-pdr
+  - title: Codebase Summary
+    details: High-level overview of repository structure, technologies, and architecture
+    link: /codebase-summary
+  - title: Code Standards
+    details: Development guidelines, architectural patterns, and best practices
+    link: /codebase-structure-architecture-code-standards
   - title: Authentication
     details: Authentication with Supabase
   - title: Authorization

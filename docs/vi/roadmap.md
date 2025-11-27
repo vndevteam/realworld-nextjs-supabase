@@ -1,12 +1,12 @@
 # Roadmap
 
-## 1. Lộ trình tiếp cận Supabase + Next.js (tối ưu cho "hiểu nhanh, dạy lại được")
+## 1. Lộ trình tiếp cận Supabase + Next.js
 
 Mặc định là bạn đã rành Next.js + Postgres + backend truyền thống.
 
-### Phase 0 – Định hình scope & sample project (0.5 ngày)
+### Phase 0 - Định hình scope & sample project (0.5 ngày)
 
-- Chọn **1 mini-product làm ví dụ xuyên suốt** cho tài liệu/training, ví dụ:
+- Chọn **1 mini-product làm ví dụ xuyên suốt** cho lộ trình tự học của bạn, ví dụ:
 
   - "Mini SaaS quản lý subscription"
   - hoặc "Todo app multi-tenant (nhiều công ty, mỗi công ty nhiều user)"
@@ -15,14 +15,14 @@ Mặc định là bạn đã rành Next.js + Postgres + backend truyền thống
 
   - Auth (email/password + OAuth)
   - Multi-tenant / RLS
-  - Một vài background job (gửi email nhắc hạn, cleanup, sync,…)
+  - Một vài background job (gửi email nhắc hạn, cleanup, sync,...)
   - Upload file (avatar, document)
 
 - Quy ước luôn: mọi kiến thức Supabase/Next.js đều quy chiếu lại ví dụ này.
 
-> Output: 1 README cho "sample app" – sau này dev mới chỉ cần đọc + run là học.
+> Output: 1 README cho "sample app" để bạn có thể rà lại toàn bộ bối cảnh rất nhanh.
 
-### Phase 1 – Supabase Fundamentals (1–2 ngày)
+### Phase 1 - Supabase Fundamentals (1-2 ngày)
 
 Mục tiêu: hiểu Supabase như "Postgres + Auth + Realtime + Storage + Edge Functions", không xem nó như "black-box BaaS".
 
@@ -35,7 +35,7 @@ Nội dung:
 
 2. **Database & SQL**
 
-   - Tạo schema cho sample app (users, organizations, memberships, tasks/subscriptions…).
+   - Tạo schema cho sample app (users, organizations, memberships, tasks/subscriptions...).
    - Làm quen migration (SQL scripts) từ Supabase Dashboard và Supabase CLI. ([Supabase][2])
 
 3. **Auth cơ bản**
@@ -53,10 +53,10 @@ Nội dung:
 
 > Output:
 >
-> - 1 tài liệu nội bộ: "Supabase Overview cho dev mới" (giới thiệu thành phần + hình kiến trúc).
+> - 1 ghi chú: "Supabase Overview" (các thành phần + sơ đồ kiến trúc).
 > - 1 file SQL migration chuẩn (để sau dùng trong CI/CD).
 
-### Phase 2 – Supabase + Next.js Integration (1–3 ngày)
+### Phase 2 - Supabase + Next.js Integration (1-3 ngày)
 
 Mục tiêu: thành thạo **App Router + server components + Supabase**.
 
@@ -89,10 +89,10 @@ Mục tiêu: thành thạo **App Router + server components + Supabase**.
 
 > Output:
 >
-> - 1 "Supabase + Next.js Starter" repo nội bộ.
-> - Tài liệu "Coding convention: cách gọi Supabase trong Next.js (server/client)".
+> - 1 "Supabase + Next.js Starter" repo cá nhân để mở rộng tiếp.
+> - Ghi chú "Coding convention: cách gọi Supabase trong Next.js (server/client)".
 
-### Phase 3 – Batch job, background work & advanced feature (2–4 ngày)
+### Phase 3 - Batch job, background work & advanced feature (2-4 ngày)
 
 Mục tiêu: trả lời các câu "bài toán truyền thống" theo style Supabase.
 
@@ -102,22 +102,22 @@ Mục tiêu: trả lời các câu "bài toán truyền thống" theo style Supa
    - **Cron trong Postgres (Supabase Cron + pg_cron)**
 
      - Dùng module **Supabase Cron** và extension `pg_cron` để tạo job chạy theo lịch, viết job bằng SQL/PLpgSQL. ([Supabase][5])
-     - Use-case: cleanup record, aggregate dữ liệu, sync status,…
+     - Use-case: cleanup record, aggregate dữ liệu, sync status,...
 
    - **Scheduled Edge Functions**
 
      - Supabase support `pg_cron` + `pg_net` để gọi **Edge Functions** định kỳ, ví dụ 5 phút/lần. ([Supabase][6])
-     - Use-case: gọi API bên ngoài, gửi email, sync queue,…
+     - Use-case: gọi API bên ngoài, gửi email, sync queue,...
 
-   - Gợi ý trong tài liệu training:
+   - Gợi ý khi thực hành:
 
      - "Nếu job thuần DB -> ưu tiên Cron + SQL"
      - "Nếu job cần HTTP external / logic phức tạp -> Edge Function + Cron scheduler"
 
 2. **Queues & async processing**
 
-   - Tìm hiểu Supabase **Queues** (pgmq) – message queue trong Postgres dùng cho xử lý background. ([Supabase][7])
-   - Use-case: job nặng (send mail hàng loạt, sync lớn…) -> push vào queue, worker (Edge Function / external worker) consume.
+   - Tìm hiểu Supabase **Queues** (pgmq) - message queue trong Postgres dùng cho xử lý background. ([Supabase][7])
+   - Use-case: job nặng (send mail hàng loạt, sync lớn...) -> push vào queue, worker (Edge Function / external worker) consume.
 
 3. **Storage & file handling**
 
@@ -130,19 +130,19 @@ Mục tiêu: trả lời các câu "bài toán truyền thống" theo style Supa
 
 > Output:
 >
-> - Tài liệu "Batch job & Background processing với Supabase".
-> - 1–2 ví dụ cụ thể:
+> - Ghi chú "Batch job & Background processing với Supabase".
+> - 1-2 ví dụ cụ thể:
 >
 >   - Cron cleanup data hằng đêm.
 >   - Edge Function + Cron gửi email nhắc hạn.
 
-### Phase 4 – DevOps, CI/CD & môi trường (2–3 ngày)
+### Phase 4 - DevOps, CI/CD & môi trường (2-3 ngày)
 
 Mục tiêu: hiểu **Supabase CLI, migration, test, deploy**.
 
 1. **Supabase CLI**
 
-   - Cài đặt, `supabase init`, `supabase start` (local), `supabase db push`,… ([Supabase][8])
+   - Cài đặt, `supabase init`, `supabase start` (local), `supabase db push`,... ([Supabase][8])
    - Best practice: treat Supabase config + migrations như **config-as-code**. ([Supabase][9])
 
 2. **CI/CD với GitHub Actions**
@@ -155,7 +155,7 @@ Mục tiêu: hiểu **Supabase CLI, migration, test, deploy**.
      - Apply migration lên staging/production
      - Deploy Edge Functions (nếu dùng) ([Supabase][11])
 
-3. **Kết hợp deploy Next.js (Vercel, Cloudflare, …)**
+3. **Kết hợp deploy Next.js (Vercel, Cloudflare,...)**
 
    - Dùng env var `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`
    - Service role key **không bao giờ** nằm ở FE, chỉ nằm trong backend/Edge Functions/CI.
@@ -171,7 +171,7 @@ Giả sử "truyền thống" = NestJS/Express + Postgres, deploy trên AWS/GCP,
 
 ### 2.1. Về effort implement
 
-**Supabase + Next.js**
+#### Supabase + Next.js
 
 - Auth, user table, JWT, password reset, magic link: built-in. ([Supabase][3])
 - Realtime, Storage, RLS, Cron, Queues: bật bằng config/SQL + ít code. ([Supabase][4])
@@ -181,20 +181,20 @@ Giả sử "truyền thống" = NestJS/Express + Postgres, deploy trên AWS/GCP,
   - UI + một ít glue code (Next.js server/client)
   - Edge Functions cho logic đặc biệt
 
-**Backend truyền thống**
+#### Backend truyền thống (vận hành)
 
 - Phải chọn & integrate từng thứ:
 
   - Auth (JWT, OAuth providers, session management)
-  - Job scheduler (BullMQ, cron, Cloud Tasks, EventBridge…)
-  - Queues (SQS, RabbitMQ, Kafka,…)
+  - Job scheduler (BullMQ, cron, Cloud Tasks, EventBridge...)
+  - Queues (SQS, RabbitMQ, Kafka,...)
   - Storage (S3 + signed URL)
 
 - Effort ban đầu cao, nhưng:
 
   - Linh hoạt cho hệ thống lớn, domain phức tạp, cần microservices.
 
-**Kết luận ngắn gọn** (để bỏ vào doc nội bộ):
+#### Kết luận ngắn gọn (để bỏ vào doc nội bộ)
 
 - **Supabase thắng** về tốc độ dựng MVP, training dev mới, giảm boilerplate backend.
 - **Backend truyền thống thắng** khi:
@@ -204,7 +204,7 @@ Giả sử "truyền thống" = NestJS/Express + Postgres, deploy trên AWS/GCP,
 
 ### 2.2. Về DevOps & vận hành
 
-**Supabase**
+#### Supabase
 
 - DB, auth, storage, cron, queue, functions: **managed**; scale, backup, observability do Supabase lo chính. ([Supabase][2])
 - DevOps tập trung vào:
@@ -213,15 +213,15 @@ Giả sử "truyền thống" = NestJS/Express + Postgres, deploy trên AWS/GCP,
   - CI/CD cho Edge Functions + schema + tests
   - Monitoring logs/traces qua Supabase UI
 
-- Ít "yak shaving" với infra (no RDS, no SQS, no ECS/EKS config…).
+- Ít "yak shaving" với infra (no RDS, no SQS, no ECS/EKS config...).
 
-**Backend truyền thống**
+#### Backend truyền thống
 
 - Phải lo:
 
   - Provision DB (RDS/Cloud SQL), networking, security group/VPC.
   - Job runner, message queues, file storage.
-  - Observability: Prometheus/Grafana/Loki/Tempo, log shipping,…
+  - Observability: Prometheus/Grafana/Loki/Tempo, log shipping,...
 
 - Tốn effort nhưng:
 
@@ -229,7 +229,7 @@ Giả sử "truyền thống" = NestJS/Express + Postgres, deploy trên AWS/GCP,
 
 ## 3. Khung tài liệu Best Practices + các bài toán nên cover
 
-Bạn có thể thiết kế **1 bộ tài liệu nội bộ** với structure kiểu:
+Bạn có thể sắp xếp **bộ ghi chú tự học** với cấu trúc:
 
 ### 3.1. Mục lục gợi ý
 
@@ -290,7 +290,7 @@ Bạn có thể thiết kế **1 bộ tài liệu nội bộ** với structure k
 
 8. **Storage & File Handling**
 
-   - Quy ước bucket per domain (avatars, documents, logs,…)
+   - Quy ước bucket per domain (avatars, documents, logs,...)
    - Dùng signed URL, không public raw.
    - Mapping giữa DB record và file path.
 
@@ -333,25 +333,25 @@ Gợi ý các bài toán bạn nên implement song song **2 bản** (Supabase + 
 2. **Billing-like flow** (subscription, expired, reminder)
 3. **Batch job nhắc hạn, cleanup, report**
 4. **Upload & access control file**
-5. **Webhook từ third-party** (Stripe, GitHub, …)
+5. **Webhook từ third-party** (Stripe, GitHub,...)
 6. **Internal admin panel** (RBAC + audit log)
 
-Mỗi bài toán, bạn có thể làm 1 bảng nhỏ so sánh:
+Mỗi bài toán, bạn nên lưu 1 bảng nhỏ so sánh:
 
 - Cột 1: Cần làm gì trong backend truyền thống (NestJS + RDS + S3 + cron)
 - Cột 2: Cần làm gì với Supabase (feature nào, config gì, code khoảng bao nhiêu)
-  => Sau vài bài, bạn sẽ có **"Effort Comparison"** rất dễ training dev mới.
+  => Sau vài bài, bạn sẽ có **"Effort Comparison"** để tự nhìn lại ưu nhược điểm.
 
-[1]: https://supabase.com/docs/guides/getting-started?utm_source=chatgpt.com "Getting Started | Supabase Docs"
-[2]: https://supabase.com/docs?utm_source=chatgpt.com "Supabase Docs"
-[3]: https://supabase.com/docs/guides/auth/quickstarts/nextjs?utm_source=chatgpt.com "Use Supabase Auth with Next.js"
-[4]: https://supabase.com/docs/guides/realtime/getting_started?utm_source=chatgpt.com "Getting Started with Realtime | Supabase Docs"
-[5]: https://supabase.com/docs/guides/cron?utm_source=chatgpt.com "Cron | Supabase Docs"
-[6]: https://supabase.com/docs/guides/functions/schedule-functions?utm_source=chatgpt.com "Scheduling Edge Functions | Supabase Docs"
-[7]: https://supabase.com/docs/guides/queues/quickstart?utm_source=chatgpt.com "Quickstart | Supabase Docs"
-[8]: https://supabase.com/docs/reference/cli/introduction?utm_source=chatgpt.com "CLI Reference | Supabase Docs"
-[9]: https://supabase.com/blog/cli-v2-config-as-code?utm_source=chatgpt.com "Supabase CLI v2: Config as Code"
-[10]: https://github.com/marketplace/actions/supabase-cli-action?utm_source=chatgpt.com "Supabase CLI Action - GitHub Marketplace"
-[11]: https://supabase.com/docs/guides/functions/examples/github-actions?utm_source=chatgpt.com "GitHub Actions | Supabase Docs"
-[12]: https://supabase.com/docs/guides/auth/server-side/nextjs?utm_source=chatgpt.com "Setting up Server-Side Auth for Next.js"
-[13]: https://supabase.com/docs/guides/deployment/ci/testing?utm_source=chatgpt.com "Automated testing using GitHub Actions | Supabase Docs"
+[1]: https://supabase.com/docs/guides/getting-started "Getting Started | Supabase Docs"
+[2]: https://supabase.com/docs "Supabase Docs"
+[3]: https://supabase.com/docs/guides/auth/quickstarts/nextjs "Use Supabase Auth with Next.js"
+[4]: https://supabase.com/docs/guides/realtime/getting_started "Getting Started with Realtime | Supabase Docs"
+[5]: https://supabase.com/docs/guides/cron "Cron | Supabase Docs"
+[6]: https://supabase.com/docs/guides/functions/schedule-functions "Scheduling Edge Functions | Supabase Docs"
+[7]: https://supabase.com/docs/guides/queues/quickstart "Quickstart | Supabase Docs"
+[8]: https://supabase.com/docs/reference/cli/introduction "CLI Reference | Supabase Docs"
+[9]: https://supabase.com/blog/cli-v2-config-as-code "Supabase CLI v2: Config as Code"
+[10]: https://github.com/marketplace/actions/supabase-cli-action "Supabase CLI Action - GitHub Marketplace"
+[11]: https://supabase.com/docs/guides/functions/examples/github-actions "GitHub Actions | Supabase Docs"
+[12]: https://supabase.com/docs/guides/auth/server-side/nextjs "Setting up Server-Side Auth for Next.js"
+[13]: https://supabase.com/docs/guides/deployment/ci/testing "Automated testing using GitHub Actions | Supabase Docs"

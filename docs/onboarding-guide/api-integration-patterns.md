@@ -253,7 +253,7 @@ create table api_log (
 ## 7.10 🧰 Security & Rate Limiting
 
 1. **Don't expose service key** - only use in Edge Functions or Route Handlers.
-2. **Verify signature** with webhooks (Stripe, Slack, GitHub…).
+2. **Verify signature** with webhooks (Stripe, Slack, GitHub...).
 3. **Limit requests** with middleware:
 
    ```ts

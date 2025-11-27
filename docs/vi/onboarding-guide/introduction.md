@@ -9,9 +9,9 @@
 - Cung cấp kiến thức và hướng dẫn **từng bước** để dev mới có thể:
 
   - Hiểu kiến trúc **Supabase + Next.js** (Fullstack as one project).
-  - Biết **triển khai ứng dụng từ đầu đến deploy** (Auth, CRUD, RLS, Storage, Cron, Queue,…).
+  - Biết **triển khai ứng dụng từ đầu đến deploy** (Auth, CRUD, RLS, Storage, Cron, Queue,...).
   - Nắm **best practices nội bộ** khi viết code, test, và quản lý môi trường.
-  - Biết so sánh hiệu quả Supabase với backend truyền thống (NestJS, Express, Spring Boot,…).
+  - Biết so sánh hiệu quả Supabase với backend truyền thống (NestJS, Express, Spring Boot,...).
 
 ### Đối tượng học
 
@@ -37,7 +37,7 @@ Sau khi hoàn thành tài liệu:
 >
 > - Database (Postgres)
 > - Authentication
-> - Storage (file, image,…)
+> - Storage (file, image,...)
 > - Realtime
 > - Edge Functions
 > - Cron / Queue
@@ -62,8 +62,8 @@ Sau khi hoàn thành tài liệu:
 | Tốc độ dựng MVP              | 🚀 Rất nhanh (Auth, Storage, DB có sẵn) | Cần setup từng phần               |
 | DevOps effort                | Thấp (hầu như không cần server quản lý) | Cao (RDS, S3, cron, queue, CI/CD) |
 | Kiểm soát hạ tầng            | Trung bình                              | Toàn quyền                        |
-| Độ phức tạp domain           | Phù hợp app nhỏ–vừa                     | Tốt hơn cho app lớn, phức tạp     |
-| Chi phí ban đầu              | Rất thấp (free tier)                    | Trung bình – cao                  |
+| Độ phức tạp domain           | Phù hợp app nhỏ-vừa                     | Tốt hơn cho app lớn, phức tạp     |
+| Chi phí ban đầu              | Rất thấp (free tier)                    | Trung bình - cao                  |
 | Mức độ mở rộng (scalability) | Hạn chế theo plan Supabase              | Linh hoạt tuỳ infra               |
 
 ## 0.3 🏗️ Kiến trúc tổng quan Supabase + Next.js
@@ -84,7 +84,7 @@ G[Cron Scheduler] --> F
 
 ### Giải thích flow
 
-1. **Frontend (Next.js)**: render SSR/CSR, gọi Supabase SDK để CRUD, login,…
+1. **Frontend (Next.js)**: render SSR/CSR, gọi Supabase SDK để CRUD, login,...
 2. **Supabase API layer**: tự động expose REST/GraphQL endpoint từ schema.
 3. **Postgres (Database)**: lưu dữ liệu + thực thi policies (RLS).
 4. **Auth module**: xử lý đăng ký, đăng nhập, JWT claim.
@@ -119,7 +119,7 @@ G[Cron Scheduler] --> F
 | **Phase 0** | Tổng quan, setup môi trường     | Biết Supabase là gì, tạo project & Next.js app | 0.5 ngày         |
 | **Phase 1** | Database, Auth, RLS             | Biết cách thiết kế schema, bảo mật RLS         | 2 ngày           |
 | **Phase 2** | Supabase + Next.js Integration  | CRUD, Auth UI, Protect route                   | 2 ngày           |
-| **Phase 3** | Batch job, Queue, Edge Function | Tạo job, xử lý async                           | 2–3 ngày         |
+| **Phase 3** | Batch job, Queue, Edge Function | Tạo job, xử lý async                           | 2-3 ngày         |
 | **Phase 4** | CI/CD & DevOps                  | Biết deploy, migration, test                   | 2 ngày           |
 | **Phase 5** | Review & Best practices         | Tổng kết, so sánh backend truyền thống         | 1 ngày           |
 
@@ -132,7 +132,7 @@ G[Cron Scheduler] --> F
 ### Yêu cầu tính năng
 
 - User đăng ký / đăng nhập (email + OAuth).
-- Mỗi user có thể tạo nhiều "subscription" (Netflix, Spotify,…).
+- Mỗi user có thể tạo nhiều "subscription" (Netflix, Spotify,...).
 - Gửi email nhắc khi gần hết hạn.
 - Cho phép upload ảnh hóa đơn (invoice).
 - Dashboard hiển thị realtime khi thêm/sửa subscription.

@@ -277,7 +277,7 @@ select cron.schedule(
 
 1. **Each job → has its own log** (`job_log` table or function logs).
 2. **Don't use service key in FE**, only in Edge Functions / Cron SQL.
-3. **Jobs should be idempotent** – running multiple times doesn't cause errors or duplicate data.
+3. **Jobs should be idempotent** - running multiple times doesn't cause errors or duplicate data.
 4. **Set timezone UTC** in cron, convert to local when displaying.
 5. **Don't use SELECT \* in jobs**, only get necessary columns.
 6. **Use queue when jobs run long > 30s** to avoid timeout.

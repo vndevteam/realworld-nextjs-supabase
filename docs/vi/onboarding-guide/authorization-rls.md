@@ -177,7 +177,7 @@ using (
 | `member` | Chỉ xem/sửa record của chính mình | `auth.uid() = created_by`       |
 | `guest`  | Chỉ đọc dữ liệu public            | `auth.role() = 'anon'`          |
 
-Ví dụ: Policy RBAC cho bảng `tasks`
+Ví dụ: Policy RBAC cho bảng [`tasks`](./database-migrations.md#cau-truc-co-ban-cua-migration)
 
 ```sql
 alter table tasks enable row level security;
@@ -189,10 +189,6 @@ using ( auth.jwt()->>'role' = 'admin' );
 create policy "Members can manage own tasks"
 on tasks for all
 using ( auth.uid() = created_by );
-
-create policy "Guests can view public tasks"
-on tasks for select
-using ( visibility = 'public' );
 ```
 
 ## 3.8 🧮 Kiểm thử Policy
@@ -216,7 +212,7 @@ select * from tasks;
 
 ## 3.9 🧩 Dùng Policy kết hợp Trigger (Audit Log)
 
-Ví dụ ghi log mỗi khi user truy cập bảng `tasks`
+Ví dụ ghi log mỗi khi user thay đổi bảng `tasks` (INSERT, UPDATE, DELETE)
 
 ```sql
 create table audit_log (
@@ -226,6 +222,8 @@ create table audit_log (
   table_name text,
   at timestamptz default now()
 );
+
+alter table audit_log enable row level security;
 
 create function log_task_access()
 returns trigger as $$
@@ -237,9 +235,11 @@ end;
 $$ language plpgsql;
 
 create trigger trg_log_task_access
-after select or insert or update or delete on tasks
+after insert or update or delete on tasks
 for each statement execute procedure log_task_access();
 ```
+
+> ⚠️ **Lưu ý**: PostgreSQL không hỗ trợ trigger cho `SELECT`. Chỉ có các thao tác `INSERT`, `UPDATE`, và `DELETE` mới có thể được ghi log qua trigger. Để ghi log các thao tác SELECT, hãy cân nhắc sử dụng RLS policies kết hợp logging hoặc logging ở tầng application.
 
 ## 3.10 🧭 Checklist hoàn thành
 
@@ -256,7 +256,7 @@ for each statement execute procedure log_task_access();
 2. **Không dùng service key** để bypass RLS trừ trường hợp đặc biệt (Edge Function admin).
 3. **Mỗi bảng → có ít nhất 1 policy SELECT, INSERT, UPDATE, DELETE** rõ ràng.
 4. **Không rely vào code phía frontend** để kiểm tra quyền truy cập.
-5. **Metadata trong JWT chỉ dùng cho context** – không thay thế kiểm tra logic phức tạp.
+5. **Metadata trong JWT chỉ dùng cho context** - không thay thế kiểm tra logic phức tạp.
 6. **Giữ policy file versioned** cùng migration (`migrations/policies.sql`).
 7. **Test policy** mỗi khi thêm bảng hoặc role mới.
 8. **Tránh viết policy trùng logic - tách nhỏ theo hành động**.

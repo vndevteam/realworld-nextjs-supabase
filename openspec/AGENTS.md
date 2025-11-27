@@ -88,7 +88,7 @@ After deployment, create separate PR to:
 - Always check if capability already exists
 - Prefer modifying existing specs over creating duplicates
 - Use `openspec show [spec]` to review current state
-- If request is ambiguous, ask 1–2 clarifying questions before scaffolding
+- If request is ambiguous, ask 1-2 clarifying questions before scaffolding
 
 ### Search Guidance
 

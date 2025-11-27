@@ -62,8 +62,8 @@ After completing the documentation:
 | MVP build speed        | 🚀 Very fast (Auth, Storage, DB ready) | Need to setup each part            |
 | DevOps effort          | Low (almost no server management)      | High (RDS, S3, cron, queue, CI/CD) |
 | Infrastructure control | Medium                                 | Full control                       |
-| Domain complexity      | Suitable for small–medium apps         | Better for large, complex apps     |
-| Initial cost           | Very low (free tier)                   | Medium – high                      |
+| Domain complexity      | Suitable for small-medium apps         | Better for large, complex apps     |
+| Initial cost           | Very low (free tier)                   | Medium - high                      |
 | Scalability            | Limited by Supabase plan               | Flexible based on infra            |
 
 ## 0.3 🏗️ Supabase + Next.js Architecture Overview
@@ -119,7 +119,7 @@ G[Cron Scheduler] --> F
 | **Phase 0** | Overview, environment setup       | Know what Supabase is, create project & Next.js app | 0.5 days           |
 | **Phase 1** | Database, Auth, RLS               | Know how to design schema, secure RLS               | 2 days             |
 | **Phase 2** | Supabase + Next.js Integration    | CRUD, Auth UI, Protect routes                       | 2 days             |
-| **Phase 3** | Batch jobs, Queue, Edge Functions | Create jobs, handle async                           | 2–3 days           |
+| **Phase 3** | Batch jobs, Queue, Edge Functions | Create jobs, handle async                           | 2-3 days           |
 | **Phase 4** | CI/CD & DevOps                    | Know deployment, migrations, tests                  | 2 days             |
 | **Phase 5** | Review & Best practices           | Summary, compare with traditional backend           | 1 day              |
 

@@ -267,7 +267,7 @@ docker system prune -f
 
 ## 8.14 📚 References
 
-- [Supabase CLI – Managing Environments](https://supabase.com/docs/guides/cli/managing-environments)
+- [Supabase CLI - Managing Environments](https://supabase.com/docs/guides/cli/managing-environments)
 - [Supabase db push / diff / dump](https://supabase.com/docs/reference/cli/supabase-db-push)
 - [Supabase Functions Deploy](https://supabase.com/docs/reference/cli/supabase-functions-deploy)
 - [GitHub Actions Manual Approval](https://github.com/marketplace/actions/manual-approval)

@@ -28,8 +28,8 @@ graph TD
 A[Client SDK / PostgREST] --> B[(API Gateway)]
 B --> C[Auth Service]
 B --> D[Storage Service]
-B --> E[Realtime Server (Elixir)]
-B --> F[Edge Functions (Deno)]
+B --> E["Realtime Server (Elixir)"]
+B --> F["Edge Functions (Deno)"]
 C --> G[(PostgreSQL Core)]
 E --> G
 F --> G
@@ -80,7 +80,7 @@ Index Scan using invoices_customer_id_idx on invoices
 
 ## 13.4 🔍 Supabase + OpenTelemetry (OTEL)
 
-Tích hợp OTEL giúp trace xuyên suốt giữa **Next.js – Edge Function – Database**.
+Tích hợp OTEL giúp trace xuyên suốt giữa **Next.js - Edge Function - Database**.
 
 ### Ví dụ cấu hình (Next.js)
 
@@ -204,7 +204,7 @@ Dùng `pg_fdw` hoặc `pgbouncer` connector → đẩy dữ liệu analytics ra 
 
 ## 13.9 🧱 Multi-Tenant Architecture
 
-### 1️⃣ Single DB – Row Isolation
+### 1️⃣ Single DB - Row Isolation
 
 ```sql
 create policy "Tenant isolation"
@@ -350,8 +350,8 @@ Bạn đã hoàn thành **Bộ tài liệu đào tạo Supabase + Next.js toàn 
 
 | #     | Chủ đề chính                   | Mục tiêu                         |
 | ----- | ------------------------------ | -------------------------------- |
-| 0–4   | Setup, Auth, RLS, DB           | Nền tảng core Supabase           |
-| 5–8   | Integration, Batch, API, CI/CD | Thực hành & triển khai thật      |
-| 9–10  | Observability, Security        | Vận hành an toàn, đáng tin cậy   |
-| 11–12 | Cost, Techstack Comparison     | Tối ưu và định hướng chiến lược  |
+| 0-4   | Setup, Auth, RLS, DB           | Nền tảng core Supabase           |
+| 5-8   | Integration, Batch, API, CI/CD | Thực hành & triển khai thật      |
+| 9-10  | Observability, Security        | Vận hành an toàn, đáng tin cậy   |
+| 11-12 | Cost, Techstack Comparison     | Tối ưu và định hướng chiến lược  |
 | 13    | Advanced & Phụ lục             | Mở rộng, chuyên sâu, AI, scaling |

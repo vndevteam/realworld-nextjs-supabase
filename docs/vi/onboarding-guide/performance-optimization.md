@@ -9,7 +9,7 @@ Sau khi hoàn thành phần này, dev có thể:
 - Đọc và phân tích chi phí Supabase từng phần (DB, Function, Storage, Realtime).
 - Tối ưu query, index, và caching hợp lý.
 - Giảm chi phí vận hành qua cron batch, cold start, và log retention.
-- So sánh chi phí – effort với backend truyền thống (NestJS / Spring Boot).
+- So sánh chi phí - effort với backend truyền thống (NestJS / Spring Boot).
 - Xây dựng guideline nội bộ để dự đoán cost.
 
 ## 11.2 🧩 Tổng quan các yếu tố ảnh hưởng đến chi phí
@@ -90,7 +90,7 @@ vacuum analyze system_logs;
 
 ### 1️⃣ Cold Start
 
-- Supabase Edge Functions có latency khởi động 100–500ms lần đầu.
+- Supabase Edge Functions có latency khởi động 100-500ms lần đầu.
 - Giảm bằng cách:
 
   - Giữ function nhỏ gọn, ít dependency.
@@ -140,7 +140,7 @@ useEffect(() => {
 ```
 
 - Chỉ bật realtime với bảng cần thiết.
-- Batch UI update (debounce 1–2s).
+- Batch UI update (debounce 1-2s).
 
 ## 11.8 🧩 Storage Optimization
 
@@ -150,7 +150,7 @@ useEffect(() => {
 | Dữ liệu trùng lặp      | Hash checksum để detect trùng file |
 | File không dùng        | Tạo cron cleanup bucket cũ         |
 | Download public nhiều  | Dùng signed URL + CDN caching      |
-| Bucket logs            | Xóa file log định kỳ (14–30 ngày)  |
+| Bucket logs            | Xóa file log định kỳ (14-30 ngày)  |
 
 ### SQL Cleanup ví dụ
 
@@ -188,7 +188,7 @@ export const revalidate = 300; // cache 5 phút
 | Edge Function    | 7 ngày      | xóa tự động       |
 | Database logs    | 14 ngày     | có thể export S3  |
 | System log table | 30 ngày     | cleanup cron      |
-| Realtime event   | 3–7 ngày    | tùy traffic       |
+| Realtime event   | 3-7 ngày    | tùy traffic       |
 | CI/CD logs       | 14 ngày     | GitHub tự cleanup |
 
 ```sql
@@ -229,11 +229,11 @@ values ('send_reminder_job', 125, now());
 | **Cron / Queue**       | pg_cron / pgmq built-in    | Cần worker (Celery, BullMQ)                |
 | **CI/CD**              | CLI + GitHub Actions       | Jenkins / custom pipeline                  |
 | **Ops overhead**       | Rất thấp                   | Cao, cần DevOps engineer                   |
-| **Chi phí khởi điểm**  | ~25–50 USD/tháng           | ~70–150 USD/tháng                          |
+| **Chi phí khởi điểm**  | ~25-50 USD/tháng           | ~70-150 USD/tháng                          |
 | **Chi phí theo scale** | Linear (tăng theo usage)   | Exponential (compute + EBS)                |
-| **Cold start latency** | 100–500ms (Edge)           | 10–50ms (EC2/ECS)                          |
+| **Cold start latency** | 100-500ms (Edge)           | 10-50ms (EC2/ECS)                          |
 | **Maintainability**    | Rất cao                    | Trung bình                                 |
-| **Tổng Effort DevOps** | ↓ 70–80%                   | baseline 100%                              |
+| **Tổng Effort DevOps** | ↓ 70-80%                   | baseline 100%                              |
 
 ## 11.13 🧭 Checklist tối ưu chi phí & hiệu năng
 

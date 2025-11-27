@@ -39,7 +39,7 @@ Documentation goals:
 1. **Tool installation**
 
    - Node.js / pnpm / npm
-   - Supabase CLI (`supabase login`, `supabase start`, …)
+   - Supabase CLI (`supabase login`, `supabase start`,...)
    - VSCode plugins (SQLTools, Supabase, etc.)
 
 2. **Project initialization**
@@ -57,10 +57,10 @@ Documentation goals:
 
 4. **Recommended directory structure**
 
-   - `/app` – Next.js App Router
-   - `/lib` – Supabase client, hooks
-   - `/supabase` – migrations, policies, seeds
-   - `/scripts` – batch jobs, automation
+   - `/app` - Next.js App Router
+   - `/lib` - Supabase client, hooks
+   - `/supabase` - migrations, policies, seeds
+   - `/scripts` - batch jobs, automation
 
 ## 🔐 Part 2. Authentication
 
@@ -310,7 +310,7 @@ Documentation goals:
 | Queue               | pgmq                    | Redis / SQS           |
 | Realtime            | Built-in                | WebSocket / Socket.IO |
 | DevOps              | CLI + Dashboard         | Self-setup infra      |
-| Initial cost        | Very low                | Medium – high         |
+| Initial cost        | Very low                | Medium - high         |
 | Large-scale scaling | Vendor limits           | Full control          |
 
 ## 🧠 Part 13. Appendix (Advanced)

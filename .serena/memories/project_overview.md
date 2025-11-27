@@ -1,0 +1,3 @@
+- Purpose: RealWorld (Conduit) implementation that doubles as a Supabase + Next.js starter/training reference demonstrating server-first patterns, RLS, realtime, queues, cron, etc.
+- Structure: Monorepo with `nextjs/` (App Router front-end), `supabase/` (config, migrations, edge functions), `docs/` (VitePress multi-lang onboarding + guides), and `openspec/` (proposal/spec governance). Root also holds workspace config and tooling (pnpm, husky, commitlint).
+- Stack: Next.js 16 (React 19, TypeScript strict, Tailwind v4), Supabase (Postgres/Auth/Storage/Realtime, CLI ≥2.54), pnpm workspaces, VitePress docs, GitHub Actions CI. No tests or migrations yet. Requires Node 18+, pnpm, Supabase CLI, Docker/Podman.

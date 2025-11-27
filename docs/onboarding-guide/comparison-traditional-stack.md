@@ -15,7 +15,7 @@ After this section, you can:
 | Item                        | **Supabase + Next.js**                                         | **Traditional Backend (NestJS / Spring Boot)**      |
 | --------------------------- | -------------------------------------------------------------- | --------------------------------------------------- |
 | **Overall Architecture**    | Monolithic serverless (Auth, DB, API, Storage in one platform) | Microservice or 3-tier (API + DB + Infra separated) |
-| **Initial Setup**           | 5–10 minutes (CLI + project init)                              | 1–2 days (server setup, DB config, auth, deploy)    |
+| **Initial Setup**           | 5-10 minutes (CLI + project init)                              | 1-2 days (server setup, DB config, auth, deploy)    |
 | **Auth / Session**          | Built-in Supabase Auth (JWT, OTP, OAuth)                       | Must install passport.js / Spring Security          |
 | **Database**                | Managed PostgreSQL + RLS + triggers                            | Self-hosted PostgreSQL / MySQL or RDS               |
 | **Storage / File Upload**   | Supabase Storage (API ready)                                   | AWS S3 / GCP Storage + integration code             |
@@ -23,7 +23,7 @@ After this section, you can:
 | **Batch Job / Cron**        | pg_cron, pgmq, Edge Function schedule                          | Cloud Task / separate cron jobs                     |
 | **CI/CD**                   | Supabase CLI + GitHub Actions                                  | Jenkins / GitLab CI requires manual config          |
 | **Realtime**                | Supabase Realtime (WS built-in)                                | Redis PubSub / Socket.io / Kafka                    |
-| **Initial Cost**            | ~$25–50/month                                                  | ~$70–150/month                                      |
+| **Initial Cost**            | ~$25-50/month                                                  | ~$70-150/month                                      |
 | **Scale Cost**              | By usage (linear)                                              | By instance (step-based)                            |
 | **DevOps Effort**           | Low (almost no sysadmin needed)                                | High (must maintain infra, scaling, logs)           |
 | **Performance Baseline**    | Good for CRUD and simple APIs                                  | Higher in high-load / compute-heavy                 |
@@ -32,7 +32,7 @@ After this section, you can:
 | **Security**                | Has RLS, key-based access, clear policies                      | Self-implement middleware, guards, ACL              |
 | **Logging & Observability** | Supabase Logs + Dashboard                                      | ELK / Loki / Prometheus must self-deploy            |
 | **Developer Experience**    | High, new devs onboard quickly                                 | Good with strong backend team                       |
-| **Time to MVP**             | Very fast (1–3 days)                                           | Medium (1–2 weeks)                                  |
+| **Time to MVP**             | Very fast (1-3 days)                                           | Medium (1-2 weeks)                                  |
 
 ## 12.3 ⚙️ Detailed Comparison by Layer
 
@@ -86,7 +86,7 @@ After this section, you can:
 | Monitoring   | Logs dashboard                    | Grafana, Loki, Prometheus          |
 | Backup       | Built-in snapshots                | RDS backup self-setup              |
 
-✅ **Supabase:** Reduces DevOps effort 70–80%.
+✅ **Supabase:** Reduces DevOps effort 70-80%.
 ⚠️ **Traditional:** More flexible with custom infra, multi-region, network layer.
 
 ### Cost & Maintainability
@@ -97,7 +97,7 @@ After this section, you can:
 | Storage              | Shared, auto-scale | Pay per GB S3 / EBS       |
 | Compute              | Pay per function   | Pay per hour instance     |
 | Maintenance          | Almost 0           | Need DevOps team          |
-| Developer Onboarding | Fast (1–2 days)    | Slow (1–2 weeks)          |
+| Developer Onboarding | Fast (1-2 days)    | Slow (1-2 weeks)          |
 | Debug                | Centralized logs   | Distributed across layers |
 
 ✅ Supabase helps startups save significant initial costs.
@@ -122,10 +122,10 @@ Traditional Backend **superior when extremely high performance and detailed infr
 
 | Factor               | Supabase-first                | Traditional                      |
 | -------------------- | ----------------------------- | -------------------------------- |
-| New Dev Onboarding   | 1–2 days                      | 1–2 weeks                        |
-| Code to Write        | 30–50% less                   | Lots of boilerplate              |
+| New Dev Onboarding   | 1-2 days                      | 1-2 weeks                        |
+| Code to Write        | 30-50% less                   | Lots of boilerplate              |
 | Debug auth / DB      | Fast, integrated dashboard    | Must combine multiple logs       |
-| Small Team (2–5 dev) | Very suitable                 | Costly setup                     |
+| Small Team (2-5 dev) | Very suitable                 | Costly setup                     |
 | Large Team (10+ dev) | Need clearer code conventions | Easy to split modules            |
 | Hotfix / Deploy      | 1 CLI command                 | Pipeline build, restart server   |
 | Documentation        | Concise, easy self-learn      | Must document internal standards |
@@ -134,8 +134,8 @@ Traditional Backend **superior when extremely high performance and detailed infr
 
 | Phase                      | Supabase Effort             | Traditional Effort | Notes                    |
 | -------------------------- | --------------------------- | ------------------ | ------------------------ |
-| MVP (0–3 months)           | ⭐ Low                      | 🔺 High            | Supabase wins absolutely |
-| Production (3–12 months)   | ⚖️ Medium                   | ⚖️ Medium          | Depends on scale         |
+| MVP (0-3 months)           | ⭐ Low                      | 🔺 High            | Supabase wins absolutely |
+| Production (3-12 months)   | ⚖️ Medium                   | ⚖️ Medium          | Depends on scale         |
 | Large Scale (1M+ users)    | 🔺 Increases (vendor limit) | ⭐ Stable          | Backend has advantage    |
 | Long-term Maintenance      | ⭐ Easy                     | ⚠️ Costly          | Supabase auto-updates    |
 | DevOps Cost                | ⭐ Low                      | 🔺 High            | No server admin needed   |
@@ -166,8 +166,8 @@ Traditional Backend **superior when extremely high performance and detailed infr
 
 | Criteria              | Supabase-first    | Traditional Backend    |
 | --------------------- | ----------------- | ---------------------- |
-| Setup Project         | 10 minutes        | 1–2 days               |
-| Complete MVP          | 2–4 days          | 1–2 weeks              |
+| Setup Project         | 10 minutes        | 1-2 days               |
+| Complete MVP          | 2-4 days          | 1-2 weeks              |
 | Initial Cost          | $25               | $100+                  |
 | DevOps Effort         | 1x                | 5x                     |
 | Auth / Storage Ready  | ✅                | ❌                     |

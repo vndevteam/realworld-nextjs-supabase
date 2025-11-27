@@ -9,7 +9,7 @@ After completing this section, developers can:
 - Read and analyze Supabase costs by component (DB, Functions, Storage, Realtime).
 - Optimize queries, indexes, and caching appropriately.
 - Reduce operational costs via cron batches, cold starts, and log retention.
-- Compare cost – effort with traditional backends (NestJS / Spring Boot).
+- Compare cost - effort with traditional backends (NestJS / Spring Boot).
 - Build internal guidelines to predict costs.
 
 ## 11.2 🧩 Overview of Cost Factors
@@ -90,7 +90,7 @@ vacuum analyze system_logs;
 
 ### 1️⃣ Cold Start
 
-- Supabase Edge Functions have startup latency of 100–500ms first time.
+- Supabase Edge Functions have startup latency of 100-500ms first time.
 - Reduce by:
 
   - Keep functions small, few dependencies.
@@ -140,7 +140,7 @@ useEffect(() => {
 ```
 
 - Only enable realtime for necessary tables.
-- Batch UI updates (debounce 1–2s).
+- Batch UI updates (debounce 1-2s).
 
 ## 11.8 🧩 Storage Optimization
 
@@ -150,7 +150,7 @@ useEffect(() => {
 | Duplicate data                | Hash checksum to detect duplicate files    |
 | Unused files                  | Create cron cleanup for old buckets        |
 | Many public downloads         | Use signed URLs + CDN caching              |
-| Bucket logs                   | Delete log files periodically (14–30 days) |
+| Bucket logs                   | Delete log files periodically (14-30 days) |
 
 ### SQL Cleanup Example
 
@@ -188,7 +188,7 @@ export const revalidate = 300; // cache 5 minutes
 | Edge Functions   | 7 days        | auto-delete         |
 | Database logs    | 14 days       | can export to S3    |
 | System log table | 30 days       | cleanup cron        |
-| Realtime events  | 3–7 days      | depends on traffic  |
+| Realtime events  | 3-7 days      | depends on traffic  |
 | CI/CD logs       | 14 days       | GitHub auto-cleanup |
 
 ```sql
@@ -229,11 +229,11 @@ values ('send_reminder_job', 125, now());
 | **Cron / Queue**        | pg_cron / pgmq built-in       | Need workers (Celery, BullMQ)             |
 | **CI/CD**               | CLI + GitHub Actions          | Jenkins / custom pipeline                 |
 | **Ops overhead**        | Very low                      | High, need DevOps engineer                |
-| **Initial cost**        | ~$25–50/month                 | ~$70–150/month                            |
+| **Initial cost**        | ~$25-50/month                 | ~$70-150/month                            |
 | **Cost at scale**       | Linear (increases with usage) | Exponential (compute + EBS)               |
-| **Cold start latency**  | 100–500ms (Edge)              | 10–50ms (EC2/ECS)                         |
+| **Cold start latency**  | 100-500ms (Edge)              | 10-50ms (EC2/ECS)                         |
 | **Maintainability**     | Very high                     | Medium                                    |
-| **Total DevOps Effort** | ↓ 70–80%                      | baseline 100%                             |
+| **Total DevOps Effort** | ↓ 70-80%                      | baseline 100%                             |
 
 ## 11.13 🧭 Cost & Performance Optimization Checklist
 

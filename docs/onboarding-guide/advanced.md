@@ -28,8 +28,8 @@ graph TD
 A[Client SDK / PostgREST] --> B[(API Gateway)]
 B --> C[Auth Service]
 B --> D[Storage Service]
-B --> E[Realtime Server (Elixir)]
-B --> F[Edge Functions (Deno)]
+B --> E["Realtime Server (Elixir)"]
+B --> F["Edge Functions (Deno)"]
 C --> G[(PostgreSQL Core)]
 E --> G
 F --> G
@@ -80,7 +80,7 @@ Index Scan using invoices_customer_id_idx on invoices
 
 ## 13.4 🔍 Supabase + OpenTelemetry (OTEL)
 
-OTEL integration helps trace across **Next.js – Edge Function – Database**.
+OTEL integration helps trace across **Next.js - Edge Function - Database**.
 
 ### Configuration Example (Next.js)
 
@@ -204,7 +204,7 @@ Use `pg_fdw` or `pgbouncer` connector → push analytics data to data warehouse.
 
 ## 13.9 🧱 Multi-Tenant Architecture
 
-### 1️⃣ Single DB – Row Isolation
+### 1️⃣ Single DB - Row Isolation
 
 ```sql
 create policy "Tenant isolation"
@@ -350,8 +350,8 @@ You have completed **Comprehensive Supabase + Next.js Training Documentation** w
 
 | #     | Main Topic                     | Goal                               |
 | ----- | ------------------------------ | ---------------------------------- |
-| 0–4   | Setup, Auth, RLS, DB           | Core Supabase foundation           |
-| 5–8   | Integration, Batch, API, CI/CD | Real practice & deployment         |
-| 9–10  | Observability, Security        | Safe, reliable operation           |
-| 11–12 | Cost, Tech Stack Comparison    | Optimization & strategic direction |
+| 0-4   | Setup, Auth, RLS, DB           | Core Supabase foundation           |
+| 5-8   | Integration, Batch, API, CI/CD | Real practice & deployment         |
+| 9-10  | Observability, Security        | Safe, reliable operation           |
+| 11-12 | Cost, Tech Stack Comparison    | Optimization & strategic direction |
 | 13    | Advanced & Appendix            | Extension, deep dive, AI, scaling  |

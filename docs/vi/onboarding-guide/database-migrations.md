@@ -236,9 +236,9 @@ jobs:
 - **Supabase Studio → Table Editor / SQL Editor**
 - **CLI commands:**
 
-  - `supabase migration list` – xem trạng thái các migration (đã chạy / pending / lỗi).
-  - `supabase db push` – áp dụng migration và hiển thị lỗi nếu SQL không hợp lệ.
-  - `supabase db diff` – so sánh schema giữa local và remote để phát hiện khác biệt.
+  - `supabase migration list` - xem trạng thái các migration (đã chạy / pending / lỗi).
+  - `supabase db push` - áp dụng migration và hiển thị lỗi nếu SQL không hợp lệ.
+  - `supabase db diff` - so sánh schema giữa local và remote để phát hiện khác biệt.
 
 - **VSCode extension "[Supabase](https://marketplace.visualstudio.com/items?itemName=Supabase.vscode-supabase-extension)"**: xem trực tiếp schema, run query nhanh.
 

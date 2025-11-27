@@ -277,7 +277,7 @@ select cron.schedule(
 
 1. **Mỗi job → có log riêng** (bảng `job_log` hoặc log function).
 2. **Không dùng service key trong FE**, chỉ trong Edge Function / Cron SQL.
-3. **Job nên idempotent** – chạy nhiều lần không gây lỗi hoặc trùng dữ liệu.
+3. **Job nên idempotent** - chạy nhiều lần không gây lỗi hoặc trùng dữ liệu.
 4. **Đặt timezone UTC** trong cron, convert sang local khi hiển thị.
 5. **Không dùng SELECT \* trong job**, chỉ lấy cột cần thiết.
 6. **Dùng queue khi job chạy lâu > 30s** để tránh timeout.
