@@ -4,14 +4,14 @@ Mục tiêu của bộ tài liệu:
 
 > - Giúp dev mới hiểu Supabase nhanh, có khả năng tự build MVP trong vài ngày.
 > - Làm chuẩn nội bộ để scale đội dev, dễ dàng onboard người mới hoặc so sánh effort với backend truyền thống.
-> - Làm cơ sở cho future best-practices (batch job, auth, RLS, CI/CD,…).
+> - Làm cơ sở cho future best-practices (batch job, auth, RLS, CI/CD,...).
 
 ## 🏁 Phần 0. Giới thiệu & Tổng quan
 
 1. **Mục tiêu của tài liệu**
 
    - Mục tiêu training (learning outcomes)
-   - Đối tượng (dev frontend, fullstack, backend, intern,…)
+   - Đối tượng (dev frontend, fullstack, backend, intern,...)
    - Cách đọc tài liệu: theo tuần / theo module
 
 2. **Kiến trúc tổng quan Supabase + Next.js**
@@ -26,7 +26,7 @@ Mục tiêu của bộ tài liệu:
      - Cron & Queue
      - Realtime
 
-   - So sánh nhanh với backend truyền thống (NestJS, Express, Postgres, S3,…)
+   - So sánh nhanh với backend truyền thống (NestJS, Express, Postgres, S3,...)
 
 3. **Case study xuyên suốt (Sample App)**
 
@@ -39,7 +39,7 @@ Mục tiêu của bộ tài liệu:
 1. **Cài đặt công cụ**
 
    - Node.js / pnpm / npm
-   - Supabase CLI (`supabase login`, `supabase start`, …)
+   - Supabase CLI (`supabase login`, `supabase start`,...)
    - VSCode plugins (SQLTools, Supabase, etc.)
 
 2. **Khởi tạo project**
@@ -57,10 +57,10 @@ Mục tiêu của bộ tài liệu:
 
 4. **Cấu trúc thư mục đề xuất**
 
-   - `/app` – Next.js App Router
-   - `/lib` – Supabase client, hooks
-   - `/supabase` – migrations, policies, seeds
-   - `/scripts` – batch jobs, automation
+   - `/app` - Next.js App Router
+   - `/lib` - Supabase client, hooks
+   - `/supabase` - migrations, policies, seeds
+   - `/scripts` - batch jobs, automation
 
 ## 🔐 Phần 2. Authentication
 
@@ -264,7 +264,7 @@ Mục tiêu của bộ tài liệu:
 3. **Monitoring**
 
    - Alert email / Slack khi job fail
-   - Metrics cơ bản (API latency, job duration,…)
+   - Metrics cơ bản (API latency, job duration,...)
 
 ## 🔒 Phần 10. Security Best Practices
 
@@ -310,7 +310,7 @@ Mục tiêu của bộ tài liệu:
 | Queue          | pgmq                    | Redis / SQS           |
 | Realtime       | Có sẵn                  | WebSocket / Socket.IO |
 | DevOps         | CLI + Dashboard         | Tự setup infra        |
-| Cost khởi điểm | Rất thấp                | Trung bình – cao      |
+| Cost khởi điểm | Rất thấp                | Trung bình - cao      |
 | Scaling lớn    | Giới hạn vendor         | Tự do control         |
 
 ## 🧠 Phần 13. Phụ lục (Advanced)
@@ -331,7 +331,7 @@ Mục tiêu của bộ tài liệu:
 
 4. **Troubleshooting**
 
-   - Các lỗi thường gặp (RLS deny, token expired,…)
+   - Các lỗi thường gặp (RLS deny, token expired,...)
    - Checklist debug
 
 ## 📎 Phần 14. Tài liệu tham khảo

@@ -1,9 +1,10 @@
 # Cấu Trúc Codebase, Kiến Trúc & Chuẩn Mã
 
 ::: tip Tài Liệu Liên Quan
-- [Tổng quan & PDR](/vi/project-overview-pdr) - Mục tiêu, phạm vi và yêu cầu dự án
-- [Tóm tắt Codebase](/vi/codebase-summary) - Tổng quan cấu trúc kho mã và công nghệ
-:::
+
+- [Tổng quan & PDR](project-overview-pdr.md) - Mục tiêu, phạm vi và yêu cầu dự án
+- [Tóm tắt Codebase](codebase-summary.md) - Tổng quan cấu trúc kho mã và công nghệ
+  :::
 
 ## Nguyên Tắc Chỉ Đạo
 

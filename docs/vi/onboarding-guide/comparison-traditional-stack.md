@@ -17,7 +17,7 @@ Sau phần này, bạn có thể:
 | Hạng mục                    | **Supabase + Next.js**                                          | **Backend Truyền Thống (NestJS / Spring Boot)**       |
 | --------------------------- | --------------------------------------------------------------- | ----------------------------------------------------- |
 | **Kiến trúc tổng thể**      | Monolithic serverless (Auth, DB, API, Storage trong 1 platform) | Microservice hoặc 3-tier (API + DB + Infra tách biệt) |
-| **Setup ban đầu**           | 5–10 phút (CLI + project init)                                  | 1–2 ngày (server setup, DB config, auth, deploy)      |
+| **Setup ban đầu**           | 5-10 phút (CLI + project init)                                  | 1-2 ngày (server setup, DB config, auth, deploy)      |
 | **Auth / Session**          | Built-in Supabase Auth (JWT, OTP, OAuth)                        | Phải tự cài passport.js / Spring Security             |
 | **Database**                | PostgreSQL managed + RLS + triggers                             | PostgreSQL / MySQL tự host hoặc RDS                   |
 | **Storage / File Upload**   | Supabase Storage (API sẵn)                                      | AWS S3 / GCP Storage + code tích hợp                  |
@@ -25,7 +25,7 @@ Sau phần này, bạn có thể:
 | **Batch Job / Cron**        | pg_cron, pgmq, Edge Function schedule                           | Cloud Task / cron job riêng                           |
 | **CI/CD**                   | Supabase CLI + GitHub Actions                                   | Jenkins / GitLab CI cần config thủ công               |
 | **Realtime**                | Supabase Realtime (WS built-in)                                 | Redis PubSub / Socket.io / Kafka                      |
-| **Cost khởi điểm**          | ~25–50 USD/tháng                                                | ~70–150 USD/tháng                                     |
+| **Cost khởi điểm**          | ~25-50 USD/tháng                                                | ~70-150 USD/tháng                                     |
 | **Scale cost**              | Theo usage (linear)                                             | Theo instance (step-based)                            |
 | **DevOps effort**           | Thấp (hầu như không cần sysadmin)                               | Cao (phải maintain infra, scaling, logs)              |
 | **Performance baseline**    | Tốt cho CRUD và API đơn giản                                    | Cao hơn trong high-load / compute-heavy               |
@@ -34,7 +34,7 @@ Sau phần này, bạn có thể:
 | **Bảo mật (Security)**      | Có RLS, key-based access, policy rõ                             | Tự implement middleware, guard, ACL                   |
 | **Logging & Observability** | Supabase Logs + Dashboard                                       | ELK / Loki / Prometheus phải tự triển khai            |
 | **Developer Experience**    | Cao, dev mới onboard nhanh                                      | Tốt với team backend mạnh                             |
-| **Thời gian ra MVP**        | Rất nhanh (1–3 ngày)                                            | Trung bình (1–2 tuần)                                 |
+| **Thời gian ra MVP**        | Rất nhanh (1-3 ngày)                                            | Trung bình (1-2 tuần)                                 |
 
 ## 12.3 ⚙️ So sánh chi tiết theo từng layer
 
@@ -91,7 +91,7 @@ Sau phần này, bạn có thể:
 | Monitoring   | Logs dashboard                    | Grafana, Loki, Prometheus          |
 | Backup       | Built-in snapshot                 | RDS backup tự setup                |
 
-✅ **Supabase:** giảm DevOps effort 70–80%.
+✅ **Supabase:** giảm DevOps effort 70-80%.
 
 ⚠️ **Truyền thống:** linh hoạt hơn với custom infra, multi-region, network layer.
 
@@ -103,7 +103,7 @@ Sau phần này, bạn có thể:
 | Storage              | shared, auto-scale | pay per GB S3 / EBS   |
 | Compute              | pay per function   | pay per hour instance |
 | Maintenance          | gần như 0          | cần team DevOps       |
-| Developer onboarding | nhanh (1–2 ngày)   | chậm (1–2 tuần)       |
+| Developer onboarding | nhanh (1-2 ngày)   | chậm (1-2 tuần)       |
 | Debug                | logs tập trung     | phân tán nhiều tầng   |
 
 ✅ Supabase giúp startup tiết kiệm chi phí khởi điểm lớn.
@@ -129,20 +129,20 @@ Backend truyền thống **vượt trội khi cần performance cực cao và ki
 
 | Yếu tố               | Supabase-first            | Truyền thống                   |
 | -------------------- | ------------------------- | ------------------------------ |
-| Onboarding dev mới   | 1–2 ngày                  | 1–2 tuần                       |
-| Mức độ code cần viết | 30–50% ít hơn             | Nhiều boilerplate              |
+| Onboarding dev mới   | 1-2 ngày                  | 1-2 tuần                       |
+| Mức độ code cần viết | 30-50% ít hơn             | Nhiều boilerplate              |
 | Debug lỗi auth / DB  | Nhanh, dashboard tích hợp | Phải combine nhiều logs        |
-| Team nhỏ (2–5 dev)   | Rất phù hợp               | Tốn công setup                 |
+| Team nhỏ (2-5 dev)   | Rất phù hợp               | Tốn công setup                 |
 | Team lớn (10+ dev)   | Cần quy ước code rõ hơn   | Dễ phân module                 |
 | Hotfix / Deploy      | 1 CLI command             | Pipeline build, restart server |
 | Documentation        | Gọn, dễ tự học            | Phải tự ghi lại chuẩn nội bộ   |
 
 ## 12.6 🧮 Tổng quan Effort vs Value
 
-| Giai đoạn                  | Supabase Effort             | Truyền thống Effort | Ghi chú                  |
+| Phase                      | Supabase Effort             | Truyền thống Effort | Ghi chú                  |
 | -------------------------- | --------------------------- | ------------------- | ------------------------ |
-| MVP (0–3 tháng)            | ⭐ Thấp                     | 🔺 Cao              | Supabase thắng tuyệt đối |
-| Production (3–12 tháng)    | ⚖️ Trung bình               | ⚖️ Trung bình       | Tùy vào quy mô           |
+| MVP (0-3 tháng)            | ⭐ Thấp                     | 🔺 Cao              | Supabase thắng tuyệt đối |
+| Production (3-12 tháng)    | ⚖️ Trung bình               | ⚖️ Trung bình       | Tùy vào quy mô           |
 | Scale lớn (1M+ user)       | 🔺 Tăng mạnh (vendor limit) | ⭐ Ổn định          | Backend có lợi thế       |
 | Bảo trì lâu dài            | ⭐ Dễ                       | ⚠️ Tốn công         | Supabase update tự động  |
 | Chi phí DevOps             | ⭐ Thấp                     | 🔺 Cao              | Không cần server admin   |
@@ -173,8 +173,8 @@ Backend truyền thống **vượt trội khi cần performance cực cao và ki
 
 | Tiêu chí               | Supabase-first    | Backend truyền thống  |
 | ---------------------- | ----------------- | --------------------- |
-| Setup project          | 10 phút           | 1–2 ngày              |
-| MVP hoàn chỉnh         | 2–4 ngày          | 1–2 tuần              |
+| Setup project          | 10 phút           | 1-2 ngày              |
+| MVP hoàn chỉnh         | 2-4 ngày          | 1-2 tuần              |
 | Cost khởi điểm         | $25               | $100+                 |
 | DevOps effort          | 1x                | 5x                    |
 | Auth / Storage ready   | ✅                | ❌                    |

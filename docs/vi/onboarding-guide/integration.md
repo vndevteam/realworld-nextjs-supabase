@@ -12,7 +12,7 @@ Sau khi hoàn thành phần này, dev có thể:
 - Cập nhật UI realtime khi dữ liệu thay đổi.
 - Upload file an toàn với Supabase Storage.
 
-## 5.2 🧩 Kiến trúc kết nối Supabase – Next.js
+## 5.2 🧩 Kiến trúc kết nối Supabase - Next.js
 
 ```mermaid
 flowchart TD
@@ -31,7 +31,7 @@ C -->|Realtime event| A
 
 ## 5.3 ⚙️ Thiết lập Supabase Client
 
-> 📖 **Lưu ý**: Phần thiết lập cho `/lib/supabaseClient.ts` và `/lib/supabaseServer.ts` đã được mô tả chi tiết trong [Phần 2 – Authentication](./authentication.md#cau-truc-helper-chuan-noi-bo). Vui lòng tham khảo phần đó để xem implementation đầy đủ.
+> 📖 **Lưu ý**: Phần thiết lập cho `/lib/supabaseClient.ts` và `/lib/supabaseServer.ts` đã được mô tả chi tiết trong [Phần 2 - Authentication](./authentication.md#cau-truc-helper-chuan-noi-bo). Vui lòng tham khảo phần đó để xem implementation đầy đủ.
 
 ## 5.4 🧠 Khi nào dùng Client vs Server
 
@@ -62,7 +62,7 @@ export default async function SubscriptionPage() {
       <ul>
         {subs?.map((s) => (
           <li key={s.id}>
-            {s.service_name} – ${s.price} ({s.status})
+            {s.service_name} - ${s.price} ({s.status})
           </li>
         ))}
       </ul>

@@ -177,7 +177,7 @@ using (
 | `member` | Only view/edit own records  | `auth.uid() = created_by`       |
 | `guest`  | Only read public data       | `auth.role() = 'anon'`          |
 
-Example: RBAC Policy for `tasks` Table
+Example: RBAC Policy for [`tasks`](./database-migrations.md#basic-migration-structure) Table
 
 ```sql
 alter table tasks enable row level security;
@@ -189,10 +189,6 @@ using ( auth.jwt()->>'role' = 'admin' );
 create policy "Members can manage own tasks"
 on tasks for all
 using ( auth.uid() = created_by );
-
-create policy "Guests can view public tasks"
-on tasks for select
-using ( visibility = 'public' );
 ```
 
 ## 3.8 🧮 Testing Policies
@@ -216,7 +212,7 @@ select * from tasks;
 
 ## 3.9 🧩 Using Policies Combined with Triggers (Audit Log)
 
-Example logging every time user accesses `tasks` table
+Example logging every time user modifies `tasks` table (INSERT, UPDATE, DELETE)
 
 ```sql
 create table audit_log (
@@ -226,6 +222,8 @@ create table audit_log (
   table_name text,
   at timestamptz default now()
 );
+
+alter table audit_log enable row level security;
 
 create function log_task_access()
 returns trigger as $$
@@ -237,9 +235,11 @@ end;
 $$ language plpgsql;
 
 create trigger trg_log_task_access
-after select or insert or update or delete on tasks
+after insert or update or delete on tasks
 for each statement execute procedure log_task_access();
 ```
+
+> ⚠️ **Note**: PostgreSQL does not support `SELECT` triggers. Only `INSERT`, `UPDATE`, and `DELETE` operations can be logged via triggers. To log SELECT operations, consider using RLS policies with logging or application-level logging.
 
 ## 3.10 🧭 Completion Checklist
 
@@ -256,7 +256,7 @@ for each statement execute procedure log_task_access();
 2. **Don't use service key** to bypass RLS except special cases (Edge Function admin).
 3. **Each table → have at least 1 clear SELECT, INSERT, UPDATE, DELETE policy**.
 4. **Don't rely on frontend code** to check access permissions.
-5. **Metadata in JWT only for context** – doesn't replace complex logic checks.
+5. **Metadata in JWT only for context** - doesn't replace complex logic checks.
 6. **Keep policy files versioned** with migrations (`migrations/policies.sql`).
 7. **Test policies** every time you add a new table or role.
 8. **Avoid writing duplicate policy logic - split by action**.

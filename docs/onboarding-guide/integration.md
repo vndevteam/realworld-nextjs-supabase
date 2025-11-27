@@ -12,7 +12,7 @@ After completing this section, developers can:
 - Update UI in realtime when data changes.
 - Upload files securely with Supabase Storage.
 
-## 5.2 🧩 Supabase – Next.js Connection Architecture
+## 5.2 🧩 Supabase - Next.js Connection Architecture
 
 ```mermaid
 flowchart TD
@@ -31,7 +31,7 @@ C -->|Realtime event| A
 
 ## 5.3 ⚙️ Setup Supabase Client
 
-> 📖 **Note**: The setup for `/lib/supabaseClient.ts` and `/lib/supabaseServer.ts` is already covered in detail in [Part 2 – Authentication](./authentication.md#standard-internal-helper-structure). Please refer to that section for the complete implementation.
+> 📖 **Note**: The setup for `/lib/supabaseClient.ts` and `/lib/supabaseServer.ts` is already covered in detail in [Part 2 - Authentication](./authentication.md#standard-internal-helper-structure). Please refer to that section for the complete implementation.
 
 ## 5.4 🧠 When to Use Client vs Server
 
@@ -62,7 +62,7 @@ export default async function SubscriptionPage() {
       <ul>
         {subs?.map((s) => (
           <li key={s.id}>
-            {s.service_name} – ${s.price} ({s.status})
+            {s.service_name} - ${s.price} ({s.status})
           </li>
         ))}
       </ul>

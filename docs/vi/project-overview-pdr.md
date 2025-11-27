@@ -1,9 +1,10 @@
 # Tổng Quan Dự Án & PDR
 
 ::: tip Tài Liệu Liên Quan
-- [Tóm tắt Codebase](/vi/codebase-summary) - Tổng quan cấu trúc kho mã và công nghệ
-- [Cấu trúc & Chuẩn mã](/vi/codebase-structure-architecture-code-standards) - Hướng dẫn phát triển và mẫu kiến trúc
-:::
+
+- [Tóm tắt Codebase](codebase-summary.md) - Tổng quan cấu trúc kho mã và công nghệ
+- [Cấu trúc & Chuẩn mã](codebase-structure-architecture-code-standards.md) - Hướng dẫn phát triển và mẫu kiến trúc
+  :::
 
 ## Tóm Tắt Điều Hành
 
@@ -12,7 +13,7 @@ Kho lưu này chứa mã nguồn ví dụ ứng dụng "RealWorld" xây dựng b
 ## Giá Trị Cốt Lõi
 
 - **Cho Người Dùng:** Một bản clone Medium.com hoạt động, hiệu năng và tin cậy tuân thủ đặc tả RealWorld.
-- **Cho Đội Ngũ Dev:** Monorepo có tài liệu đầy đủ, dễ bảo trì và mở rộng – “đường vàng” cho các dự án tiếp theo. Ưu tiên trải nghiệm phát triển, vòng lặp nhanh, chi phí vận hành thấp.
+- **Cho Đội Ngũ Dev:** Monorepo có tài liệu đầy đủ, dễ bảo trì và mở rộng - “đường vàng” cho các dự án tiếp theo. Ưu tiên trải nghiệm phát triển, vòng lặp nhanh, chi phí vận hành thấp.
 
 ## Phạm Vi
 
@@ -38,7 +39,7 @@ Kho lưu này chứa mã nguồn ví dụ ứng dụng "RealWorld" xây dựng b
 
 Hiện có khung ứng dụng Next.js tối giản và backend Supabase.
 
-- **Next.js (`/nextjs`):** Ứng dụng Next.js 14 cơ bản (layout + trang thử) – chưa có tính năng RealWorld.
+- **Next.js (`/nextjs`):** Ứng dụng Next.js 14 cơ bản (layout + trang thử) - chưa có tính năng RealWorld.
 - **Supabase (`/supabase`):** Có `config.toml` nhưng CHƯA có migrations ⇒ Chưa định nghĩa mô hình dữ liệu.
 - **Tài liệu (`/docs`):** Site VitePress đa ngôn ngữ (EN, VI) với bộ hướng dẫn onboarding phong phú.
 

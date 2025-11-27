@@ -1,0 +1,6 @@
+- Follow `docs/codebase-structure-architecture-code-standards.md`: YAGNI/KISS/DRY, monorepo boundaries, PNPM workspaces, OpenSpec approval for major changes.
+- Next.js app uses App Router, server-first RSC/Server Actions, domain-based folders; shared components under `/nextjs/components`.
+- Supabase schema changes via CLI migrations only, RLS mandatory for every table, auth handled through Supabase clients.
+- TypeScript strict mode, explicit export types, PascalCase components, kebab-case files, path alias `@/*`. Tailwind utilities in `globals.css`.
+- Error handling: avoid leaking secrets/logs; centralize logging; protect service-role key; all client-exposed env vars prefixed `NEXT_PUBLIC_`.
+- Tests expected for business logic/API routes; linting via ESLint 9; documentation updates required for new features; PR checklist enforces specs/tests/docs.

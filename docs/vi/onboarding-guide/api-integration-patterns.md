@@ -253,7 +253,7 @@ create table api_log (
 ## 7.10 🧰 Bảo mật & Rate Limiting
 
 1. **Không expose service key** - chỉ dùng trong Edge Functions hoặc Route Handlers.
-2. **Verify signature** với webhook (Stripe, Slack, GitHub…).
+2. **Verify signature** với webhook (Stripe, Slack, GitHub...).
 3. **Giới hạn request** bằng middleware:
 
    ```ts

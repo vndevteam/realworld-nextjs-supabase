@@ -1,357 +1,271 @@
 # Roadmap
 
-## 1. Lộ trình tiếp cận Supabase + Next.js (tối ưu cho "hiểu nhanh, dạy lại được")
+## 1. Supabase + Next.js Adoption Path
 
-Mặc định là bạn đã rành Next.js + Postgres + backend truyền thống.
+We assume you already know Next.js, Postgres, and a traditional backend stack.
 
-### Phase 0 – Định hình scope & sample project (0.5 ngày)
+### Phase 0 - Define scope & sample project (0.5 day)
 
-- Chọn **1 mini-product làm ví dụ xuyên suốt** cho tài liệu/training, ví dụ:
-
-  - "Mini SaaS quản lý subscription"
-  - hoặc "Todo app multi-tenant (nhiều công ty, mỗi công ty nhiều user)"
-
-- Yêu cầu nên có:
-
+- Pick **one mini-product** that will be reused throughout your study plan, for example:
+  - "Mini SaaS for managing subscriptions"
+  - or "Multi-tenant todo app (many companies, each with many users)"
+- The example should include:
   - Auth (email/password + OAuth)
   - Multi-tenant / RLS
-  - Một vài background job (gửi email nhắc hạn, cleanup, sync,…)
-  - Upload file (avatar, document)
+  - A few background jobs (reminders, cleanup, sync,...)
+  - File upload (avatar, documents)
+- Ground rule: every Supabase/Next.js topic points back to this example.
 
-- Quy ước luôn: mọi kiến thức Supabase/Next.js đều quy chiếu lại ví dụ này.
+> Output: A README for the sample app so you can quickly revisit the full context later.
 
-> Output: 1 README cho "sample app" – sau này dev mới chỉ cần đọc + run là học.
+### Phase 1 - Supabase Fundamentals (1-2 days)
 
-### Phase 1 – Supabase Fundamentals (1–2 ngày)
+Goal: understand Supabase as "Postgres + Auth + Realtime + Storage + Edge Functions" instead of a black-box BaaS.
 
-Mục tiêu: hiểu Supabase như "Postgres + Auth + Realtime + Storage + Edge Functions", không xem nó như "black-box BaaS".
-
-Nội dung:
-
-1. **Tạo project & hiểu console**
-
-   - Tạo project theo quickstart "Getting Started" và Next.js quickstart. ([Supabase][1])
-   - Đi qua các tab chính: Database, Auth, Storage, Functions, Cron/Integrations, Logs.
-
+1. **Create a project & explore the console**
+   - Follow the "Getting Started" and Next.js quickstart guides. ([Supabase][1])
+   - Walk through the main tabs: Database, Auth, Storage, Functions, Cron/Integrations, Logs.
 2. **Database & SQL**
-
-   - Tạo schema cho sample app (users, organizations, memberships, tasks/subscriptions…).
-   - Làm quen migration (SQL scripts) từ Supabase Dashboard và Supabase CLI. ([Supabase][2])
-
-3. **Auth cơ bản**
-
+   - Design the schema for the sample app (users, organizations, memberships, tasks/subscriptions,...).
+   - Practice migrations (SQL scripts) from both the Supabase Dashboard and Supabase CLI. ([Supabase][2])
+3. **Auth basics**
    - Email/password, magic link, OAuth (Google/GitHub). ([Supabase][3])
-   - Khái niệm **anon key** vs **service role key**, JWT, custom claims.
-
+   - Concepts: **anon key** vs **service role key**, JWT, custom claims.
 4. **Row-Level Security (RLS)**
-
-   - Bật RLS, viết policy cơ bản theo `auth.uid()`
-   - Ví dụ policies cho:
-
-     - user chỉ xem được data của tổ chức mình
-     - admin tổ chức xem tất cả trong org
+   - Enable RLS and write basic policies with `auth.uid()`.
+   - Policy examples:
+     - users can only see data from their organization
+     - organization admins can see everything within the org
 
 > Output:
 >
-> - 1 tài liệu nội bộ: "Supabase Overview cho dev mới" (giới thiệu thành phần + hình kiến trúc).
-> - 1 file SQL migration chuẩn (để sau dùng trong CI/CD).
+> - Personal notes: "Supabase Overview" (components + architecture diagram).
+> - A baseline SQL migration file (later reused in CI/CD).
 
-### Phase 2 – Supabase + Next.js Integration (1–3 ngày)
+### Phase 2 - Supabase + Next.js Integration (1-3 days)
 
-Mục tiêu: thành thạo **App Router + server components + Supabase**.
+Goal: become fluent with **App Router + Server Components + Supabase**.
 
-1. **Thiết lập client & SSR**
-
-   - Theo guide "Use Supabase Auth with Next.js" + "Server-side auth for Next.js":
-
+1. **Client setup & SSR**
+   - Follow "Use Supabase Auth with Next.js" + "Server-side auth for Next.js":
      - `@supabase/supabase-js` + `@supabase/ssr` ([Supabase][3])
-     - Tách **client-side client** và **server-side client**
-     - Dùng middleware / server actions để inject session.
-
-2. **Luồng auth end-to-end**
-
-   - Đăng ký / đăng nhập / logout.
-   - Protect route: server components kiểm tra session, redirect nếu chưa login.
-   - Lấy profile user + metadata từ DB và hiển thị.
-
+     - Separate **client-side** and **server-side** Supabase clients
+     - Use middleware / server actions to inject the session
+2. **End-to-end auth flow**
+   - Sign up / sign in / logout
+   - Protected routes: server components check session and redirect if unauthenticated
+   - Fetch user profile + metadata from DB and display it
 3. **CRUD + RLS flow**
-
-   - Implement CRUD tasks/subscriptions sử dụng:
-
-     - Server Actions (Next.js) gọi Supabase
-     - hoặc Route Handlers (`app/api/...`) làm proxy.
-
-   - Thử sai policy RLS để dev mới "cảm" được cơ chế bảo mật.
-
+   - Build task/subscription CRUD via:
+     - Server Actions calling Supabase
+     - or Route Handlers (`app/api/...`) as a proxy layer
+   - Intentionally break RLS policies so new devs "feel" the security model
 4. **Realtime & UI**
-
-   - Dùng Supabase Realtime để cập nhật UI real-time (vd: task board). ([Supabase][4])
+   - Use Supabase Realtime to update UI live (e.g., task board). ([Supabase][4])
 
 > Output:
 >
-> - 1 "Supabase + Next.js Starter" repo nội bộ.
-> - Tài liệu "Coding convention: cách gọi Supabase trong Next.js (server/client)".
+> - A "Supabase + Next.js Starter" repo you can extend.
+> - Notes for "Coding convention: how to call Supabase from Next.js (server/client)".
 
-### Phase 3 – Batch job, background work & advanced feature (2–4 ngày)
+### Phase 3 - Batch jobs, background work & advanced features (2-4 days)
 
-Mục tiêu: trả lời các câu "bài toán truyền thống" theo style Supabase.
+Goal: answer classic backend questions using the Supabase toolbox.
 
-1. **Batch job / Cron**
-   Có 2 hướng chính:
-
-   - **Cron trong Postgres (Supabase Cron + pg_cron)**
-
-     - Dùng module **Supabase Cron** và extension `pg_cron` để tạo job chạy theo lịch, viết job bằng SQL/PLpgSQL. ([Supabase][5])
-     - Use-case: cleanup record, aggregate dữ liệu, sync status,…
-
+1. **Batch jobs / Cron** - two primary options:
+   - **Postgres Cron (Supabase Cron + pg_cron)**
+     - Use Supabase Cron + `pg_cron` to schedule SQL/PLpgSQL jobs. ([Supabase][5])
+     - Use cases: cleanup records, aggregate data, sync statuses,...
    - **Scheduled Edge Functions**
-
-     - Supabase support `pg_cron` + `pg_net` để gọi **Edge Functions** định kỳ, ví dụ 5 phút/lần. ([Supabase][6])
-     - Use-case: gọi API bên ngoài, gửi email, sync queue,…
-
-   - Gợi ý trong tài liệu training:
-
-     - "Nếu job thuần DB -> ưu tiên Cron + SQL"
-     - "Nếu job cần HTTP external / logic phức tạp -> Edge Function + Cron scheduler"
-
+     - Supabase supports `pg_cron` + `pg_net` to invoke Edge Functions on a schedule (e.g., every 5 minutes). ([Supabase][6])
+     - Use cases: call external APIs, send email, sync queues,...
+   - Practice guidelines:
+     - "If the job is pure DB work -> prefer Cron + SQL"
+     - "If the job needs external HTTP / complex logic -> Edge Function + Cron scheduler"
 2. **Queues & async processing**
-
-   - Tìm hiểu Supabase **Queues** (pgmq) – message queue trong Postgres dùng cho xử lý background. ([Supabase][7])
-   - Use-case: job nặng (send mail hàng loạt, sync lớn…) -> push vào queue, worker (Edge Function / external worker) consume.
-
+   - Learn Supabase **Queues** (pgmq) for background processing. ([Supabase][7])
+   - Use case: heavy jobs (bulk email, big sync) -> push to queue, worker (Edge Function / external worker) consumes.
 3. **Storage & file handling**
-
-   - Upload avatar / document.
-   - Best practices: dùng RLS + signed URL thay vì public bucket.
-
-4. **Webhooks & event-driven**
-
-   - Dùng **Database Webhooks / Trigger -> Edge Functions** để xử lý sự kiện (record inserted/updated -> gửi mail, log, sync).
+   - Upload avatars / documents.
+   - Best practices: RLS + signed URLs instead of public buckets.
+4. **Webhooks & event-driven workflows**
+   - Use **Database Webhooks / Trigger -> Edge Functions** to react to events (record inserted/updated -> send mail, log, sync).
 
 > Output:
 >
-> - Tài liệu "Batch job & Background processing với Supabase".
-> - 1–2 ví dụ cụ thể:
->
->   - Cron cleanup data hằng đêm.
->   - Edge Function + Cron gửi email nhắc hạn.
+> - Notes: "Batch job & Background processing with Supabase".
+> - 1-2 concrete examples:
+>   - Nightly cron cleanup
+>   - Edge Function + Cron for reminder emails
 
-### Phase 4 – DevOps, CI/CD & môi trường (2–3 ngày)
+### Phase 4 - DevOps, CI/CD & environments (2-3 days)
 
-Mục tiêu: hiểu **Supabase CLI, migration, test, deploy**.
+Goal: master **Supabase CLI, migrations, testing, deployment**.
 
 1. **Supabase CLI**
-
-   - Cài đặt, `supabase init`, `supabase start` (local), `supabase db push`,… ([Supabase][8])
-   - Best practice: treat Supabase config + migrations như **config-as-code**. ([Supabase][9])
-
-2. **CI/CD với GitHub Actions**
-
-   - Dùng **Supabase CLI Action** để chạy migration/tests trên pipeline. ([GitHub][10])
-   - Pipeline mẫu:
-
+   - Install, `supabase init`, `supabase start` (local), `supabase db push`,... ([Supabase][8])
+   - Treat Supabase config + migrations as **config-as-code**. ([Supabase][9])
+2. **CI/CD with GitHub Actions**
+   - Use the **Supabase CLI Action** to run migrations/tests in pipelines. ([GitHub][10])
+   - Sample pipeline:
      - Lint + test Next.js
-     - Chạy Supabase test (pgTAP nếu có)
-     - Apply migration lên staging/production
-     - Deploy Edge Functions (nếu dùng) ([Supabase][11])
-
-3. **Kết hợp deploy Next.js (Vercel, Cloudflare, …)**
-
-   - Dùng env var `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`
-   - Service role key **không bao giờ** nằm ở FE, chỉ nằm trong backend/Edge Functions/CI.
+     - Run Supabase tests (pgTAP if available)
+     - Apply migrations to staging/production
+     - Deploy Edge Functions (if used) ([Supabase][11])
+3. **Deploying Next.js (Vercel, Cloudflare,...)**
+   - Provide env vars `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`
+   - Never ship the service role key to FE; only backend/Edge Functions/CI may access it
 
 > Output:
 >
-> - Tài liệu "CI/CD cho Supabase + Next.js" với YAML mẫu GitHub Actions.
-> - Checklist khi tạo môi trường mới (dev/stg/prod).
+> - Doc: "CI/CD for Supabase + Next.js" with a sample GitHub Actions YAML.
+> - Environment creation checklist (dev/stg/prod).
 
-## 2. So sánh Supabase + Next.js vs Backend truyền thống
+## 2. Supabase + Next.js vs Traditional Backend
 
-Giả sử "truyền thống" = NestJS/Express + Postgres, deploy trên AWS/GCP, tự lo auth, storage, cron, etc.
+Assume "traditional" = NestJS/Express + Postgres on AWS/GCP where you manage auth, storage, cron, etc.
 
-### 2.1. Về effort implement
+### 2.1 Implementation effort
 
-**Supabase + Next.js**
+#### Supabase + Next.js
 
 - Auth, user table, JWT, password reset, magic link: built-in. ([Supabase][3])
-- Realtime, Storage, RLS, Cron, Queues: bật bằng config/SQL + ít code. ([Supabase][4])
-- Bạn chủ yếu viết:
-
+- Realtime, Storage, RLS, Cron, Queues: enabled via config/SQL with minimal code. ([Supabase][4])
+- Most of your work:
   - Schema & RLS (SQL)
-  - UI + một ít glue code (Next.js server/client)
-  - Edge Functions cho logic đặc biệt
+  - UI + limited glue code (Next.js server/client)
+  - Edge Functions for special logic
 
-**Backend truyền thống**
+#### Traditional backend (implementation)
 
-- Phải chọn & integrate từng thứ:
-
+- You must pick/integrate each subsystem:
   - Auth (JWT, OAuth providers, session management)
-  - Job scheduler (BullMQ, cron, Cloud Tasks, EventBridge…)
-  - Queues (SQS, RabbitMQ, Kafka,…)
-  - Storage (S3 + signed URL)
+  - Job scheduler (BullMQ, cron, Cloud Tasks, EventBridge,...)
+  - Queues (SQS, RabbitMQ, Kafka,...)
+  - Storage (S3 + signed URLs)
+- Higher initial effort but:
+  - More flexibility for large systems, complex domains, microservices
 
-- Effort ban đầu cao, nhưng:
+#### Bottom line for internal docs
 
-  - Linh hoạt cho hệ thống lớn, domain phức tạp, cần microservices.
+- **Supabase wins** for MVP speed, onboarding devs, and reducing backend boilerplate.
+- **Traditional backend wins** when:
+  - Domain is complex, needs long-running computation, or deep integration with internal/on-prem systems
+  - You require full infra control / multi-region / vendor neutrality
 
-**Kết luận ngắn gọn** (để bỏ vào doc nội bộ):
+### 2.2 DevOps & operations
 
-- **Supabase thắng** về tốc độ dựng MVP, training dev mới, giảm boilerplate backend.
-- **Backend truyền thống thắng** khi:
+#### Supabase
 
-  - Domain phức tạp, long-running computation, heavy integration với hệ thống nội bộ/on-prem.
-  - Cần full control infra / multi-region / vendor-neutral.
-
-### 2.2. Về DevOps & vận hành
-
-**Supabase**
-
-- DB, auth, storage, cron, queue, functions: **managed**; scale, backup, observability do Supabase lo chính. ([Supabase][2])
-- DevOps tập trung vào:
-
+- DB, auth, storage, cron, queue, functions are **managed**; Supabase handles scale, backups, observability. ([Supabase][2])
+- DevOps focuses on:
   - Migrations + versioning
-  - CI/CD cho Edge Functions + schema + tests
-  - Monitoring logs/traces qua Supabase UI
+  - CI/CD for Edge Functions + schema + tests
+  - Monitoring logs/traces in the Supabase UI
+- Minimal infra yak-shaving (no RDS/SQS/ECS configs)
 
-- Ít "yak shaving" với infra (no RDS, no SQS, no ECS/EKS config…).
+#### Traditional backend (operations)
 
-**Backend truyền thống**
+- You manage:
+  - Provisioning DB (RDS/Cloud SQL), networking, security groups/VPC
+  - Job runners, message queues, file storage
+  - Observability stack: Prometheus/Grafana/Loki/Tempo, log shipping,...
+- More effort but:
+  - Full control to tune performance & cost
 
-- Phải lo:
+## 3. Best-practice documentation & problems to cover
 
-  - Provision DB (RDS/Cloud SQL), networking, security group/VPC.
-  - Job runner, message queues, file storage.
-  - Observability: Prometheus/Grafana/Loki/Tempo, log shipping,…
+Structure your self-study notes with sections such as:
 
-- Tốn effort nhưng:
-
-  - Kiểm soát chi tiết infra, tuning performance & cost.
-
-## 3. Khung tài liệu Best Practices + các bài toán nên cover
-
-Bạn có thể thiết kế **1 bộ tài liệu nội bộ** với structure kiểu:
-
-### 3.1. Mục lục gợi ý
+### 3.1 Suggested table of contents
 
 1. **Overview**
-
-   - Khi nào nên dùng Supabase, khi nào nên đi backend truyền thống
-   - Kiến trúc Supabase + Next.js (diagram)
-
+   - When to choose Supabase vs a traditional backend
+   - Architecture diagram for Supabase + Next.js
 2. **Project Setup & Environment**
-
-   - Cấu trúc repo (monorepo? FE+infra?)
-   - Quy ước `.env`, service role key
-   - Pattern multi-environment (dev/stg/prod)
-
+   - Repo layout (monorepo? FE + infra?)
+   - `.env` conventions, service role key handling
+   - Multi-environment pattern (dev/stg/prod)
 3. **Authentication**
-
    - Email/password, magic link, OTP, OAuth
-   - Luồng auth trong Next.js (App Router, middleware, server components) ([Supabase][12])
-   - Session management & refresh token
-
-4. **Authorization (RLS & Roles)**
-
-   - Mapping roles (admin/user/mod) vào JWT claims
-   - Pattern multi-tenant:
-
-     - `organization_id` gắn với user + data
-     - RLS policy "user chỉ xem được org của mình"
-
-   - Quy ước:
-
-     - "Luôn dùng RLS, không rely chỉ vào code phía Next.js"
-
+   - Auth flows in Next.js (App Router, middleware, server components) ([Supabase][12])
+   - Session management & refresh tokens
+4. **Authorization (RLS & roles)**
+   - Map roles (admin/user/mod) into JWT claims
+   - Multi-tenant pattern:
+     - `organization_id` attached to users + data
+     - RLS policy "user only sees their own org"
+   - Rules:
+     - "Always use RLS; don't rely solely on Next.js code"
 5. **Database Design & Migrations**
-
-   - Convention đặt tên schema, table, index, enum
-   - Cách viết migration (SQL) và apply qua CLI/CI
-   - Seed data cho dev/test
-
-6. **Batch Job / Scheduled Tasks**
-
-   - Khi nào dùng:
-
-     - **Supabase Cron + SQL** (pg_cron)
+   - Naming conventions for schema, tables, indexes, enums
+   - Authors migrations (SQL) and apply them via CLI/CI
+   - Seed data for dev/test
+6. **Batch Jobs / Scheduled Tasks**
+   - When to use:
+     - **Supabase Cron + SQL** (`pg_cron`)
      - **Cron -> Edge Function**
-     - **Queues (pgmq)** cho job dài/nhiều. ([Supabase][5])
-
-   - Ví dụ chuẩn:
-
-     - Cleanup soft-deleted record mỗi ngày
-     - Gửi email nhắc trước ngày hết hạn 3 ngày
-     - Đồng bộ data sang một hệ thống khác
-
+     - **Queues (pgmq)** for long/heavy jobs ([Supabase][5])
+   - Reference examples:
+     - Daily cleanup of soft-deleted records
+     - Send reminder email 3 days before expiry
+     - Sync data to another system
 7. **API & Integration**
-
-   - Khi nào gọi Supabase trực tiếp từ client
-   - Khi nào cần một lớp API trung gian (Next.js Route Handlers / external backend).
-   - Webhook / event-driven (trigger -> Edge Function).
-
+   - When to call Supabase directly from the client
+   - When a proxy layer (Next.js Route Handlers / external backend) is needed
+   - Webhooks / event-driven patterns (trigger -> Edge Function)
 8. **Storage & File Handling**
-
-   - Quy ước bucket per domain (avatars, documents, logs,…)
-   - Dùng signed URL, không public raw.
-   - Mapping giữa DB record và file path.
-
+   - Bucket-per-domain convention (avatars, documents, logs,...)
+   - Use signed URLs, never expose raw public files unless necessary
+   - Map DB records to file paths
 9. **CI/CD & Testing**
-
-   - Pipeline chuẩn cho repo có Supabase + Next.js:
-
-     - Lint & unit test
-     - Supabase migration/test (pgTAP) ([Supabase][13])
+   - Standard pipeline for Supabase + Next.js repo:
+     - Lint & unit tests
+     - Supabase migration/tests (pgTAP) ([Supabase][13])
      - Deploy Edge Functions / apply DB migrations
      - Deploy FE (Vercel/Cloudflare)
-
    - Testing strategy:
-
-     - Unit test (Next.js + Edge Functions)
-     - Integration test với Supabase local (CLI)
-
+     - Unit tests (Next.js + Edge Functions)
+     - Integration tests with local Supabase (CLI)
 10. **Observability & Debugging**
-
-    - Sử dụng log trong Supabase (DB logs, Edge Functions logs, Cron logs). ([Supabase][5])
-    - Pattern tracing request: gắn `request_id` xuyên suốt.
-
+    - Use Supabase logs (DB, Edge Functions, Cron). ([Supabase][5])
+    - Request tracing pattern: propagate `request_id`
 11. **Security & Compliance**
-
-    - Bảo vệ service role key
-    - Chính sách RLS bắt buộc
-    - Rate limit / abuse protection (Edge Functions / middleware).
-
+    - Protect the service role key
+    - Mandatory RLS policies
+    - Rate limiting / abuse protection (Edge Functions / middleware)
 12. **Performance & Cost**
+    - Indexing & query optimization (still Postgres)
+    - Reduce round-trips (prefer RPC/Edge Functions for heavy logic)
+    - Guidance on splitting projects/environments to optimize cost
 
-    - Indexing & query optimization (vẫn là Postgres)
-    - Giảm round-trip (ưu tiên RPC/Edge Functions cho logic phức tạp).
-    - Gợi ý phân bổ project/môi trường để tối ưu cost.
+### 3.2 Traditional problems worth implementing both ways
 
-### 3.2. Những bài toán "truyền thống" nên có example Supabase
+Recommended scenarios to build twice (Supabase + Next.js vs traditional backend) to compare effort:
 
-Gợi ý các bài toán bạn nên implement song song **2 bản** (Supabase + Next.js vs backend truyền thống) để so effort:
-
-1. **User onboarding & multi-tenant**
-2. **Billing-like flow** (subscription, expired, reminder)
-3. **Batch job nhắc hạn, cleanup, report**
-4. **Upload & access control file**
-5. **Webhook từ third-party** (Stripe, GitHub, …)
+1. **User onboarding & multi-tenancy**
+2. **Billing-like flow** (subscription, expiration, reminders)
+3. **Batch jobs for reminders, cleanup, reporting**
+4. **File upload & access control**
+5. **Third-party webhooks** (Stripe, GitHub,...)
 6. **Internal admin panel** (RBAC + audit log)
 
-Mỗi bài toán, bạn có thể làm 1 bảng nhỏ so sánh:
+For each scenario, keep a small comparison table:
 
-- Cột 1: Cần làm gì trong backend truyền thống (NestJS + RDS + S3 + cron)
-- Cột 2: Cần làm gì với Supabase (feature nào, config gì, code khoảng bao nhiêu)
-  => Sau vài bài, bạn sẽ có **"Effort Comparison"** rất dễ training dev mới.
+- Column 1: what you would implement in a traditional backend (NestJS + RDS + S3 + cron)
+- Column 2: what you configure/build with Supabase (which features, which config, roughly how much code)
+  => After several examples, you'll have an **"Effort Comparison"** that highlights the trade-offs for your own reference.
 
-[1]: https://supabase.com/docs/guides/getting-started?utm_source=chatgpt.com "Getting Started | Supabase Docs"
-[2]: https://supabase.com/docs?utm_source=chatgpt.com "Supabase Docs"
-[3]: https://supabase.com/docs/guides/auth/quickstarts/nextjs?utm_source=chatgpt.com "Use Supabase Auth with Next.js"
-[4]: https://supabase.com/docs/guides/realtime/getting_started?utm_source=chatgpt.com "Getting Started with Realtime | Supabase Docs"
-[5]: https://supabase.com/docs/guides/cron?utm_source=chatgpt.com "Cron | Supabase Docs"
-[6]: https://supabase.com/docs/guides/functions/schedule-functions?utm_source=chatgpt.com "Scheduling Edge Functions | Supabase Docs"
-[7]: https://supabase.com/docs/guides/queues/quickstart?utm_source=chatgpt.com "Quickstart | Supabase Docs"
-[8]: https://supabase.com/docs/reference/cli/introduction?utm_source=chatgpt.com "CLI Reference | Supabase Docs"
-[9]: https://supabase.com/blog/cli-v2-config-as-code?utm_source=chatgpt.com "Supabase CLI v2: Config as Code"
-[10]: https://github.com/marketplace/actions/supabase-cli-action?utm_source=chatgpt.com "Supabase CLI Action - GitHub Marketplace"
-[11]: https://supabase.com/docs/guides/functions/examples/github-actions?utm_source=chatgpt.com "GitHub Actions | Supabase Docs"
-[12]: https://supabase.com/docs/guides/auth/server-side/nextjs?utm_source=chatgpt.com "Setting up Server-Side Auth for Next.js"
-[13]: https://supabase.com/docs/guides/deployment/ci/testing?utm_source=chatgpt.com "Automated testing using GitHub Actions | Supabase Docs"
+[1]: https://supabase.com/docs/guides/getting-started "Getting Started | Supabase Docs"
+[2]: https://supabase.com/docs "Supabase Docs"
+[3]: https://supabase.com/docs/guides/auth/quickstarts/nextjs "Use Supabase Auth with Next.js"
+[4]: https://supabase.com/docs/guides/realtime/getting_started "Getting Started with Realtime | Supabase Docs"
+[5]: https://supabase.com/docs/guides/cron "Cron | Supabase Docs"
+[6]: https://supabase.com/docs/guides/functions/schedule-functions "Scheduling Edge Functions | Supabase Docs"
+[7]: https://supabase.com/docs/guides/queues/quickstart "Quickstart | Supabase Docs"
+[8]: https://supabase.com/docs/reference/cli/introduction "CLI Reference | Supabase Docs"
+[9]: https://supabase.com/blog/cli-v2-config-as-code "Supabase CLI v2: Config as Code"
+[10]: https://github.com/marketplace/actions/supabase-cli-action "Supabase CLI Action - GitHub Marketplace"
+[11]: https://supabase.com/docs/guides/functions/examples/github-actions "GitHub Actions | Supabase Docs"
+[12]: https://supabase.com/docs/guides/auth/server-side/nextjs "Setting up Server-Side Auth for Next.js"
+[13]: https://supabase.com/docs/guides/deployment/ci/testing "Automated testing using GitHub Actions | Supabase Docs"

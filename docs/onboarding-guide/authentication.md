@@ -1,6 +1,6 @@
 # Part 2. Authentication
 
-> Goal: Master the complete registration – login – session management – route protection flow in Next.js + Supabase.
+> Goal: Master the complete registration - login - session management - route protection flow in Next.js + Supabase.
 
 ## 2.1 🎯 Learning Objectives
 
@@ -286,7 +286,7 @@ for each row execute procedure public.handle_new_user();
 
 You can add **custom metadata** to JWT to support complex RLS (like role or org_id).
 
-> ℹ️ For a deeper dive into using JWT metadata with RLS, see [Part 3 – Authorization (RLS & Policy)](./authorization-rls.md#_3-6-🧩-using-jwt-metadata-for-role-org).
+> ℹ️ For a deeper dive into using JWT metadata with RLS, see [Part 3 - Authorization (RLS & Policy)](./authorization-rls.md#_3-6-🧩-using-jwt-metadata-for-role-org).
 
 ### Update Metadata
 
@@ -361,7 +361,7 @@ await supabase.auth.signInWithOtp({
 2. **Don't share service key** with FE (only use anon key).
 3. **Always sync user profile** using trigger, don't create manually.
 4. **Always enable RLS** for every table related to users.
-5. **Middleware only redirects** – don't handle heavy logic.
+5. **Middleware only redirects** - don't handle heavy logic.
 6. **Clearly separate client/server Supabase client** (`createClient` vs `createServer`).
 7. **Always test logout & expired session** when implementing auth.
 

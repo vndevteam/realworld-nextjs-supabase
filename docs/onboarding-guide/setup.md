@@ -257,11 +257,11 @@ export default function Home() {
 - [ ] Can create Next.js project and display "Hello Supabase".
 - [ ] `.env.local` has correct Supabase URL and Anon Key.
 - [ ] GitHub Actions build succeeds.
-- [ ] Docker has no port conflicts (5432–54323).
+- [ ] Docker has no port conflicts (5432-54323).
 
 ## 1.8 💡 Internal Best Practices
 
-1. **Don't use Production Dashboard to create tables** – always use SQL migrations.
+1. **Don't use Production Dashboard to create tables** - always use SQL migrations.
 2. **Always commit `.sql` migration files along with code changes.**
 3. **Don't share Service Role Key** with FE or public dev environments.
 4. **Use separate Supabase projects for each environment** (dev / staging / prod).

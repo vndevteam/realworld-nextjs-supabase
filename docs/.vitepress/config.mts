@@ -106,10 +106,6 @@ export default defineConfig({
         ],
         sidebar: [
           {
-            text: "Content",
-            items: [{ text: "Roadmap", link: "/roadmap" }],
-          },
-          {
             text: "Architecture & Standards",
             items: [
               { text: "Project Overview & PDR", link: "/project-overview-pdr" },
@@ -120,6 +116,7 @@ export default defineConfig({
           {
             text: "Onboarding Guide",
             items: [
+              { text: "Roadmap", link: "/roadmap" },
               { text: "Overview", link: "/onboarding-guide/index" },
               { text: "Introduction", link: "/onboarding-guide/introduction" },
               { text: "Setup", link: "/onboarding-guide/setup" },
@@ -163,10 +160,6 @@ export default defineConfig({
         ],
         sidebar: [
           {
-            text: "Nội dung",
-            items: [{ text: "Lộ trình", link: "/vi/roadmap" }],
-          },
-          {
             text: "Kiến trúc & Chuẩn",
             items: [
               { text: "Tổng quan & PDR", link: "/vi/project-overview-pdr" },
@@ -177,6 +170,7 @@ export default defineConfig({
           {
             text: "Hướng dẫn bắt đầu",
             items: [
+              { text: "Lộ trình", link: "/vi/roadmap" },
               { text: "Tổng quan", link: "/vi/onboarding-guide/index" },
               { text: "Giới thiệu & Tổng quan", link: "/vi/onboarding-guide/introduction" },
               { text: "Cài đặt & Chuẩn bị môi trường", link: "/vi/onboarding-guide/setup" },

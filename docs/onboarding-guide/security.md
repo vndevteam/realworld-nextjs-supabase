@@ -300,8 +300,8 @@ VERCEL_TOKEN
 
 ## 10.14 💡 Internal Best Practices
 
-1. **Security by Default** – all tables, buckets, functions default to _blocked access_.
-2. **Never hardcode secrets** – even in tests.
+1. **Security by Default** - all tables, buckets, functions default to _blocked access_.
+2. **Never hardcode secrets** - even in tests.
 3. **Each environment (dev/stg/prod)** uses separate keys.
 4. **Rotate tokens every 90 days.**
 5. **Only admins have service role keys.**

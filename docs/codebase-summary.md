@@ -1,9 +1,10 @@
 # Codebase Summary
 
 ::: tip Related Documentation
-- [Project Overview & PDR](/project-overview-pdr) - Project goals, scope, and requirements
-- [Codebase Structure & Code Standards](/codebase-structure-architecture-code-standards) - Development guidelines and architectural patterns
-:::
+
+- [Project Overview & PDR](project-overview-pdr.md) - Project goals, scope, and requirements
+- [Codebase Structure & Code Standards](codebase-structure-architecture-code-standards.md) - Development guidelines and architectural patterns
+  :::
 
 ## Repository Layout
 

@@ -1,9 +1,10 @@
 # Tóm Tắt Codebase
 
 ::: tip Tài Liệu Liên Quan
-- [Tổng quan & PDR](/vi/project-overview-pdr) - Mục tiêu, phạm vi và yêu cầu dự án
-- [Cấu trúc & Chuẩn mã](/vi/codebase-structure-architecture-code-standards) - Hướng dẫn phát triển và mẫu kiến trúc
-:::
+
+- [Tổng quan & PDR](project-overview-pdr.md) - Mục tiêu, phạm vi và yêu cầu dự án
+- [Cấu trúc & Chuẩn mã](codebase-structure-architecture-code-standards.md) - Hướng dẫn phát triển và mẫu kiến trúc
+  :::
 
 ## Cấu Trúc Thư Mục
 
@@ -86,7 +87,7 @@
 
 ## TODO / FIXME
 
-Không tìm thấy chuỗi TODO/FIXME – giai đoạn đầu.
+Không tìm thấy chuỗi TODO/FIXME - giai đoạn đầu.
 
 ## Sổ Rủi Ro
 

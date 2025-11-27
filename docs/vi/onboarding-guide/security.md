@@ -300,8 +300,8 @@ VERCEL_TOKEN
 
 ## 10.14 💡 Best Practices nội bộ
 
-1. **Security by Default** – mọi bảng, bucket, function mặc định _bị chặn truy cập_.
-2. **Không bao giờ hardcode secrets** – kể cả trong test.
+1. **Security by Default** - mọi bảng, bucket, function mặc định _bị chặn truy cập_.
+2. **Không bao giờ hardcode secrets** - kể cả trong test.
 3. **Mỗi môi trường (dev/stg/prod)** dùng key riêng biệt.
 4. **Rotate token mỗi 90 ngày.**
 5. **Chỉ admin mới có service role key.**

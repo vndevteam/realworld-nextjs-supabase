@@ -1,6 +1,6 @@
 # Phần 2. Authentication
 
-> Mục tiêu: nắm được toàn bộ quy trình đăng ký – đăng nhập – quản lý session – bảo vệ route trong Next.js + Supabase.
+> Mục tiêu: nắm được toàn bộ quy trình đăng ký - đăng nhập - quản lý session - bảo vệ route trong Next.js + Supabase.
 
 ## 2.1 🎯 Mục tiêu học phần
 
@@ -285,7 +285,7 @@ for each row execute procedure public.handle_new_user();
 
 Bạn có thể thêm **custom metadata** vào JWT để hỗ trợ RLS phức tạp (như role hoặc org_id).
 
-> ℹ️ Để tìm hiểu sâu hơn về cách sử dụng JWT metadata với RLS, hãy xem [Phần 3 – Authorization (RLS & Policy)](./authorization-rls.md#_3-6-🧩-su-dung-jwt-metadata-cho-role-org).
+> ℹ️ Để tìm hiểu sâu hơn về cách sử dụng JWT metadata với RLS, hãy xem [Phần 3 - Authorization (RLS & Policy)](./authorization-rls.md#_3-6-🧩-su-dung-jwt-metadata-cho-role-org).
 
 ### Cập nhật metadata
 
@@ -360,7 +360,7 @@ await supabase.auth.signInWithOtp({
 2. **Không chia sẻ service key** cho FE (chỉ dùng anon key).
 3. **Luôn sync user profile** bằng trigger, không tạo thủ công.
 4. **Luôn bật RLS** cho mọi bảng có liên quan đến user.
-5. **Middleware chỉ redirect** – không xử lý logic nặng.
+5. **Middleware chỉ redirect** - không xử lý logic nặng.
 6. **Tách rõ client/server Supabase client** (`createClient` vs `createServer`).
 7. **Luôn test logout & expired session** khi triển khai auth.
 

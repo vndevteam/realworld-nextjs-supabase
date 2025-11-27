@@ -257,11 +257,11 @@ export default function Home() {
 - [ ] Tạo được project Next.js và hiển thị "Hello Supabase".
 - [ ] `.env.local` có 2 biến Supabase URL và Anon Key đúng.
 - [ ] GitHub Actions build thành công.
-- [ ] Docker không bị conflict port (5432–54323).
+- [ ] Docker không bị conflict port (5432-54323).
 
 ## 1.8 💡 Best Practices nội bộ
 
-1. **Không dùng Dashboard Production để tạo bảng** – luôn qua migration SQL.
+1. **Không dùng Dashboard Production để tạo bảng** - luôn qua migration SQL.
 2. **Luôn commit file `.sql` migration cùng với code thay đổi.**
 3. **Không share Service Role Key** cho FE hoặc môi trường dev công khai.
 4. **Đặt riêng project Supabase cho từng môi trường** (dev / staging / prod).
